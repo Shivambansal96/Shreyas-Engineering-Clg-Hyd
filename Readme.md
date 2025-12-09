@@ -5,7 +5,7 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active%20Learning-success?style=for-the-badge)
 ![Students](https://img.shields.io/badge/Shreyas%20Engineering-Students-blue?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Day%201-Completed-brightgreen?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Day%202-Completed-brightgreen?style=for-the-badge)
 
 ### 🚀 *Master Data Structures & Algorithms with Python!*
 
@@ -64,11 +64,21 @@ Day 1 - Searching & Sorting:
 ✅ Insertion Sort
 ✅ Practice Problems
 
-Day 2 - Advanced Sorting:
+Day 2 - Recursion & Advanced Sorting:
+████████████████████████████████ 100%
+
+✅ Recursion Basics
+✅ Merge Sort
+✅ Quick Sort
+✅ Implementation & Practice
+
+Day 3 - OOPs & Linked List:
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
 
-🟡 Merge Sort (Upcoming)
-🟡 Quick Sort (Upcoming)
+🟡 Revision of Classes
+🟡 4 Principles of OOPs
+🟡 Singly Linked List
+🟡 Doubly Linked List
 ```
 
 ---
@@ -89,8 +99,8 @@ graph LR
     style C fill:#90EE90
     style D fill:#90EE90
     style E fill:#90EE90
-    style F fill:#FFD700
-    style G fill:#FFD700
+    style F fill:#90EE90
+    style G fill:#90EE90
 ```
 
 ---
@@ -277,9 +287,66 @@ print(insertion_sort(arr))  # Output: [5, 6, 11, 12, 13]
 
 ---
 
-## 📅 Day 2: Advanced Sorting (Upcoming)
+## 📅 Day 2: Recursion & Advanced Sorting ✅ Completed
 
-### Topics to be covered:
+### 🔄 **Recursion Basics**
+
+> **Recursion:** A function that calls itself to solve smaller subproblems.
+
+<table>
+<tr>
+<td width="50%">
+
+#### Print 1 to N
+```python
+def print_1_to_n(n):
+    if n == 0:
+        return
+    print_1_to_n(n - 1)
+    print(n)
+```
+
+</td>
+<td width="50%">
+
+#### Print N to 1
+```python
+def print_n_to_1(n):
+    if n == 0:
+        return
+    print(n)
+    print_n_to_1(n - 1)
+```
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+#### Sum of N Natural Numbers
+```python
+def sum_n(n):
+    if n == 0:
+        return 0
+    return n + sum_n(n - 1)
+```
+
+</td>
+<td width="50%">
+
+#### Factorial
+```python
+def factorial(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * factorial(n - 1)
+```
+
+</td>
+</tr>
+</table>
+
+### 🔀 **Merge Sort**
 
 <table>
 <tr>
@@ -288,7 +355,18 @@ print(insertion_sort(arr))  # Output: [5, 6, 11, 12, 13]
 ### 🔀 **Merge Sort**
 - Divide and Conquer approach
 - Time Complexity: O(n log n)
+- Space Complexity: O(n)
 - Stable sorting algorithm
+
+```python
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    return merge(left, right)
+```
 
 </td>
 <td width="50%">
@@ -296,7 +374,60 @@ print(insertion_sort(arr))  # Output: [5, 6, 11, 12, 13]
 ### ⚡ **Quick Sort**
 - Partition-based sorting
 - Time Complexity: O(n log n) average
+- Space Complexity: O(log n)
 - In-place sorting
+
+```python
+def quick_sort(arr, low, high):
+    if low < high:
+        pi = partition(arr, low, high)
+        quick_sort(arr, low, pi - 1)
+        quick_sort(arr, pi + 1, high)
+```
+
+</td>
+</tr>
+</table>
+
+### 📝 Problems Solved - Day 2
+
+| # | Problem | Difficulty | Concept |
+|:-:|:--------|:----------:|:--------|
+| 1 | Implement Merge Sort | 🟢 Easy | Divide & Conquer |
+| 2 | Implement Quick Sort | 🟢 Easy | Partitioning |
+| 3 | Kth Smallest Element | 🟡 Medium | Quick Select |
+| 4 | Minimum Swaps to Sort | 🟡 Medium | Cycle Detection |
+| 5 | Sort by Frequency | 🟡 Medium | Custom Sorting |
+| 6 | Count Inversions | 🟡 Medium | Merge Sort |
+
+---
+
+## 📅 Day 3: OOPs & Linked List (Upcoming)
+
+### Topics to be covered:
+
+<table>
+<tr>
+<td width="50%">
+
+### 🎓 **OOPs Revision**
+- Classes and Objects
+- 4 Principles of OOPs:
+  - Encapsulation
+  - Abstraction
+  - Inheritance
+  - Polymorphism
+
+</td>
+<td width="50%">
+
+### 🔗 **Linked List**
+- Singly Linked List
+- Doubly Linked List
+- Basic Operations:
+  - Insertion
+  - Deletion
+  - Traversal
 
 </td>
 </tr>
