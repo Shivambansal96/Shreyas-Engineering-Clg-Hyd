@@ -5,7 +5,7 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active%20Learning-success?style=for-the-badge)
 ![Students](https://img.shields.io/badge/Shreyas%20Engineering-Students-blue?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Day%202-Completed-brightgreen?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Day%203-Completed-brightgreen?style=for-the-badge)
 
 ### 🚀 *Master Data Structures & Algorithms with Python!*
 
@@ -73,12 +73,19 @@ Day 2 - Recursion & Advanced Sorting:
 ✅ Implementation & Practice
 
 Day 3 - OOPs & Linked List:
+████████████████████████████████ 100%
+
+✅ Classes & Objects (In-depth)
+✅ Decorators
+✅ 4 Pillars of OOPs
+✅ Singly Linked List - Insertion Operations
+
+Day 4 - Linked List Continued:
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
 
-🟡 Revision of Classes
-🟡 4 Principles of OOPs
-🟡 Singly Linked List
+🟡 Singly Linked List - Deletion Operations
 🟡 Doubly Linked List
+🟡 Circular Linked List
 ```
 
 ---
@@ -402,7 +409,584 @@ def quick_sort(arr, low, high):
 
 ---
 
-## 📅 Day 3: OOPs & Linked List (Upcoming)
+## 📅 Day 3: OOPs & Linked List ✅ Completed
+
+---
+
+### 🎓 **Object-Oriented Programming (OOPs) - Complete Guide**
+
+<details open>
+<summary><h3>📦 Classes & Objects</h3></summary>
+
+> **Class:** A blueprint for creating objects (defines properties and behaviors)  
+> **Object:** An instance of a class (actual entity in memory)
+
+```python
+class Student:
+    # Class attributes (shared by all instances)
+    college_name = "Shreyas Engineering College"
+    branch = "CSE"
+    
+    # Constructor (initializer)
+    def __init__(self, name, roll_no, marks):
+        # Instance attributes (unique to each object)
+        self.name = name
+        self.roll_no = roll_no
+        self.marks = marks
+    
+    # Instance method
+    def display_info(self):
+        print(f"Name: {self.name}, Roll No: {self.roll_no}, Marks: {self.marks}")
+    
+    # Instance method
+    def get_percentage(self):
+        return (self.marks / 500) * 100
+
+# Creating objects
+student1 = Student("Rahul", 101, 450)
+student2 = Student("Priya", 102, 480)
+
+# Accessing attributes and methods
+print(student1.name)           # Output: Rahul
+print(Student.college_name)    # Output: Shreyas Engineering College
+student1.display_info()        # Output: Name: Rahul, Roll No: 101, Marks: 450
+```
+
+#### 🔑 Key Concepts:
+
+| Concept | Description |
+|:--------|:------------|
+| `__init__` | Constructor - called automatically when object is created |
+| `self` | Reference to the current instance of the class |
+| Class Attributes | Shared by all instances (defined outside `__init__`) |
+| Instance Attributes | Unique to each object (defined inside `__init__` with `self.`) |
+
+</details>
+
+<details open>
+<summary><h3>🎨 Decorators in Python</h3></summary>
+
+> **Decorators** are functions that modify the behavior of other functions or methods.
+
+#### 1️⃣ **@staticmethod**
+- Does NOT access instance (`self`) or class (`cls`) attributes
+- Utility function that belongs to the class namespace
+- Can be called without creating an object
+
+```python
+class MathOperations:
+    @staticmethod
+    def add(a, b):
+        return a + b
+    
+    @staticmethod
+    def multiply(a, b):
+        return a * b
+
+# Call without creating object
+print(MathOperations.add(5, 3))       # Output: 8
+print(MathOperations.multiply(4, 2))  # Output: 8
+```
+
+#### 2️⃣ **@classmethod**
+- Receives class (`cls`) as first argument instead of instance (`self`)
+- Can access and modify class state
+- Often used as factory methods or alternative constructors
+
+```python
+class Employee:
+    company = "TechCorp"
+    employee_count = 0
+    
+    def __init__(self, name, salary):
+        self.name = name
+        self.salary = salary
+        Employee.employee_count += 1
+    
+    @classmethod
+    def change_company(cls, new_name):
+        cls.company = new_name
+    
+    @classmethod
+    def from_string(cls, emp_string):
+        # Factory method - alternative constructor
+        name, salary = emp_string.split('-')
+        return cls(name, int(salary))
+    
+    @classmethod
+    def get_employee_count(cls):
+        return cls.employee_count
+
+# Using class methods
+Employee.change_company("NewTech Inc.")
+emp1 = Employee.from_string("John-50000")  # Alternative way to create object
+print(Employee.get_employee_count())        # Output: 1
+```
+
+#### 3️⃣ **@property**
+- Makes a method accessible like an attribute (getter)
+- Used for computed/derived attributes
+- Enables data encapsulation with getter/setter
+
+```python
+class Circle:
+    def __init__(self, radius):
+        self._radius = radius  # Protected attribute
+    
+    @property
+    def radius(self):
+        """Getter for radius"""
+        return self._radius
+    
+    @radius.setter
+    def radius(self, value):
+        """Setter with validation"""
+        if value < 0:
+            raise ValueError("Radius cannot be negative")
+        self._radius = value
+    
+    @property
+    def area(self):
+        """Computed property"""
+        return 3.14159 * self._radius ** 2
+    
+    @property
+    def circumference(self):
+        return 2 * 3.14159 * self._radius
+
+circle = Circle(5)
+print(circle.radius)        # Output: 5 (accessed like attribute, not method)
+print(circle.area)          # Output: 78.53975
+circle.radius = 10          # Using setter
+print(circle.area)          # Output: 314.159
+```
+
+#### 📊 Decorator Comparison:
+
+| Decorator | First Argument | Access to | Use Case |
+|:----------|:---------------|:----------|:---------|
+| Regular Method | `self` | Instance + Class | Object-specific operations |
+| `@staticmethod` | None | Neither | Utility functions |
+| `@classmethod` | `cls` | Class only | Factory methods, class-level operations |
+| `@property` | `self` | Instance + Class | Getters, computed attributes |
+
+</details>
+
+<details open>
+<summary><h3>🏛️ Four Pillars of OOPs</h3></summary>
+
+#### 1️⃣ **Encapsulation** 🔒
+> Bundling data (attributes) and methods that operate on data within a single unit (class), and restricting direct access.
+
+```python
+class BankAccount:
+    def __init__(self, account_no, balance):
+        self.account_no = account_no      # Public
+        self._balance = balance           # Protected (convention)
+        self.__pin = 1234                 # Private (name mangling)
+    
+    def deposit(self, amount):
+        if amount > 0:
+            self._balance += amount
+            return True
+        return False
+    
+    def withdraw(self, amount, pin):
+        if pin == self.__pin and amount <= self._balance:
+            self._balance -= amount
+            return amount
+        return 0
+    
+    def get_balance(self):
+        return self._balance
+
+account = BankAccount("ACC001", 1000)
+account.deposit(500)
+print(account.get_balance())  # Output: 1500
+# print(account.__pin)        # Error! Private attribute
+```
+
+**Access Modifiers in Python:**
+| Prefix | Access Level | Example |
+|:-------|:-------------|:--------|
+| None | Public | `self.name` |
+| `_` | Protected (convention) | `self._balance` |
+| `__` | Private (name mangling) | `self.__pin` |
+
+---
+
+#### 2️⃣ **Abstraction** 🎭
+> Hiding complex implementation details and showing only essential features.
+
+```python
+from abc import ABC, abstractmethod
+
+class Shape(ABC):  # Abstract Base Class
+    @abstractmethod
+    def area(self):
+        pass
+    
+    @abstractmethod
+    def perimeter(self):
+        pass
+
+class Rectangle(Shape):
+    def __init__(self, length, width):
+        self.length = length
+        self.width = width
+    
+    def area(self):
+        return self.length * self.width
+    
+    def perimeter(self):
+        return 2 * (self.length + self.width)
+
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+    
+    def area(self):
+        return 3.14159 * self.radius ** 2
+    
+    def perimeter(self):
+        return 2 * 3.14159 * self.radius
+
+# shape = Shape()  # Error! Cannot instantiate abstract class
+rect = Rectangle(10, 5)
+print(rect.area())  # Output: 50
+```
+
+---
+
+#### 3️⃣ **Inheritance** 👨‍👩‍👧
+> Creating new classes from existing classes, inheriting their properties and behaviors.
+
+```python
+# Parent/Base class
+class Animal:
+    def __init__(self, name):
+        self.name = name
+    
+    def speak(self):
+        pass
+    
+    def eat(self):
+        print(f"{self.name} is eating")
+
+# Child/Derived classes
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name)  # Call parent constructor
+        self.breed = breed
+    
+    def speak(self):
+        return f"{self.name} says Woof!"
+
+class Cat(Animal):
+    def speak(self):
+        return f"{self.name} says Meow!"
+
+# Multiple Inheritance
+class Pet:
+    def __init__(self, owner):
+        self.owner = owner
+
+class DomesticDog(Dog, Pet):  # Multiple inheritance
+    def __init__(self, name, breed, owner):
+        Dog.__init__(self, name, breed)
+        Pet.__init__(self, owner)
+
+dog = Dog("Buddy", "Labrador")
+print(dog.speak())  # Output: Buddy says Woof!
+dog.eat()           # Output: Buddy is eating (inherited)
+```
+
+**Types of Inheritance:**
+| Type | Description |
+|:-----|:------------|
+| Single | One child inherits from one parent |
+| Multiple | One child inherits from multiple parents |
+| Multilevel | Chain of inheritance (A → B → C) |
+| Hierarchical | Multiple children from one parent |
+| Hybrid | Combination of above types |
+
+---
+
+#### 4️⃣ **Polymorphism** 🎭
+> Same method name behaves differently for different classes ("many forms").
+
+```python
+class Bird:
+    def fly(self):
+        print("Some birds can fly")
+
+class Sparrow(Bird):
+    def fly(self):
+        print("Sparrow flies high")
+
+class Penguin(Bird):
+    def fly(self):
+        print("Penguin cannot fly, but swims!")
+
+# Polymorphism in action
+def make_bird_fly(bird):
+    bird.fly()
+
+sparrow = Sparrow()
+penguin = Penguin()
+
+make_bird_fly(sparrow)  # Output: Sparrow flies high
+make_bird_fly(penguin)  # Output: Penguin cannot fly, but swims!
+
+# Method Overloading (using default arguments)
+class Calculator:
+    def add(self, a, b=0, c=0):
+        return a + b + c
+
+calc = Calculator()
+print(calc.add(5))        # Output: 5
+print(calc.add(5, 3))     # Output: 8
+print(calc.add(5, 3, 2))  # Output: 10
+```
+
+</details>
+
+---
+
+### 🔗 **Singly Linked List - Complete Guide**
+
+<details open>
+<summary><h3>📚 Linked List Theory</h3></summary>
+
+> A **Linked List** is a linear data structure where elements are stored in nodes, and each node points to the next node.
+
+#### 🆚 Array vs Linked List
+
+| Feature | Array | Linked List |
+|:--------|:------|:------------|
+| Memory | Contiguous | Non-contiguous |
+| Size | Fixed | Dynamic |
+| Access | O(1) Random access | O(n) Sequential |
+| Insertion/Deletion | O(n) | O(1) at known position |
+| Memory Overhead | No extra | Extra pointer per node |
+
+#### 📦 Node Structure
+
+```
+┌──────────┬──────────┐
+│   Data   │   Next   │ ──────►  Next Node
+└──────────┴──────────┘
+```
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data = data  # Store the value
+        self.next = None  # Pointer to next node
+```
+
+#### 🔗 Linked List Visualization
+
+```
+ Head                                          Tail
+  │                                              │
+  ▼                                              ▼
+┌────┬────┐    ┌────┬────┐    ┌────┬────┐    ┌────┬────┐
+│ 10 │  ──┼───►│ 20 │  ──┼───►│ 30 │  ──┼───►│ 40 │None│
+└────┴────┘    └────┴────┘    └────┴────┘    └────┴────┘
+```
+
+</details>
+
+<details open>
+<summary><h3>⚡ Linked List Implementation - Insertion Operations</h3></summary>
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self.length = 0
+
+    # ==========================================
+    # INSERT AT END (Append)
+    # ==========================================
+    def append(self, data):
+        """
+        Add element at the end of the list
+        Time Complexity: O(1) with tail pointer
+        """
+        new_node = Node(data)
+        
+        if self.head is None:
+            # List is empty
+            self.head = new_node
+            self.tail = new_node
+        else:
+            # Add after tail and update tail
+            self.tail.next = new_node
+            self.tail = new_node
+        
+        self.length += 1
+
+    # ==========================================
+    # INSERT AT START (Prepend)
+    # ==========================================
+    def prepend(self, data):
+        """
+        Add element at the beginning of the list
+        Time Complexity: O(1)
+        """
+        new_node = Node(data)
+        
+        if self.head is None:
+            # List is empty
+            self.head = new_node
+            self.tail = new_node
+        else:
+            # Point new node to current head
+            new_node.next = self.head
+            # Update head to new node
+            self.head = new_node
+        
+        self.length += 1
+
+    # ==========================================
+    # INSERT AT ANY POSITION
+    # ==========================================
+    def insert_at(self, data, position):
+        """
+        Insert element at specific position (0-indexed)
+        Time Complexity: O(n)
+        """
+        # Validate position
+        if position < 0 or position > self.length:
+            print(f"Invalid position: {position}. Valid range: 0 to {self.length}")
+            return False
+        
+        # Insert at beginning
+        if position == 0:
+            self.prepend(data)
+            return True
+        
+        # Insert at end
+        if position == self.length:
+            self.append(data)
+            return True
+        
+        # Insert at middle position
+        new_node = Node(data)
+        current = self.head
+        
+        # Traverse to node before the position
+        for _ in range(position - 1):
+            current = current.next
+        
+        # Insert new node
+        new_node.next = current.next
+        current.next = new_node
+        self.length += 1
+        return True
+
+    # ==========================================
+    # TRAVERSAL - Print List
+    # ==========================================
+    def print_list(self):
+        """Display all elements in the list"""
+        if self.head is None:
+            print("List is empty")
+            return
+        
+        current = self.head
+        elements = []
+        while current:
+            elements.append(str(current.data))
+            current = current.next
+        
+        print(" -> ".join(elements) + " -> None")
+
+    def get_length(self):
+        return self.length
+
+
+# ==========================================
+# USAGE EXAMPLE
+# ==========================================
+ll = LinkedList()
+
+# Insert at end
+ll.append(10)
+ll.append(20)
+ll.append(30)
+ll.print_list()  # Output: 10 -> 20 -> 30 -> None
+
+# Insert at start
+ll.prepend(5)
+ll.print_list()  # Output: 5 -> 10 -> 20 -> 30 -> None
+
+# Insert at position
+ll.insert_at(15, 2)  # Insert 15 at index 2
+ll.print_list()  # Output: 5 -> 10 -> 15 -> 20 -> 30 -> None
+
+print(f"Length: {ll.get_length()}")  # Output: Length: 5
+```
+
+#### 🎯 Insertion Visual Guide:
+
+**Insert at End (append):**
+```
+Before: 10 -> 20 -> 30 -> None
+                     ▲
+                    tail
+
+After:  10 -> 20 -> 30 -> 40 -> None
+                          ▲
+                         tail
+```
+
+**Insert at Start (prepend):**
+```
+Before:      10 -> 20 -> 30 -> None
+             ▲
+            head
+
+After:  5 -> 10 -> 20 -> 30 -> None
+        ▲
+       head
+```
+
+**Insert at Position 2:**
+```
+Before: 10 -> 20 -> 30 -> None
+              ▲
+         position 1
+         
+After:  10 -> 20 -> 25 -> 30 -> None
+                    ▲
+               new node
+```
+
+</details>
+
+### 📝 Problems Covered - Day 3
+
+| # | Problem | Difficulty | Concept |
+|:-:|:--------|:----------:|:--------|
+| 1 | Create a Student class and add data to it and print it | 🟢 Easy | Classes & Objects |
+| 2 | Implement Singly Linked List | 🟢 Easy | Linked List Basics |
+| 3 | Insert at beginning of Linked List | 🟢 Easy | Linked List Insertion |
+| 4 | Insert at end of Linked List | 🟢 Easy | Linked List Insertion |
+| 5 | Insert at any position in Linked List | 🟡 Medium | Linked List Insertion |
+
+---
+
+## 📅 Day 4: Linked List Continued (Upcoming)
 
 ### Topics to be covered:
 
@@ -410,24 +994,19 @@ def quick_sort(arr, low, high):
 <tr>
 <td width="50%">
 
-### 🎓 **OOPs Revision**
-- Classes and Objects
-- 4 Principles of OOPs:
-  - Encapsulation
-  - Abstraction
-  - Inheritance
-  - Polymorphism
+### 🗑️ **Deletion Operations**
+- Delete from beginning
+- Delete from end
+- Delete at any position
+- Delete by value
 
 </td>
 <td width="50%">
 
-### 🔗 **Linked List**
-- Singly Linked List
+### 🔗 **More Linked Lists**
 - Doubly Linked List
-- Basic Operations:
-  - Insertion
-  - Deletion
-  - Traversal
+- Circular Linked List
+- Operations on each type
 
 </td>
 </tr>
@@ -437,15 +1016,17 @@ def quick_sort(arr, low, high):
 
 ## 🚀 Future Learning Roadmap
 
-| Topic | Description | Priority |
-|:------|:------------|:--------:|
-| 🔗 **Linked List** | Singly, Doubly, Circular linked lists | 🔴 High |
-| 📚 **Stacks** | LIFO operations, applications | 🔴 High |
-| 📬 **Queues** | FIFO operations, priority queues | 🔴 High |
-| 👆 **Two Pointer** | Sliding window, fast-slow pointer | 🔴 High |
-| 💻 **Bit Manipulation** | Bitwise operations, tricks | 🟡 Medium |
-| 🌳 **Trees** | Binary trees, BST, traversals | 🔴 High |
-| 🕸️ **Graphs** | BFS, DFS, shortest paths (if time permits) | 🟡 Medium |
+| Topic | Description | Priority | Status |
+|:------|:------------|:--------:|:------:|
+| 🔗 **Singly Linked List** | Insertion, Deletion, Traversal | 🔴 High | 🟡 In Progress |
+| 🔗 **Doubly Linked List** | Two-way traversal, operations | 🔴 High | 🔜 Next |
+| 🔗 **Circular Linked List** | Circular connections | 🔴 High | 🔜 Next |
+| 📚 **Stacks** | LIFO operations, applications | 🔴 High | ⏳ Upcoming |
+| 📬 **Queues** | FIFO operations, priority queues | 🔴 High | ⏳ Upcoming |
+| 👆 **Two Pointer** | Sliding window, fast-slow pointer | 🔴 High | ⏳ Upcoming |
+| 💻 **Bit Manipulation** | Bitwise operations, tricks | 🟡 Medium | ⏳ Upcoming |
+| 🌳 **Trees** | Binary trees, BST, traversals | 🔴 High | ⏳ Upcoming |
+| 🕸️ **Graphs** | BFS, DFS, shortest paths (if time permits) | 🟡 Medium | ⏳ Upcoming |
 
 ---
 
@@ -503,14 +1084,14 @@ def quick_sort(arr, low, high):
 
 ## 🎯 What's Coming Next
 
-### 🏆 **Day 2: Merge Sort & Quick Sort**
-Master the divide-and-conquer sorting algorithms!
+### 🏆 **Day 4: Linked List Deletion & More Types**
+Complete the Linked List mastery!
 
 **Topics:**
-- Merge Sort - Recursive division and merging
-- Quick Sort - Pivot selection and partitioning
-- Time & Space complexity analysis
-- Practice problems
+- Singly Linked List - Deletion (start, end, any position)
+- Doubly Linked List - Complete implementation
+- Circular Linked List - Theory and implementation
+- Practice problems on all linked list types
 
 ---
 
