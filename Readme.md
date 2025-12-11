@@ -1018,9 +1018,6 @@ After:  10 -> 20 -> 25 -> 30 -> None
 
 | Topic | Description | Priority | Status |
 |:------|:------------|:--------:|:------:|
-| 🔗 **Singly Linked List** | Insertion, Deletion, Traversal | 🔴 High | 🟡 In Progress |
-| 🔗 **Doubly Linked List** | Two-way traversal, operations | 🔴 High | 🔜 Next |
-| 🔗 **Circular Linked List** | Circular connections | 🔴 High | 🔜 Next |
 | 📚 **Stacks** | LIFO operations, applications | 🔴 High | ⏳ Upcoming |
 | 📬 **Queues** | FIFO operations, priority queues | 🔴 High | ⏳ Upcoming |
 | 👆 **Two Pointer** | Sliding window, fast-slow pointer | 🔴 High | ⏳ Upcoming |
