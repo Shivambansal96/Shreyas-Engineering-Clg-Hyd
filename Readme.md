@@ -5,7 +5,7 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active%20Learning-success?style=for-the-badge)
 ![Students](https://img.shields.io/badge/Shreyas%20Engineering-Students-blue?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Day%203-Completed-brightgreen?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Day%204-Completed-brightgreen?style=for-the-badge)
 
 ### 🚀 *Master Data Structures & Algorithms with Python!*
 
@@ -80,12 +80,19 @@ Day 3 - OOPs & Linked List:
 ✅ 4 Pillars of OOPs
 ✅ Singly Linked List - Insertion Operations
 
-Day 4 - Linked List Continued:
+Day 4 - Linked List Completed:
+████████████████████████████████ 100%
+
+✅ Singly Linked List - All Operations
+✅ Doubly Linked List - Complete Implementation
+✅ Circular Linked List - Complete Implementation
+
+Day 5 - Stacks & Queues:
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
 
-🟡 Singly Linked List - Deletion Operations
-🟡 Doubly Linked List
-🟡 Circular Linked List
+🟡 Stack - LIFO, push, pop, peek
+🟡 Stack Implementation (Array)
+🟡 Applications & Problems
 ```
 
 ---
@@ -986,27 +993,37 @@ After:  10 -> 20 -> 25 -> 30 -> None
 
 ---
 
-## 📅 Day 4: Linked List Continued (Upcoming)
+## 📅 Day 4: Linked List Completed ✅
 
-### Topics to be covered:
+### Topics Covered:
 
 <table>
 <tr>
-<td width="50%">
+<td width="33%">
 
-### 🗑️ **Deletion Operations**
-- Delete from beginning
-- Delete from end
-- Delete at any position
-- Delete by value
+### 🔗 **Singly Linked List**
+✅ Insertion (start, end, position)
+✅ Deletion (start, end, position)
+✅ Traversal
+✅ Search
 
 </td>
-<td width="50%">
+<td width="33%">
 
-### 🔗 **More Linked Lists**
-- Doubly Linked List
-- Circular Linked List
-- Operations on each type
+### 🔗 **Doubly Linked List**
+✅ Two-way traversal
+✅ Insertion operations
+✅ Deletion operations
+✅ Forward & Backward navigation
+
+</td>
+<td width="33%">
+
+### 🔄 **Circular Linked List**
+✅ Circular connections
+✅ Singly Circular
+✅ Doubly Circular
+✅ All operations
 
 </td>
 </tr>
@@ -1014,12 +1031,262 @@ After:  10 -> 20 -> 25 -> 30 -> None
 
 ---
 
+### 🔗 **Doubly Linked List**
+
+<details>
+<summary><h4>📚 Theory & Implementation</h4></summary>
+
+> A **Doubly Linked List** is a linked list where each node has pointers to both the **next** and **previous** nodes.
+
+#### 📦 Node Structure
+
+```
+         ┌──────────┬──────────┬──────────┐
+◄────────│   Prev   │   Data   │   Next   │────────►
+         └──────────┴──────────┴──────────┘
+```
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.prev = None  # Pointer to previous node
+        self.next = None  # Pointer to next node
+```
+
+#### 🔗 Visualization
+
+```
+       Head                                              Tail
+        │                                                  │
+        ▼                                                  ▼
+     ┌────┐    ┌────┐    ┌────┐    ┌────┐
+None◄│ 10 │◄──►│ 20 │◄──►│ 30 │◄──►│ 40 │►None
+     └────┘    └────┘    └────┘    └────┘
+```
+
+#### ⚡ Complete Implementation
+
+```python
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self.length = 0
+
+    # Insert at end
+    def append(self, data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+            self.tail = new_node
+        else:
+            new_node.prev = self.tail
+            self.tail.next = new_node
+            self.tail = new_node
+        self.length += 1
+
+    # Insert at beginning
+    def prepend(self, data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+            self.tail = new_node
+        else:
+            new_node.next = self.head
+            self.head.prev = new_node
+            self.head = new_node
+        self.length += 1
+
+    # Delete from beginning
+    def delete_first(self):
+        if self.head is None:
+            return None
+        data = self.head.data
+        if self.head == self.tail:
+            self.head = None
+            self.tail = None
+        else:
+            self.head = self.head.next
+            self.head.prev = None
+        self.length -= 1
+        return data
+
+    # Delete from end
+    def delete_last(self):
+        if self.tail is None:
+            return None
+        data = self.tail.data
+        if self.head == self.tail:
+            self.head = None
+            self.tail = None
+        else:
+            self.tail = self.tail.prev
+            self.tail.next = None
+        self.length -= 1
+        return data
+
+    # Print forward
+    def print_forward(self):
+        current = self.head
+        elements = []
+        while current:
+            elements.append(str(current.data))
+            current = current.next
+        print("None <-> " + " <-> ".join(elements) + " <-> None")
+
+    # Print backward
+    def print_backward(self):
+        current = self.tail
+        elements = []
+        while current:
+            elements.append(str(current.data))
+            current = current.prev
+        print("None <-> " + " <-> ".join(elements) + " <-> None")
+```
+
+</details>
+
+---
+
+### 🔄 **Circular Linked List**
+
+<details>
+<summary><h4>📚 Theory & Implementation</h4></summary>
+
+> A **Circular Linked List** is a linked list where the last node points back to the first node, forming a circle.
+
+#### 🔗 Singly Circular Visualization
+
+```
+       Head
+        │
+        ▼
+     ┌────┐    ┌────┐    ┌────┐    ┌────┐
+ ┌──►│ 10 │───►│ 20 │───►│ 30 │───►│ 40 │──┐
+ │   └────┘    └────┘    └────┘    └────┘  │
+ │                                          │
+ └──────────────────────────────────────────┘
+```
+
+#### ⚡ Singly Circular Implementation
+
+```python
+class CircularLinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self.length = 0
+
+    # Insert at end
+    def append(self, data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+            self.tail = new_node
+            new_node.next = self.head  # Point to itself
+        else:
+            new_node.next = self.head  # New node points to head
+            self.tail.next = new_node  # Old tail points to new node
+            self.tail = new_node       # Update tail
+        self.length += 1
+
+    # Insert at beginning
+    def prepend(self, data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+            self.tail = new_node
+            new_node.next = self.head
+        else:
+            new_node.next = self.head
+            self.tail.next = new_node
+            self.head = new_node
+        self.length += 1
+
+    # Delete from beginning
+    def delete_first(self):
+        if self.head is None:
+            return None
+        data = self.head.data
+        if self.head == self.tail:
+            self.head = None
+            self.tail = None
+        else:
+            self.head = self.head.next
+            self.tail.next = self.head
+        self.length -= 1
+        return data
+
+    # Traverse (print all elements)
+    def print_list(self):
+        if self.head is None:
+            print("List is empty")
+            return
+        current = self.head
+        elements = []
+        while True:
+            elements.append(str(current.data))
+            current = current.next
+            if current == self.head:
+                break
+        print(" -> ".join(elements) + " -> (back to head)")
+```
+
+#### 🔗 Doubly Circular Visualization
+
+```
+          ┌─────────────────────────────────────────────┐
+          │                                             │
+          ▼                                             │
+       ┌────┐    ┌────┐    ┌────┐    ┌────┐            │
+   ┌──►│ 10 │◄──►│ 20 │◄──►│ 30 │◄──►│ 40 │◄───────────┘
+   │   └────┘    └────┘    └────┘    └────┘
+   │      ▲                            │
+   │      └────────────────────────────┘
+   │                                   
+   └───────────────────────────────────────────────────────┐
+                                                           │
+          (tail.next = head, head.prev = tail)             │
+```
+
+</details>
+
+---
+
+### 🆚 Linked List Comparison
+
+| Feature | Singly | Doubly | Circular |
+|:--------|:------:|:------:|:--------:|
+| Memory per node | 1 pointer | 2 pointers | 1-2 pointers |
+| Traverse backward | ❌ | ✅ | ❌/✅ |
+| Delete node (given pointer) | O(n) | O(1) | O(n)/O(1) |
+| Insert before node | O(n) | O(1) | O(n) |
+| Circular traversal | ❌ | ❌ | ✅ |
+| Use case | Simple lists | Browser history, undo | Round-robin, playlists |
+
+---
+
+### 📝 Problems Covered - Day 4
+
+| # | Problem | Difficulty | Concept |
+|:-:|:--------|:----------:|:--------|
+| 1 | Delete from beginning of SLL | 🟢 Easy | Singly Linked List |
+| 2 | Delete from end of SLL | 🟢 Easy | Singly Linked List |
+| 3 | Delete at any position in SLL | 🟡 Medium | Singly Linked List |
+| 4 | Implement Doubly Linked List | 🟢 Easy | Doubly Linked List |
+| 5 | Forward & Backward Traversal | 🟢 Easy | Doubly Linked List |
+| 6 | Implement Circular Linked List | 🟡 Medium | Circular Linked List |
+| 7 | Circular Traversal | 🟡 Medium | Circular Linked List |
+
+---
+
 ## 🚀 Future Learning Roadmap
 
 | Topic | Description | Priority | Status |
 |:------|:------------|:--------:|:------:|
-| 📚 **Stacks** | LIFO operations, applications | 🔴 High | ⏳ Upcoming |
-| 📬 **Queues** | FIFO operations, priority queues | 🔴 High | ⏳ Upcoming |
+| 📚 **Stacks** | LIFO operations, applications | 🔴 High | 🔜 Next |
+| 📬 **Queues** | FIFO operations, priority queues | 🔴 High | 🔜 Next |
 | 👆 **Two Pointer** | Sliding window, fast-slow pointer | 🔴 High | ⏳ Upcoming |
 | 💻 **Bit Manipulation** | Bitwise operations, tricks | 🟡 Medium | ⏳ Upcoming |
 | 🌳 **Trees** | Binary trees, BST, traversals | 🔴 High | ⏳ Upcoming |
@@ -1081,14 +1348,55 @@ After:  10 -> 20 -> 25 -> 30 -> None
 
 ## 🎯 What's Coming Next
 
-### 🏆 **Day 4: Linked List Deletion & More Types**
-Complete the Linked List mastery!
+### 🏆 **Day 5: Stacks & Queues**
+Master linear data structures!
 
-**Topics:**
-- Singly Linked List - Deletion (start, end, any position)
-- Doubly Linked List - Complete implementation
-- Circular Linked List - Theory and implementation
-- Practice problems on all linked list types
+<table>
+<tr>
+<td width="50%">
+
+### 📚 **Stack (LIFO)**
+- What is Stack & LIFO principle
+- Stack operations: `push()`, `pop()`, `peek()`, `isEmpty()`
+- Implementation using Array
+- Implementation using Linked List
+- Time & Space Complexity
+- **Applications:**
+  - Balanced Parentheses Check
+  - Reverse a String
+  - Undo/Redo Operations
+  - Function Call Stack
+  - Expression Evaluation (Infix, Postfix, Prefix)
+
+</td>
+<td width="50%">
+
+### 📬 **Queue (FIFO)**
+- What is Queue & FIFO principle
+- Queue operations: `enqueue()`, `dequeue()`, `front()`, `isEmpty()`
+- Implementation using Array
+- Implementation using Linked List
+- Circular Queue
+- **Applications:**
+  - BFS Traversal
+  - Task Scheduling
+  - Print Queue
+  - Buffer Management
+
+</td>
+</tr>
+</table>
+
+**Practice Problems:**
+| # | Problem | Difficulty |
+|:-:|:--------|:----------:|
+| 1 | Implement Stack using Array | 🟢 Easy |
+| 2 | Implement Stack using Linked List | 🟢 Easy |
+| 3 | Valid Parentheses | 🟢 Easy |
+| 4 | Reverse a String using Stack | 🟢 Easy |
+| 5 | Implement Queue using Array | 🟢 Easy |
+| 6 | Implement Queue using Linked List | 🟢 Easy |
+| 7 | Implement Circular Queue | 🟡 Medium |
 
 ---
 
