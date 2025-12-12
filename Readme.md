@@ -5,7 +5,7 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active%20Learning-success?style=for-the-badge)
 ![Students](https://img.shields.io/badge/Shreyas%20Engineering-Students-blue?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Day%204-Completed-brightgreen?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Day%205-Completed-brightgreen?style=for-the-badge)
 
 ### 🚀 *Master Data Structures & Algorithms with Python!*
 
@@ -87,12 +87,21 @@ Day 4 - Linked List Completed:
 ✅ Doubly Linked List - Complete Implementation
 ✅ Circular Linked List - Complete Implementation
 
-Day 5 - Stacks & Queues:
+Day 5 - Stacks:
+████████████████████████████████ 100%
+
+✅ Stack - LIFO Principle
+✅ Stack Operations (push, pop, peek, isEmpty)
+✅ Implementation using Array
+✅ Implementation using Linked List
+✅ Valid Parentheses Problem
+
+Day 6 - Queues & More Stack Problems:
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
 
-🟡 Stack - LIFO, push, pop, peek
-🟡 Stack Implementation (Array)
-🟡 Applications & Problems
+🟡 Queue - FIFO Principle
+🟡 Queue Implementation
+🟡 More Stack Applications
 ```
 
 ---
@@ -1281,11 +1290,291 @@ class CircularLinkedList:
 
 ---
 
+## 📅 Day 5: Stacks ✅ Completed
+
+---
+
+### 📚 **Stack - Complete Guide**
+
+<details open>
+<summary><h3>📦 What is a Stack?</h3></summary>
+
+> A **Stack** is a linear data structure that follows the **LIFO (Last In, First Out)** principle. The last element added is the first one to be removed.
+
+#### 🍽️ Real-World Examples:
+- Stack of plates 🍽️
+- Stack of books 📚
+- Undo operation in text editors ↩️
+- Browser back button 🔙
+- Function call stack in programming 📞
+
+#### 📊 Stack Visualization
+
+```
+        ┌─────────┐
+        │    5    │  ← Top (Last In, First Out)
+        ├─────────┤
+        │    4    │
+        ├─────────┤
+        │    3    │
+        ├─────────┤
+        │    2    │
+        ├─────────┤
+        │    1    │  ← Bottom (First In)
+        └─────────┘
+        
+   Push: Add to top
+   Pop: Remove from top
+```
+
+</details>
+
+<details open>
+<summary><h3>⚙️ Stack Operations</h3></summary>
+
+| Operation | Description | Time Complexity |
+|:----------|:------------|:---------------:|
+| `push(item)` | Add item to top of stack | O(1) |
+| `pop()` | Remove and return top item | O(1) |
+| `peek()` / `top()` | Return top item without removing | O(1) |
+| `isEmpty()` | Check if stack is empty | O(1) |
+| `size()` | Return number of items | O(1) |
+
+</details>
+
+<details open>
+<summary><h3>🔧 Implementation using Array (List)</h3></summary>
+
+```python
+class Stack:
+    def __init__(self):
+        self.items = []
+    
+    def push(self, item):
+        """Add item to top of stack - O(1)"""
+        self.items.append(item)
+    
+    def pop(self):
+        """Remove and return top item - O(1)"""
+        if self.isEmpty():
+            return "Stack is empty!"
+        return self.items.pop()
+    
+    def peek(self):
+        """Return top item without removing - O(1)"""
+        if self.isEmpty():
+            return "Stack is empty!"
+        return self.items[-1]
+    
+    def isEmpty(self):
+        """Check if stack is empty - O(1)"""
+        return len(self.items) == 0
+    
+    def size(self):
+        """Return size of stack - O(1)"""
+        return len(self.items)
+    
+    def display(self):
+        """Display stack contents"""
+        print(f"Stack: {self.items}")
+        if not self.isEmpty():
+            print(f"Top: {self.items[-1]}")
+
+
+# Usage Example
+stack = Stack()
+stack.push(10)
+stack.push(20)
+stack.push(30)
+stack.display()        # Stack: [10, 20, 30], Top: 30
+print(stack.pop())     # 30
+print(stack.peek())    # 20
+print(stack.isEmpty()) # False
+```
+
+</details>
+
+<details open>
+<summary><h3>🔗 Implementation using Linked List</h3></summary>
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+
+class StackLinkedList:
+    def __init__(self):
+        self.top = None
+        self.length = 0
+    
+    def push(self, item):
+        """Add item to top - O(1)"""
+        new_node = Node(item)
+        new_node.next = self.top
+        self.top = new_node
+        self.length += 1
+    
+    def pop(self):
+        """Remove and return top item - O(1)"""
+        if self.isEmpty():
+            return "Stack is empty!"
+        data = self.top.data
+        self.top = self.top.next
+        self.length -= 1
+        return data
+    
+    def peek(self):
+        """Return top item without removing - O(1)"""
+        if self.isEmpty():
+            return "Stack is empty!"
+        return self.top.data
+    
+    def isEmpty(self):
+        """Check if stack is empty - O(1)"""
+        return self.top is None
+    
+    def size(self):
+        """Return size of stack - O(1)"""
+        return self.length
+    
+    def display(self):
+        """Display stack contents"""
+        if self.isEmpty():
+            print("Stack is empty")
+            return
+        current = self.top
+        print("Top -> ", end="")
+        while current:
+            print(f"{current.data}", end="")
+            if current.next:
+                print(" -> ", end="")
+            current = current.next
+        print(" -> Bottom")
+
+
+# Usage Example
+stack = StackLinkedList()
+stack.push(10)
+stack.push(20)
+stack.push(30)
+stack.display()  # Top -> 30 -> 20 -> 10 -> Bottom
+```
+
+</details>
+
+<details open>
+<summary><h3>✅ Valid Parentheses Problem (LeetCode #20)</h3></summary>
+
+> **Problem:** Given a string containing just the characters `'('`, `')'`, `'{'`, `'}'`, `'['` and `']'`, determine if the input string is valid.
+>
+> An input string is valid if:
+> 1. Open brackets must be closed by the same type of brackets.
+> 2. Open brackets must be closed in the correct order.
+
+#### 💡 Approach:
+1. Use a stack to track opening brackets
+2. When we see a closing bracket, check if it matches the top of stack
+3. If it matches, pop the stack; otherwise, return False
+4. At the end, stack should be empty for a valid string
+
+```python
+def isValid(s):
+    """
+    Check if parentheses are balanced
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+    """
+    stack = []
+    # Mapping of closing to opening brackets
+    bracket_map = {
+        ')': '(',
+        '}': '{',
+        ']': '['
+    }
+    
+    for char in s:
+        if char in bracket_map:
+            # It's a closing bracket
+            if stack and stack[-1] == bracket_map[char]:
+                stack.pop()
+            else:
+                return False
+        else:
+            # It's an opening bracket
+            stack.append(char)
+    
+    # Stack should be empty if all brackets matched
+    return len(stack) == 0
+
+
+# Test Cases
+print(isValid("()"))        # True
+print(isValid("()[]{}"))    # True
+print(isValid("(]"))        # False
+print(isValid("([)]"))      # False
+print(isValid("{[]}"))      # True
+print(isValid("((()))"))    # True
+```
+
+#### 🎯 Dry Run Example: `"{[]}"`
+
+```
+Step 1: char = '{'  → Push to stack     → Stack: ['{']
+Step 2: char = '['  → Push to stack     → Stack: ['{', '[']
+Step 3: char = ']'  → Matches '[', pop  → Stack: ['{']
+Step 4: char = '}'  → Matches '{', pop  → Stack: []
+
+Stack is empty → Return True ✅
+```
+
+</details>
+
+<details>
+<summary><h3>🎯 Stack Applications</h3></summary>
+
+| Application | Description |
+|:------------|:------------|
+| **Balanced Parentheses** | Check if brackets are properly matched |
+| **Undo/Redo** | Store previous states for undo operations |
+| **Browser History** | Back button functionality |
+| **Function Calls** | Call stack manages function execution |
+| **Expression Evaluation** | Infix to Postfix conversion, evaluate postfix |
+| **Syntax Parsing** | Compilers use stacks for parsing |
+| **Backtracking** | DFS, maze solving, recursion |
+
+</details>
+
+---
+
+### 🆚 Array vs Linked List Implementation
+
+| Feature | Array Implementation | Linked List Implementation |
+|:--------|:--------------------:|:--------------------------:|
+| Memory | Contiguous | Non-contiguous |
+| Push | O(1) amortized | O(1) |
+| Pop | O(1) | O(1) |
+| Peek | O(1) | O(1) |
+| Memory Usage | May waste space | Extra pointer per node |
+| Size Limit | Dynamic (Python list) | Unlimited |
+| Cache Performance | Better | Worse |
+
+---
+
+### 📝 Problems Covered - Day 5
+
+| # | Problem | Difficulty | Concept |
+|:-:|:--------|:----------:|:--------|
+| 1 | Implement Stack using Array | 🟢 Easy | Stack Basics |
+| 2 | Valid Parentheses | 🟢 Easy | Stack Application |
+| 3 | Duplicate Parentheses Detection | 🟡 Medium | Stack Application |
+---
+
 ## 🚀 Future Learning Roadmap
 
 | Topic | Description | Priority | Status |
 |:------|:------------|:--------:|:------:|
-| 📚 **Stacks** | LIFO operations, applications | 🔴 High | 🔜 Next |
 | 📬 **Queues** | FIFO operations, priority queues | 🔴 High | 🔜 Next |
 | 👆 **Two Pointer** | Sliding window, fast-slow pointer | 🔴 High | ⏳ Upcoming |
 | 💻 **Bit Manipulation** | Bitwise operations, tricks | 🟡 Medium | ⏳ Upcoming |
@@ -1348,27 +1637,11 @@ class CircularLinkedList:
 
 ## 🎯 What's Coming Next
 
-### 🏆 **Day 5: Stacks & Queues**
-Master linear data structures!
+### 🏆 **Day 6: Queues & More Stack Applications**
+Continue mastering linear data structures!
 
 <table>
 <tr>
-<td width="50%">
-
-### 📚 **Stack (LIFO)**
-- What is Stack & LIFO principle
-- Stack operations: `push()`, `pop()`, `peek()`, `isEmpty()`
-- Implementation using Array
-- Implementation using Linked List
-- Time & Space Complexity
-- **Applications:**
-  - Balanced Parentheses Check
-  - Reverse a String
-  - Undo/Redo Operations
-  - Function Call Stack
-  - Expression Evaluation (Infix, Postfix, Prefix)
-
-</td>
 <td width="50%">
 
 ### 📬 **Queue (FIFO)**
@@ -1377,11 +1650,17 @@ Master linear data structures!
 - Implementation using Array
 - Implementation using Linked List
 - Circular Queue
-- **Applications:**
-  - BFS Traversal
-  - Task Scheduling
-  - Print Queue
-  - Buffer Management
+- Double-ended Queue (Deque)
+
+</td>
+<td width="50%">
+
+### 📚 **More Applications**
+- Infix to Postfix Conversion
+- Postfix Expression Evaluation
+- Next Greater Element
+- Stock Span Problem
+- BFS using Queue
 
 </td>
 </tr>
@@ -1390,13 +1669,12 @@ Master linear data structures!
 **Practice Problems:**
 | # | Problem | Difficulty |
 |:-:|:--------|:----------:|
-| 1 | Implement Stack using Array | 🟢 Easy |
-| 2 | Implement Stack using Linked List | 🟢 Easy |
-| 3 | Valid Parentheses | 🟢 Easy |
-| 4 | Reverse a String using Stack | 🟢 Easy |
-| 5 | Implement Queue using Array | 🟢 Easy |
-| 6 | Implement Queue using Linked List | 🟢 Easy |
-| 7 | Implement Circular Queue | 🟡 Medium |
+| 1 | Implement Queue using Array | 🟢 Easy |
+| 2 | Implement Queue using Linked List | 🟢 Easy |
+| 3 | Implement Circular Queue | 🟡 Medium |
+| 4 | Infix to Postfix Conversion | 🟡 Medium |
+| 5 | Evaluate Postfix Expression | 🟡 Medium |
+| 6 | Next Greater Element | 🟡 Medium |
 
 ---
 
