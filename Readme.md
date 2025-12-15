@@ -5,7 +5,7 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active%20Learning-success?style=for-the-badge)
 ![Students](https://img.shields.io/badge/Shreyas%20Engineering-Students-blue?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Day%205-Completed-brightgreen?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Day%206-Completed-brightgreen?style=for-the-badge)
 
 ### 🚀 *Master Data Structures & Algorithms with Python!*
 
@@ -255,6 +255,96 @@ print(insertion_sort(arr))  # Output: [5, 6, 11, 12, 13]
 ```
 
 **💡 Think of it like:** Sorting playing cards in your hand!
+
+</details>
+
+---
+
+## 📅 Day 6: Queues ✅ Completed
+
+---
+
+### 📚 **Queue - Complete Guide**
+
+<details open>
+<summary><h3>📬 What is a Queue?</h3></summary>
+
+> A **Queue** is a linear data structure that follows the **FIFO (First In, First Out)** principle. The first element added is the first one to be removed.
+
+#### 🍽️ Real-World Examples:
+- Print queue 🖨️
+- Ticket counter 🎟️
+- BFS traversal queue 🌳
+- Producer-consumer buffers 🔄
+
+#### 📊 Queue Visualization
+
+```
+Front -> [1 | 2 | 3 | 4] <- Rear
+
+ Enqueue: Add to rear
+ Dequeue: Remove from front
+```
+
+</details>
+
+<details open>
+<summary><h3>⚙️ Queue Operations</h3></summary>
+
+| Operation | Description | Time Complexity |
+|:----------|:------------|:---------------:|
+| `enqueue(item)` | Add item to rear | O(1) |
+| `dequeue()` | Remove and return front item | O(1) |
+| `peek()` / `front()` | Return front item without removing | O(1) |
+| `isEmpty()` | Check if queue is empty | O(1) |
+| `size()` | Return number of items | O(1) |
+
+</details>
+
+<details open>
+<summary><h3>🔧 Implementation (Recommended)</h3></summary>
+
+```python
+from collections import deque
+
+class Queue:
+    """FIFO queue with O(1) enqueue/dequeue."""
+    def __init__(self):
+        self._q = deque()
+
+    def enqueue(self, x):
+        self._q.append(x)
+
+    def dequeue(self):
+        if not self._q:
+            raise IndexError("dequeue from empty queue")
+        return self._q.popleft()
+
+    def peek(self):
+        return self._q[0] if self._q else None
+
+    def is_empty(self):
+        return not self._q
+
+    def __len__(self):
+        return len(self._q)
+
+# Example
+q = Queue()
+for v in (1,2,3): q.enqueue(v)
+print(q.dequeue())  # 1
+```
+
+</details>
+
+<details>
+<summary><h3>🎯 Queue Problems</h3></summary>
+
+| Problem | Difficulty | Notes |
+|:-------:|:---------:|:-----|
+| Implement Queue using array/list | 🟢 Easy | Use `append` + index front or `deque` for O(1) ops |
+| Implement Circular Queue | 🟡 Medium | Fixed-size ring buffer |
+| Implement Queue using Two Stacks | 🟡 Medium | Amortized O(1) enqueue/dequeue |
 
 </details>
 
@@ -1554,12 +1644,58 @@ Stack is empty → Return True ✅
 | 4 | Implement Queue using `deque` / list | 🟢 Easy | Queue Basics (enqueue, dequeue)
 ---
 
+Compact examples (short, idiomatic implementations):
+
+```python
+def has_duplicate_parentheses(s):
+    st = []
+    for ch in s:
+        if ch == ')':
+            if st and st[-1] == '(':
+                return True
+            while st and st[-1] != '(':
+                st.pop()
+            if st: st.pop()
+        else:
+            st.append(ch)
+    return False
+
+def infix_to_postfix(expr):
+    prec = {'+':1,'-':1,'*':2,'/':2,'^':3}
+    st, out = [], []
+    for ch in expr:
+        if ch.isalnum(): out.append(ch)
+        elif ch == '(' : st.append(ch)
+        elif ch == ')' :
+            while st and st[-1] != '(':
+                out.append(st.pop())
+            st.pop()
+        else:
+            while st and st[-1] != '(' and prec[st[-1]] >= prec[ch]:
+                out.append(st.pop())
+            st.append(ch)
+    while st: out.append(st.pop())
+    return ''.join(out)
+
+def next_greater(arr):
+    res = [-1]*len(arr); st = []
+    for i in range(len(arr)-1,-1,-1):
+        while st and st[-1] <= arr[i]: st.pop()
+        if st: res[i] = st[-1]
+        st.append(arr[i])
+    return res
+
+from collections import deque
+q = deque()
+# enqueue: q.append(x)  dequeue: q.popleft()  (O(1))
+```
+
+
 ## 🚀 Future Learning Roadmap
 
 | Topic | Description | Priority | Status |
 |:------|:------------|:--------:|:------:|
-| 📬 **Queues** | FIFO operations, priority queues | 🔴 High | 🔜 Next |
-| 👆 **Two Pointer** | Sliding window, fast-slow pointer | 🔴 High | ⏳ Upcoming |
+| 👆 **Two Pointer** | Sliding window, fast-slow pointer | 🔴 High | 🔜 Next |
 | 💻 **Bit Manipulation** | Bitwise operations, tricks | 🟡 Medium | ⏳ Upcoming |
 | 🌳 **Trees** | Binary trees, BST, traversals | 🔴 High | ⏳ Upcoming |
 | 🕸️ **Graphs** | BFS, DFS, shortest paths (if time permits) | 🟡 Medium | ⏳ Upcoming |
