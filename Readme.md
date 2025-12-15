@@ -97,50 +97,147 @@ Day 5 - Stacks:
 ✅ Valid Parentheses Problem
 
 Day 6 - Queues & More Stack Problems:
-░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
+████████████████████████████████ 100%
 
-🟡 Queue - FIFO Principle
-🟡 Queue Implementation
-🟡 More Stack Applications
+✅ Queue - FIFO Principle
+✅ Queue Implementation
+✅ More Stack Applications
 ```
 
 ---
 
-## 🗺️ Learning Path
+## 📅 Day 6: Queues & Stack Applications ✅ Completed
 
-```mermaid
-graph LR
-    A[🔍 Linear Search] --> B[🎯 Binary Search]
-    B --> C[🫧 Bubble Sort]
-    C --> D[👆 Selection Sort]
-    D --> E[📥 Insertion Sort]
-    E --> F[🔀 Merge Sort]
-    F --> G[⚡ Quick Sort]
-    
-    style A fill:#90EE90
-    style B fill:#90EE90
-    style C fill:#90EE90
-    style D fill:#90EE90
-    style E fill:#90EE90
-    style F fill:#90EE90
-    style G fill:#90EE90
-```
+**Topics covered:**
 
----
+- **Queue** — FIFO principle and basic operations (`enqueue`, `deque`).
+- **Queue implementation** using a Python list (simple demonstration).
 
-## 📚 Topics Covered
+**Summary & code (from Day-6):**
 
-<details open>
-<summary><h3>🔍 Searching Algorithms</h3></summary>
+The `Queue` class demonstrates a simple FIFO structure and example usage. See full solutions in [Day-6/demo.py](Day-6/demo.py).
 
-> **Finding elements efficiently in data structures**
+```python
+class Queue:
+    def __init__(self):
+        self.items = []
+
+    def enqueue(self, data):
+        self.items.append(data)
+
+    def deque(self):
+        first = self.items.pop(0)
+        print("Element Popped =", first)
+        return self.items
+
+
+
+        ## 📅 Day 6: Queues & Stack Applications ✅ Completed
+
+        **Topics covered:**
+
+        - **Queue** — FIFO principle, basic operations and efficient implementation.
+        - **Queue implementation** using `collections.deque` for O(1) popleft.
+        - **Stack applications** — Next Greater Element and Infix→Postfix examples.
+
+        **Improved code examples (concise, idiomatic):**
+
+        ```python
+        from collections import deque
+
+        class Queue:
+            """Simple FIFO queue with O(1) enqueue/dequeue using deque."""
+            def __init__(self):
+                self._q = deque()
+
+            def enqueue(self, x):
+                self._q.append(x)
+
+            def dequeue(self):
+                if not self._q:
+                    raise IndexError("dequeue from empty queue")
+                return self._q.popleft()
+
+            def peek(self):
+                return self._q[0] if self._q else None
+
+            def is_empty(self):
+                return not self._q
+
+            def __len__(self):
+                return len(self._q)
+
+
+        def next_greater_elements(arr):
+            """Return list of next greater element for each position (or -1)."""
+            res = [-1] * len(arr)
+            stack = []  # store elements (values)
+            for i in range(len(arr)-1, -1, -1):
+                while stack and stack[-1] <= arr[i]:
+                    stack.pop()
+                if stack:
+                    res[i] = stack[-1]
+                stack.append(arr[i])
+            return res
+
+
+        def infix_to_postfix(expr):
+            """Convert infix expression (tokens without spaces) to postfix string."""
+            prec = {'+':1, '-':1, '*':2, '/':2, '^':3}
+            stack = []
+            output = []
+
+            for ch in expr:
+                if ch.isalnum():
+                    output.append(ch)
+                elif ch == '(':
+                    stack.append(ch)
+                elif ch == ')':
+                    while stack and stack[-1] != '(':
+                        output.append(stack.pop())
+                    stack.pop()
+                else:  # operator
+                    while stack and stack[-1] != '(' and prec.get(stack[-1], 0) >= prec.get(ch, 0):
+                        output.append(stack.pop())
+                    stack.append(ch)
+
+            while stack:
+                output.append(stack.pop())
+
+            return ''.join(output)
+
+
+        # Example usages
+        q = Queue()
+        for v in (4, 324, 44, 31):
+            q.enqueue(v)
+
+        print(list(q._q))  # [4, 324, 44, 31]
+        print(q.dequeue())
+        print(list(q._q))  # [324, 44, 31]
+
+        print(next_greater_elements([1, 4, 5, 1, 3, 5, 6]))
+        print(infix_to_postfix('a+b*(c^d-e)^(f+g*h)-i'))
+        ```
+
+        See full solutions in [Day-6/demo.py](Day-6/demo.py).
+
+        ---
+
+        ## 📅 Day 7: Two Pointers & Sliding Window (Planned)
+
+        **Planned topics:**
+
+        - **Two Pointers** — techniques for sorted arrays and in-place problems.
+        - **Sliding Window** — fixed & variable window patterns for sums, max/min, and substring problems.
+
+        ## 🗺️ Learning Path
 
 ### **1. Linear Search**
 - **Time Complexity:** O(n)
 - **Space Complexity:** O(1)
 - Sequentially checks each element until a match is found
 
-```python
 def linear_search(arr, target):
     for i in range(len(arr)):
         if arr[i] == target:
@@ -1569,6 +1666,16 @@ Stack is empty → Return True ✅
 | 1 | Implement Stack using Array | 🟢 Easy | Stack Basics |
 | 2 | Valid Parentheses | 🟢 Easy | Stack Application |
 | 3 | Duplicate Parentheses Detection | 🟡 Medium | Stack Application |
+---
+
+### 📝 Problems Covered - Day 6
+
+| # | Problem | Difficulty | Concept |
+|:-:|:--------|:----------:|:--------|
+| 1 | Duplicate Parentheses Detection | 🟡 Medium | Stack Application
+| 2 | Infix to Postfix Conversion | 🟡 Medium | Stack Application (operators precedence)
+| 3 | Next Greater Element | 🟡 Medium | Monotonic Stack
+| 4 | Implement Queue using `deque` / list | 🟢 Easy | Queue Basics (enqueue, dequeue)
 ---
 
 ## 🚀 Future Learning Roadmap
