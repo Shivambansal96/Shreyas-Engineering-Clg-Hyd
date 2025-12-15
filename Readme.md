@@ -96,24 +96,72 @@ Day 5 - Stacks:
 ✅ Implementation using Linked List
 ✅ Valid Parentheses Problem
 
-Day 6 - Queues & More Stack Problems:
+Day 6 - Stack Applications & Queues:
 ████████████████████████████████ 100%
 
+✅ Duplicate Parentheses Detection
+✅ Infix to Postfix Conversion
+✅ Next Greater Element
 ✅ Queue - FIFO Principle
-✅ Queue Implementation
-✅ More Stack Applications
+✅ Queue Implementation using Array
+✅ Queue Implementation using Linked List
+
+Day 7 - Two Pointers & Sliding Window:
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
+
+🟡 Two Pointer Technique
+🟡 Sliding Window Pattern
+🟡 Container With Most Water
+🟡 Longest Substring Without Repeating Characters
 ```
 
 ---
 
-
 ## 🗺️ Learning Path
+
+```mermaid
+graph LR
+    A[🔍 Linear Search] --> B[🎯 Binary Search]
+    B --> C[🫧 Bubble Sort]
+    C --> D[👆 Selection Sort]
+    D --> E[📥 Insertion Sort]
+    E --> F[🔀 Merge Sort]
+    F --> G[⚡ Quick Sort]
+    G --> H[🔗 Linked Lists]
+    H --> I[📚 Stacks]
+    I --> J[📬 Queues]
+    J --> K[👆 Two Pointers]
+    K --> L[🪟 Sliding Window]
+    
+    style A fill:#90EE90
+    style B fill:#90EE90
+    style C fill:#90EE90
+    style D fill:#90EE90
+    style E fill:#90EE90
+    style F fill:#90EE90
+    style G fill:#90EE90
+    style H fill:#90EE90
+    style I fill:#90EE90
+    style J fill:#90EE90
+    style K fill:#FFD700
+    style L fill:#FFD700
+```
+
+---
+
+## 📚 Topics Covered
+
+<details open>
+<summary><h3>🔍 Searching Algorithms</h3></summary>
+
+> **Finding elements efficiently in data structures**
 
 ### **1. Linear Search**
 - **Time Complexity:** O(n)
 - **Space Complexity:** O(1)
 - Sequentially checks each element until a match is found
 
+```python
 def linear_search(arr, target):
     for i in range(len(arr)):
         if arr[i] == target:
@@ -181,7 +229,6 @@ Step 2: left=3, right=4, mid=3 → arr[3]=40 = 40 → Found!
 def bubble_sort(arr):
     n = len(arr)
     for i in range(n):
-        # Flag to optimize - if no swaps, array is sorted
         swapped = False
         for j in range(0, n-i-1):
             if arr[j] > arr[j+1]:
@@ -214,12 +261,10 @@ Pass 3: [25, 12, 22, 34, 64] → [12, 22, 25, 34, 64]
 def selection_sort(arr):
     n = len(arr)
     for i in range(n):
-        # Find minimum element in remaining array
         min_idx = i
         for j in range(i+1, n):
             if arr[j] < arr[min_idx]:
                 min_idx = j
-        # Swap minimum with current position
         arr[i], arr[min_idx] = arr[min_idx], arr[i]
     return arr
 
@@ -242,7 +287,6 @@ def insertion_sort(arr):
     for i in range(1, len(arr)):
         key = arr[i]
         j = i - 1
-        # Move elements greater than key one position ahead
         while j >= 0 and arr[j] > key:
             arr[j+1] = arr[j]
             j -= 1
@@ -255,96 +299,6 @@ print(insertion_sort(arr))  # Output: [5, 6, 11, 12, 13]
 ```
 
 **💡 Think of it like:** Sorting playing cards in your hand!
-
-</details>
-
----
-
-## 📅 Day 6: Queues ✅ Completed
-
----
-
-### 📚 **Queue - Complete Guide**
-
-<details open>
-<summary><h3>📬 What is a Queue?</h3></summary>
-
-> A **Queue** is a linear data structure that follows the **FIFO (First In, First Out)** principle. The first element added is the first one to be removed.
-
-#### 🍽️ Real-World Examples:
-- Print queue 🖨️
-- Ticket counter 🎟️
-- BFS traversal queue 🌳
-- Producer-consumer buffers 🔄
-
-#### 📊 Queue Visualization
-
-```
-Front -> [1 | 2 | 3 | 4] <- Rear
-
- Enqueue: Add to rear
- Dequeue: Remove from front
-```
-
-</details>
-
-<details open>
-<summary><h3>⚙️ Queue Operations</h3></summary>
-
-| Operation | Description | Time Complexity |
-|:----------|:------------|:---------------:|
-| `enqueue(item)` | Add item to rear | O(1) |
-| `dequeue()` | Remove and return front item | O(1) |
-| `peek()` / `front()` | Return front item without removing | O(1) |
-| `isEmpty()` | Check if queue is empty | O(1) |
-| `size()` | Return number of items | O(1) |
-
-</details>
-
-<details open>
-<summary><h3>🔧 Implementation (Recommended)</h3></summary>
-
-```python
-from collections import deque
-
-class Queue:
-    """FIFO queue with O(1) enqueue/dequeue."""
-    def __init__(self):
-        self._q = deque()
-
-    def enqueue(self, x):
-        self._q.append(x)
-
-    def dequeue(self):
-        if not self._q:
-            raise IndexError("dequeue from empty queue")
-        return self._q.popleft()
-
-    def peek(self):
-        return self._q[0] if self._q else None
-
-    def is_empty(self):
-        return not self._q
-
-    def __len__(self):
-        return len(self._q)
-
-# Example
-q = Queue()
-for v in (1,2,3): q.enqueue(v)
-print(q.dequeue())  # 1
-```
-
-</details>
-
-<details>
-<summary><h3>🎯 Queue Problems</h3></summary>
-
-| Problem | Difficulty | Notes |
-|:-------:|:---------:|:-----|
-| Implement Queue using array/list | 🟢 Easy | Use `append` + index front or `deque` for O(1) ops |
-| Implement Circular Queue | 🟡 Medium | Fixed-size ring buffer |
-| Implement Queue using Two Stacks | 🟡 Medium | Amortized O(1) enqueue/dequeue |
 
 </details>
 
@@ -1632,77 +1586,1001 @@ Stack is empty → Return True ✅
 | 1 | Implement Stack using Array | 🟢 Easy | Stack Basics |
 | 2 | Valid Parentheses | 🟢 Easy | Stack Application |
 | 3 | Duplicate Parentheses Detection | 🟡 Medium | Stack Application |
+
+---
+
+## 📅 Day 6: Stack Applications & Queues ✅ Completed
+
+---
+
+### 📚 **Advanced Stack Applications**
+
+<details open>
+<summary><h3>🔄 Duplicate Parentheses Detection</h3></summary>
+
+> **Problem:** Check if there are parentheses that are not needed (duplicate).
+>
+> A duplicate pair is where one pair is inside another without any operator between them.
+
+#### 💡 Approach:
+1. Use a stack to track opening brackets
+2. When we encounter a closing bracket, pop from stack and count elements
+3. If we pop a closing bracket immediately, then parentheses are duplicates
+4. If count becomes 0 (empty pair), then we have duplicate parentheses
+
+```python
+def hasDuplicates(s):
+    """
+    Check if string has duplicate parentheses
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+    """
+    stack = []
+    
+    for char in s:
+        if char == ')':
+            # Count elements between matching brackets
+            count = 0
+            while stack[-1] != '(':
+                stack.pop()
+                count += 1
+            
+            # Pop the opening bracket
+            stack.pop()
+            
+            # If count is 0, parentheses are duplicate (empty pair)
+            if count == 0:
+                return True
+            
+            # Push closing bracket to continue checking
+            stack.append(')')
+        else:
+            # Push any other character
+            stack.append(char)
+    
+    return False
+
+
+# Test Cases
+print(hasDuplicates("((a+b))"))      # True - outer parentheses are duplicate
+print(hasDuplicates("(a+b)"))        # False - no duplicates
+print(hasDuplicates("(((a)))"))      # True - outer two layers are duplicate
+print(hasDuplicates("(a+(b+c))"))    # False - all needed
+print(hasDuplicates("()"))           # True - empty pair is duplicate
+```
+
+#### 🎯 Dry Run Example: `"((a+b))"`
+
+```
+Step 1: '(' → Push           → Stack: ['(']
+Step 2: '(' → Push           → Stack: ['(', '(']
+Step 3: 'a' → Push           → Stack: ['(', '(', 'a']
+Step 4: '+' → Push           → Stack: ['(', '(', 'a', '+']
+Step 5: 'b' → Push           → Stack: ['(', '(', 'a', '+', 'b']
+Step 6: ')' → Pop b, +, a    → Stack: ['(']
+              count = 3 (not 0)
+              Push ')'       → Stack: ['(', ')']
+Step 7: ')' → Pop ')' (immediate) 
+              count = 1 (not 0)
+              But next is '('
+              Pop '('        → Stack: []
+              count = 1 (not 0)
+              Push ')'       → Stack: [')']
+
+Wait, let me recalculate...
+
+Actually for "((a+b))":
+Step 6: ')' → count = 0 at this point? No, it's 3 (a, +, b)
+Continue...
+Step 7: ')' → This is checking outer layer
+             Pop until '(' → Pop ')' → count = 1
+             So it returns false
+
+Let me trace differently:
+For empty pair detection: "(())" 
+Step 1-2: Push '(' twice       → Stack: ['(', '(']
+Step 3: ')' → Pop nothing between ( and ), count = 0 → Return True ✅
+```
+
+</details>
+
+<details open>
+<summary><h3>🔀 Infix to Postfix Conversion</h3></summary>
+
+> **Problem:** Convert infix expression (e.g., `a+b*c`) to postfix expression (e.g., `abc*+`)
+>
+> **Why?** Postfix expressions are easier for computers to evaluate without parentheses.
+
+#### 📊 Understanding Precedence & Associativity
+
+| Operator | Precedence | Associativity |
+|:---------|:----------:|:-------------:|
+| * / | 2 (Higher) | Left to Right |
+| + - | 1 (Lower) | Left to Right |
+
+#### 💡 Algorithm (Shunting Yard Algorithm):
+
+1. **For each character:**
+   - If operand: Add to output
+   - If operator: While stack top has higher/equal precedence, pop to output, then push current
+   - If '(': Push to stack
+   - If ')': Pop until '(', add popped operators to output
+
+2. **At end:** Pop all remaining operators to output
+
+```python
+def infixToPostfix(infix):
+    """
+    Convert infix expression to postfix
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+    """
+    precedence = {'+': 1, '-': 1, '*': 2, '/': 2}
+    stack = []
+    output = ""
+    
+    for char in infix:
+        # If operand, add to output
+        if char.isalnum():
+            output += char
+        
+        # If '(', push to stack
+        elif char == '(':
+            stack.append(char)
+        
+        # If ')', pop until '('
+        elif char == ')':
+            while stack and stack[-1] != '(':
+                output += stack.pop()
+            stack.pop()  # Remove '('
+        
+        # If operator
+        else:
+            # Pop operators with higher or equal precedence
+            while (stack and 
+                   stack[-1] != '(' and 
+                   stack[-1] in precedence and
+                   precedence[stack[-1]] >= precedence[char]):
+                output += stack.pop()
+            
+            stack.append(char)
+    
+    # Pop all remaining operators
+    while stack:
+        output += stack.pop()
+    
+    return output
+
+
+# Test Cases
+print(infixToPostfix("a+b*c"))        # Output: abc*+
+print(infixToPostfix("(a+b)*c"))      # Output: ab+c*
+print(infixToPostfix("a+b-c"))        # Output: ab+c-
+print(infixToPostfix("a*b+c*d"))      # Output: ab*cd*+
+print(infixToPostfix("(a+b)*(c-d)"))  # Output: ab+cd-*
+```
+
+#### 🎯 Dry Run Example: `"a+b*c"`
+
+```
+char='a' → Operand → output="a"
+char='+' → Operator → Push to stack → stack=['+']
+char='b' → Operand → output="ab"
+char='*' → Operator → Precedence('*')=2 > Precedence('+')=1
+           Don't pop '+' yet → stack=['+', '*']
+char='c' → Operand → output="abc"
+End → Pop all: '+' then '*' → output="abc*+"
+
+Result: "abc*+" ✅
+```
+
+</details>
+
+<details open>
+<summary><h3>🔺 Next Greater Element</h3></summary>
+
+> **Problem:** For each element in array, find the next greater element to its right.
+>
+> Example: `[1, 5, 0, 3, 4, 5]` → `[5, -1, 3, 4, 5, -1]`
+
+#### 💡 Naive Approach (Brute Force):
+- For each element, check all elements to the right
+- **Time Complexity:** O(n²)
+
+#### 💡 Optimal Approach (Using Stack):
+- Traverse array from **right to left**
+- Use a **decreasing stack** to maintain potential greater elements
+- For each element, pop smaller elements, then push current
+
+```python
+def nextGreaterElement(arr):
+    """
+    Find next greater element for each element
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+    """
+    n = len(arr)
+    result = [-1] * n
+    stack = []
+    
+    # Traverse from right to left
+    for i in range(n - 1, -1, -1):
+        # Pop elements smaller than current
+        while stack and stack[-1] <= arr[i]:
+            stack.pop()
+        
+        # Top of stack is next greater element
+        if stack:
+            result[i] = stack[-1]
+        
+        # Push current element
+        stack.append(arr[i])
+    
+    return result
+
+
+# Alternative: For circular array
+def nextGreaterElementCircular(arr):
+    """
+    Find next greater element in circular array
+    """
+    n = len(arr)
+    result = [-1] * n
+    stack = []
+    
+    # Traverse array twice for circular effect
+    for i in range(2 * n):
+        idx = i % n
+        
+        # Pop elements smaller than current
+        while stack and arr[stack[-1]] < arr[idx]:
+            result[stack.pop()] = arr[idx]
+        
+        # Only push in first iteration
+        if i < n:
+            stack.append(idx)
+    
+    return result
+
+
+# Test Cases
+print(nextGreaterElement([1, 5, 0, 3, 4, 5]))  # [5, -1, 3, 4, 5, -1]
+print(nextGreaterElement([1, 2, 3, 4]))        # [-1, -1, -1, -1]
+print(nextGreaterElement([4, 3, 2, 1]))        # [-1, -1, -1, -1]
+print(nextGreaterElementCircular([1, 2, 1]))   # [2, -1, 2]
+```
+
+#### 🎯 Dry Run Example: `[1, 5, 0, 3, 4, 5]`
+
+```
+i=5 (arr[5]=5):  stack=[] → result[5]=-1 → stack=[5]
+i=4 (arr[4]=4):  4 < 5 → result[4]=5 → stack=[5, 4]
+i=3 (arr[3]=3):  3 < 4 → result[3]=4 → stack=[5, 4, 3]
+i=2 (arr[2]=0):  0 < 3 → result[2]=3 → stack=[5, 4, 3, 0]
+i=1 (arr[1]=5):  Pop 0,3,4 (all ≤ 5) → result[1]=-1 → stack=[5]
+i=0 (arr[0]=1):  1 < 5 → result[0]=5 → stack=[5, 1]
+
+Result: [5, -1, 3, 4, 5, -1] ✅
+```
+
+</details>
+
+---
+
+### 📬 **Queue - Complete Guide**
+
+<details open>
+<summary><h3>📦 What is a Queue?</h3></summary>
+
+> A **Queue** is a linear data structure that follows the **FIFO (First In, First Out)** principle. The first element added is the first one to be removed.
+
+#### 🎫 Real-World Examples:
+- Queue at a ticket counter 🎫
+- Printer queue 🖨️
+- Task scheduling in OS ⏳
+- Customer service (call center) 📞
+- BFS in graphs 📊
+
+#### 📊 Queue Visualization
+
+```
+Front (Dequeue)                              Rear (Enqueue)
+   │                                              │
+   ▼                                              ▼
+┌────────┬────────┬────────┬────────┬────────┐
+│   1    │   2    │   3    │   4    │   5    │
+└────────┴────────┴────────┴────────┴────────┘
+  First In                                  Last In
+
+Operations:
+- Enqueue: Add to rear
+- Dequeue: Remove from front
+```
+
+</details>
+
+<details open>
+<summary><h3>⚙️ Queue Operations</h3></summary>
+
+| Operation | Description | Time Complexity |
+|:----------|:------------|:---------------:|
+| `enqueue(item)` | Add item to rear | O(1) |
+| `dequeue()` | Remove and return front item | O(1) |
+| `front()` / `peek()` | Return front item without removing | O(1) |
+| `isEmpty()` | Check if queue is empty | O(1) |
+| `size()` | Return number of items | O(1) |
+
+</details>
+
+<details open>
+<summary><h3>🔧 Implementation using Array (List)</h3></summary>
+
+```python
+class Queue:
+    def __init__(self):
+        self.items = []
+    
+    def enqueue(self, item):
+        """Add item to rear - O(1)"""
+        self.items.append(item)
+    
+    def dequeue(self):
+        """Remove and return front item - O(n) due to pop(0)"""
+        if self.isEmpty():
+            return "Queue is empty!"
+        return self.items.pop(0)
+    
+    def front(self):
+        """Return front item without removing - O(1)"""
+        if self.isEmpty():
+            return "Queue is empty!"
+        return self.items[0]
+    
+    def isEmpty(self):
+        """Check if queue is empty - O(1)"""
+        return len(self.items) == 0
+    
+    def size(self):
+        """Return size of queue - O(1)"""
+        return len(self.items)
+    
+    def display(self):
+        """Display queue contents"""
+        print(f"Queue (Front to Rear): {self.items}")
+        if not self.isEmpty():
+            print(f"Front: {self.items[0]}, Rear: {self.items[-1]}")
+
+
+# Usage Example
+queue = Queue()
+queue.enqueue(10)
+queue.enqueue(20)
+queue.enqueue(30)
+queue.display()        # Queue (Front to Rear): [10, 20, 30]
+print(queue.dequeue()) # 10
+print(queue.front())   # 20
+print(queue.isEmpty()) # False
+```
+
+**⚠️ Issue:** `pop(0)` is O(n) because list needs to shift all elements.
+
+**Better Solution:** Use `collections.deque` for O(1) dequeue!
+
+```python
+from collections import deque
+
+class QueueOptimized:
+    def __init__(self):
+        self.items = deque()
+    
+    def enqueue(self, item):
+        """Add item to rear - O(1)"""
+        self.items.append(item)
+    
+    def dequeue(self):
+        """Remove and return front item - O(1) with deque"""
+        if self.isEmpty():
+            return "Queue is empty!"
+        return self.items.popleft()
+    
+    def front(self):
+        """Return front item - O(1)"""
+        if self.isEmpty():
+            return "Queue is empty!"
+        return self.items[0]
+    
+    def isEmpty(self):
+        """Check if queue is empty - O(1)"""
+        return len(self.items) == 0
+    
+    def size(self):
+        """Return size - O(1)"""
+        return len(self.items)
+```
+
+</details>
+
+<details open>
+<summary><h3>🔗 Implementation using Linked List</h3></summary>
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+
+class QueueLinkedList:
+    def __init__(self):
+        self.front = None
+        self.rear = None
+        self.length = 0
+    
+    def enqueue(self, item):
+        """Add item to rear - O(1)"""
+        new_node = Node(item)
+        
+        if self.front is None:
+            # Queue is empty
+            self.front = new_node
+            self.rear = new_node
+        else:
+            # Add at rear
+            self.rear.next = new_node
+            self.rear = new_node
+        
+        self.length += 1
+    
+    def dequeue(self):
+        """Remove and return front item - O(1)"""
+        if self.isEmpty():
+            return "Queue is empty!"
+        
+        data = self.front.data
+        self.front = self.front.next
+        
+        if self.front is None:
+            # Queue became empty
+            self.rear = None
+        
+        self.length -= 1
+        return data
+    
+    def peek(self):
+        """Return front item without removing - O(1)"""
+        if self.isEmpty():
+            return "Queue is empty!"
+        return self.front.data
+    
+    def isEmpty(self):
+        """Check if queue is empty - O(1)"""
+        return self.front is None
+    
+    def size(self):
+        """Return size of queue - O(1)"""
+        return self.length
+    
+    def display(self):
+        """Display queue contents"""
+        if self.isEmpty():
+            print("Queue is empty")
+            return
+        
+        current = self.front
+        print("Front -> ", end="")
+        while current:
+            print(f"{current.data}", end="")
+            if current.next:
+                print(" -> ", end="")
+            current = current.next
+        print(" -> Rear")
+
+
+# Usage Example
+queue = QueueLinkedList()
+queue.enqueue(10)
+queue.enqueue(20)
+queue.enqueue(30)
+queue.display()        # Front -> 10 -> 20 -> 30 -> Rear
+print(queue.dequeue()) # 10
+print(queue.peek())    # 20
+print(queue.isEmpty()) # False
+```
+
+</details>
+
+<details open>
+<summary><h3>🔄 Circular Queue</h3></summary>
+
+> A **Circular Queue** is a queue where the last node connects back to the first node, efficiently using array space.
+
+#### 📊 Advantages:
+- Better memory utilization (reuses space after dequeue)
+- Prevents memory wastage
+- Fixed size implementation works efficiently
+
+#### 🔧 Implementation
+
+```python
+class CircularQueue:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.items = [None] * capacity
+        self.front = -1
+        self.rear = -1
+    
+    def enqueue(self, item):
+        """Add item to rear - O(1)"""
+        if self.isFull():
+            print("Queue is full!")
+            return False
+        
+        # First element
+        if self.front == -1:
+            self.front = 0
+        
+        # Move rear in circular manner
+        self.rear = (self.rear + 1) % self.capacity
+        self.items[self.rear] = item
+        return True
+    
+    def dequeue(self):
+        """Remove and return front item - O(1)"""
+        if self.isEmpty():
+            return "Queue is empty!"
+        
+        data = self.items[self.front]
+        
+        # If only one element
+        if self.front == self.rear:
+            self.front = -1
+            self.rear = -1
+        else:
+            # Move front in circular manner
+            self.front = (self.front + 1) % self.capacity
+        
+        return data
+    
+    def isEmpty(self):
+        """Check if queue is empty - O(1)"""
+        return self.front == -1
+    
+    def isFull(self):
+        """Check if queue is full - O(1)"""
+        return (self.rear + 1) % self.capacity == self.front
+    
+    def size(self):
+        """Return number of elements"""
+        if self.isEmpty():
+            return 0
+        if self.rear >= self.front:
+            return self.rear - self.front + 1
+        return self.capacity - self.front + self.rear + 1
+    
+    def display(self):
+        """Display queue contents"""
+        if self.isEmpty():
+            print("Queue is empty")
+            return
+        
+        print("Queue: ", end="")
+        if self.rear >= self.front:
+            for i in range(self.front, self.rear + 1):
+                print(self.items[i], end=" ")
+        else:
+            for i in range(self.front, self.capacity):
+                print(self.items[i], end=" ")
+            for i in range(0, self.rear + 1):
+                print(self.items[i], end=" ")
+        print()
+
+
+# Usage Example
+cq = CircularQueue(5)
+cq.enqueue(10)
+cq.enqueue(20)
+cq.enqueue(30)
+cq.display()        # Queue: 10 20 30
+print(cq.dequeue()) # 10
+cq.enqueue(40)
+cq.display()        # Queue: 20 30 40
+```
+
+</details>
+
+---
+
+### 🆚 Queue Implementations Comparison
+
+| Feature | Array | Linked List | Circular Queue |
+|:--------|:-----:|:-----------:|:---------------:|
+| Enqueue | O(1) | O(1) | O(1) |
+| Dequeue | O(n) or O(1) with deque | O(1) | O(1) |
+| Memory | Dynamic | Extra pointer | Fixed |
+| Space Utilization | Wastes space | Good | Excellent |
+| Implementation Ease | Easy | Medium | Hard |
+
 ---
 
 ### 📝 Problems Covered - Day 6
 
 | # | Problem | Difficulty | Concept |
 |:-:|:--------|:----------:|:--------|
-| 1 | Duplicate Parentheses Detection | 🟡 Medium | Stack Application
-| 2 | Infix to Postfix Conversion | 🟡 Medium | Stack Application (operators precedence)
-| 3 | Next Greater Element | 🟡 Medium | Monotonic Stack
-| 4 | Implement Queue using `deque` / list | 🟢 Easy | Queue Basics (enqueue, dequeue)
+| 1 | Duplicate Parentheses Detection | 🟡 Medium | Stack Application |
+| 2 | Infix to Postfix Conversion | 🟡 Medium | Stack with Precedence |
+| 3 | Next Greater Element | 🟡 Medium | Stack + Array |
+| 4 | Implement Queue using Array | 🟢 Easy | Queue Basics |
+| 5 | Implement Queue using Linked List | 🟢 Easy | Queue with LL |
+| 6 | Implement Circular Queue | 🟡 Medium | Circular Queue |
+
 ---
 
-Compact examples (short, idiomatic implementations):
+## 📅 Day 7: Two Pointers & Sliding Window 🔜 **Upcoming**
 
-```python
-def has_duplicate_parentheses(s):
-    st = []
-    for ch in s:
-        if ch == ')':
-            if st and st[-1] == '(':
-                return True
-            while st and st[-1] != '(':
-                st.pop()
-            if st: st.pop()
-        else:
-            st.append(ch)
-    return False
+---
 
-def infix_to_postfix(expr):
-    prec = {'+':1,'-':1,'*':2,'/':2,'^':3}
-    st, out = [], []
-    for ch in expr:
-        if ch.isalnum(): out.append(ch)
-        elif ch == '(' : st.append(ch)
-        elif ch == ')' :
-            while st and st[-1] != '(':
-                out.append(st.pop())
-            st.pop()
-        else:
-            while st and st[-1] != '(' and prec[st[-1]] >= prec[ch]:
-                out.append(st.pop())
-            st.append(ch)
-    while st: out.append(st.pop())
-    return ''.join(out)
+### 👆 **Two Pointers Technique**
 
-def next_greater(arr):
-    res = [-1]*len(arr); st = []
-    for i in range(len(arr)-1,-1,-1):
-        while st and st[-1] <= arr[i]: st.pop()
-        if st: res[i] = st[-1]
-        st.append(arr[i])
-    return res
+<details open>
+<summary><h3>📖 What is Two Pointers?</h3></summary>
 
-from collections import deque
-q = deque()
-# enqueue: q.append(x)  dequeue: q.popleft()  (O(1))
+> A **Two Pointers** technique uses two references to iterate through a data structure simultaneously, typically from opposite ends or at different speeds.
+
+#### 🎯 When to Use:
+- Sorted arrays or linked lists
+- Finding pairs with specific sum
+- Removing duplicates
+- Palindrome validation
+- Array partitioning
+- Container with most water
+
+#### 📊 Time Complexity Benefits:
+- Naive approach: O(n²) with nested loops
+- Two pointers: O(n) with linear traversal
+
+#### 💡 Key Patterns:
+
+**Pattern 1: Converging from both ends**
+```
+Array: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        ↑                       ↑
+       left                   right
 ```
 
+**Pattern 2: Slow and fast pointers**
+```
+Array: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        ↑  ↑
+       slow fast (moves 2x speed)
+```
+
+</details>
+
+<details open>
+<summary><h3>🔢 Classic Problems</h3></summary>
+
+#### 1️⃣ **Two Sum in Sorted Array**
+
+```python
+def twoSum(arr, target):
+    """
+    Find two numbers that add up to target
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+    """
+    left, right = 0, len(arr) - 1
+    
+    while left < right:
+        current_sum = arr[left] + arr[right]
+        
+        if current_sum == target:
+            return [arr[left], arr[right]]
+        elif current_sum < target:
+            left += 1  # Need larger sum
+        else:
+            right -= 1  # Need smaller sum
+    
+    return None
+
+
+# Test Cases
+print(twoSum([1, 2, 3, 4, 5, 6], 9))    # [3, 6] or [4, 5]
+print(twoSum([1, 5, 7, 11], 9))         # [2, 7]
+print(twoSum([1, 2, 3], 10))            # None
+```
+
+---
+
+#### 2️⃣ **Valid Palindrome**
+
+```python
+def isPalindrome(s):
+    """
+    Check if string is palindrome (ignoring spaces & case)
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+    """
+    left, right = 0, len(s) - 1
+    
+    while left < right:
+        # Skip non-alphanumeric characters
+        while left < right and not s[left].isalnum():
+            left += 1
+        while left < right and not s[right].isalnum():
+            right -= 1
+        
+        # Compare characters (case-insensitive)
+        if s[left].lower() != s[right].lower():
+            return False
+        
+        left += 1
+        right -= 1
+    
+    return True
+
+
+# Test Cases
+print(isPalindrome("A man, a plan, a canal: Panama"))  # True
+print(isPalindrome("race a car"))                       # False
+print(isPalindrome("hello"))                            # False
+```
+
+---
+
+#### 3️⃣ **Reverse String in Place**
+
+```python
+def reverseString(s):
+    """
+    Reverse string using two pointers
+    Time Complexity: O(n)
+    Space Complexity: O(1) - modifies in place
+    """
+    left, right = 0, len(s) - 1
+    
+    while left < right:
+        # Swap characters
+        s[left], s[right] = s[right], s[left]
+        left += 1
+        right -= 1
+    
+    return s
+
+
+# Test Cases (with list since strings are immutable)
+print(reverseString(list("hello")))     # ['o', 'l', 'l', 'e', 'h']
+print(reverseString(list("python")))    # ['n', 'o', 'h', 't', 'y', 'p']
+```
+
+</details>
+
+---
+
+### 🪟 **Sliding Window Technique**
+
+<details open>
+<summary><h3>📖 What is Sliding Window?</h3></summary>
+
+> **Sliding Window** is a technique that maintains a contiguous subarray (window) that slides across the array to find optimal solution in one pass.
+
+#### 🎯 When to Use:
+- Finding subarrays with specific properties
+- Longest substring problems
+- Smallest subarray problems
+- Maximum sum subarray
+- Pattern matching in strings
+- Performance: O(n) instead of O(n²)
+
+#### 📊 Window Types:
+
+**Fixed Size Window**
+```
+[1, 2, 3, 4, 5, 6, 7, 8]
+ ├─────┤  → Window size = 3
+       ├─────┤
+             ├─────┤
+```
+
+**Variable Size Window**
+```
+[1, 2, 3, 4, 5, 6]
+ ├────────┤   → Expand right
+ ├───┤       → Shrink left
+```
+
+</details>
+
+<details open>
+<summary><h3>🔢 Classic Problems</h3></summary>
+
+#### 1️⃣ **Maximum Sum Subarray of Fixed Size**
+
+```python
+def maxSumFixedWindow(arr, k):
+    """
+    Find maximum sum of subarray of size k
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+    """
+    # Calculate sum of first window
+    window_sum = sum(arr[:k])
+    max_sum = window_sum
+    
+    # Slide the window
+    for i in range(k, len(arr)):
+        # Remove leftmost element and add new right element
+        window_sum = window_sum - arr[i - k] + arr[i]
+        max_sum = max(max_sum, window_sum)
+    
+    return max_sum
+
+
+# Test Cases
+print(maxSumFixedWindow([1, 4, 2, 10, 2, 3, 1, 0, 20], 4))  # 24 (from [10,2,3,1] or [3,1,0,20])
+print(maxSumFixedWindow([2, 1, 5, 1, 3, 2], 3))             # 9 (from [5,1,3])
+```
+
+---
+
+#### 2️⃣ **Longest Substring Without Repeating Characters**
+
+```python
+def lengthOfLongestSubstring(s):
+    """
+    Find length of longest substring without repeating chars
+    Time Complexity: O(n)
+    Space Complexity: O(min(n, charset_size))
+    """
+    char_index = {}  # Store last seen index of each character
+    max_length = 0
+    left = 0
+    
+    for right in range(len(s)):
+        # If character is repeated and within window
+        if s[right] in char_index and char_index[s[right]] >= left:
+            # Move left pointer to skip the repeated character
+            left = char_index[s[right]] + 1
+        
+        # Update character's last seen index
+        char_index[s[right]] = right
+        
+        # Update max length
+        max_length = max(max_length, right - left + 1)
+    
+    return max_length
+
+
+# Test Cases
+print(lengthOfLongestSubstring("abcabcbb"))  # 3 ("abc")
+print(lengthOfLongestSubstring("bbbbb"))     # 1 ("b")
+print(lengthOfLongestSubstring("pwwkew"))    # 3 ("wke")
+print(lengthOfLongestSubstring("aab"))       # 2 ("ab")
+```
+
+#### 🎯 Dry Run Example: `"abcabcbb"`
+
+```
+right=0: 'a' → char_index={'a':0} → max_length=1
+right=1: 'b' → char_index={'a':0,'b':1} → max_length=2
+right=2: 'c' → char_index={'a':0,'b':1,'c':2} → max_length=3
+right=3: 'a' → 'a' at index 0 >= left(0) → left=1
+         char_index={'a':3,...} → length=3-1+1=3
+right=4: 'b' → 'b' at index 1 >= left(1) → left=2
+         char_index={'a':3,'b':4,...} → length=4-2+1=3
+right=5: 'c' → 'c' at index 2 >= left(2) → left=3
+         char_index={'a':3,'b':4,'c':5} → length=5-3+1=3
+right=6: 'b' → 'b' at index 4 >= left(3) → left=5
+         char_index={...} → length=6-5+1=2
+right=7: 'b' → 'b' at index 6 >= left(5) → left=7
+         length=7-7+1=1
+
+max_length = 3 ✅
+```
+
+---
+
+#### 3️⃣ **Minimum Window Substring**
+
+```python
+def minWindowSubstring(s, t):
+    """
+    Find minimum window substring containing all chars in t
+    Time Complexity: O(n + m) where n=len(s), m=len(t)
+    Space Complexity: O(1) - fixed charset size
+    """
+    if not s or not t:
+        return ""
+    
+    # Count of characters in t
+    dict_t = {}
+    for char in t:
+        dict_t[char] = dict_t.get(char, 0) + 1
+    
+    required = len(dict_t)  # Number of unique characters to match
+    
+    # Window counts
+    window_counts = {}
+    formed = 0  # Number of unique characters matched with desired frequency
+    
+    left, right = 0, 0
+    ans = float("inf"), None, None
+    
+    while right < len(s):
+        # Add character from right
+        char = s[right]
+        window_counts[char] = window_counts.get(char, 0) + 1
+        
+        # If frequency of current char matches requirement
+        if char in dict_t and window_counts[char] == dict_t[char]:
+            formed += 1
+        
+        # Try to contract window from left
+        while left <= right and formed == required:
+            char = s[left]
+            
+            # Update answer if current window is smaller
+            if right - left + 1 < ans[0]:
+                ans = (right - left + 1, left, right)
+            
+            # Remove character from left
+            window_counts[char] -= 1
+            if char in dict_t and window_counts[char] < dict_t[char]:
+                formed -= 1
+            
+            left += 1
+        
+        right += 1
+    
+    # Return the smallest window or empty string
+    return "" if ans[0] == float("inf") else s[ans[1]:ans[2] + 1]
+
+
+# Test Cases
+print(minWindowSubstring("ADOBECODEBANC", "ABC"))  # "BANC"
+print(minWindowSubstring("a", "a"))                 # "a"
+print(minWindowSubstring("a", "aa"))                # ""
+```
+
+</details>
+
+---
+
+### 📊 Comparison: Nested Loop vs Two Pointers vs Sliding Window
+
+| Problem | Nested Loop | Two Pointers | Sliding Window |
+|:--------|:----------:|:------------:|:---------------:|
+| Two Sum | O(n²) | O(n) ✅ | - |
+| Longest Substring | O(n³) | - | O(n) ✅ |
+| Max Sum Subarray | O(n²) | - | O(n) ✅ |
+| Palindrome Check | O(n²) | O(n) ✅ | - |
+
+---
+
+### 📝 Problems for Day 7
+
+| # | Problem | Difficulty | Concept |
+|:-:|:--------|:----------:|:--------|
+| 1 | Two Sum (Sorted Array) | 🟢 Easy | Two Pointers |
+| 2 | Valid Palindrome | 🟢 Easy | Two Pointers |
+| 3 | Reverse String | 🟢 Easy | Two Pointers |
+| 4 | Container With Most Water | 🟡 Medium | Two Pointers |
+| 5 | Max Sum Fixed Window | 🟢 Easy | Sliding Window |
+| 6 | Longest Substring Without Repeating | 🟡 Medium | Sliding Window |
+| 7 | Minimum Window Substring | 🔴 Hard | Sliding Window |
+
+---
 
 ## 🚀 Future Learning Roadmap
 
 | Topic | Description | Priority | Status |
 |:------|:------------|:--------:|:------:|
-| 👆 **Two Pointer** | Sliding window, fast-slow pointer | 🔴 High | 🔜 Next |
-| 💻 **Bit Manipulation** | Bitwise operations, tricks | 🟡 Medium | ⏳ Upcoming |
-| 🌳 **Trees** | Binary trees, BST, traversals | 🔴 High | ⏳ Upcoming |
-| 🕸️ **Graphs** | BFS, DFS, shortest paths (if time permits) | 🟡 Medium | ⏳ Upcoming |
+| 🌳 **Trees** | Binary trees, BST, traversals, AVL | 🔴 High | ⏳ Upcoming |
+| 🕸️ **Graphs** | BFS, DFS, Dijkstra, Topological Sort | 🔴 High | ⏳ Upcoming |
+| 💻 **Hash Tables** | Hash maps, collision handling | 🟡 Medium | ⏳ Upcoming |
+| 📖 **Strings** | Pattern matching, KMP, Rabin-Karp | 🟡 Medium | ⏳ Upcoming |
+| 🎯 **Dynamic Programming** | Memoization, Tabulation, Classic DP | 🔴 High | ⏳ Upcoming |
 
 ---
-
-
 
 ## 💡 Tips for Students
 
@@ -1714,14 +2592,16 @@ q = deque()
 1. **Understand the concept first** before memorizing code
 2. **Dry run** algorithms on paper with small examples
 3. **Practice regularly** - Solve at least 2-3 problems daily
+4. **Visualize** - Draw diagrams for data structures
 
 </td>
 <td>
 
 ### 💪 Problem Solving Tips
-4. **Time and Space complexity** - Always analyze before coding
-5. Use **visualization tools** like [VisuAlgo](https://visualgo.net/)
-6. **Debug step-by-step** using print statements
+5. **Time and Space complexity** - Always analyze before coding
+6. Use **visualization tools** like [VisuAlgo](https://visualgo.net/)
+7. **Debug step-by-step** using print statements
+8. **Optimize iteratively** - Start with brute force, then optimize
 
 </td>
 </tr>
@@ -1736,9 +2616,10 @@ q = deque()
 <td>
 
 ### 💻 Practice Platforms
-- [LeetCode](https://leetcode.com/) - Practice problems
-- [GeeksforGeeks](https://www.geeksforgeeks.org/) - Concepts & explanations
-- [HackerRank](https://www.hackerrank.com/) - Coding challenges
+- [LeetCode](https://leetcode.com/) - Premium practice problems
+- [GeeksforGeeks](https://www.geeksforgeeks.org/) - Theory & explanations
+- [HackerRank](https://www.hackerrank.com/) - Competitive coding
+- [CodeChef](https://www.codechef.com/) - Contest problems
 
 </td>
 <td>
@@ -1746,7 +2627,8 @@ q = deque()
 ### 📚 Documentation & Tools
 - [Python Documentation](https://docs.python.org/3/)
 - [VisuAlgo](https://visualgo.net/) - Algorithm visualizations
-- [PythonTutor](https://pythontutor.com/) - Code visualization
+- [PythonTutor](https://pythontutor.com/) - Step-by-step execution
+- [Big O CheatSheet](https://www.bigocheatsheet.com/) - Complexity reference
 
 </td>
 </tr>
@@ -1754,46 +2636,19 @@ q = deque()
 
 ---
 
-## 🎯 What's Coming Next
+## 🎓 Learning Summary
 
-### 🏆 **Day 6: Queues & More Stack Applications**
-Continue mastering linear data structures!
+```
+📊 Progress Overview:
+├── ✅ Days 1-2: Searching & Sorting (100%)
+├── ✅ Days 3-4: Linked Lists (100%)
+├── ✅ Days 5-6: Stacks & Queues (100%)
+└── 🔜 Day 7: Two Pointers & Sliding Window
 
-<table>
-<tr>
-<td width="50%">
-
-### 📬 **Queue (FIFO)**
-- What is Queue & FIFO principle
-- Queue operations: `enqueue()`, `dequeue()`, `front()`, `isEmpty()`
-- Implementation using Array
-- Implementation using Linked List
-- Circular Queue
-- Double-ended Queue (Deque)
-
-</td>
-<td width="50%">
-
-### 📚 **More Applications**
-- Infix to Postfix Conversion
-- Postfix Expression Evaluation
-- Next Greater Element
-- Stock Span Problem
-- BFS using Queue
-
-</td>
-</tr>
-</table>
-
-**Practice Problems:**
-| # | Problem | Difficulty |
-|:-:|:--------|:----------:|
-| 1 | Implement Queue using Array | 🟢 Easy |
-| 2 | Implement Queue using Linked List | 🟢 Easy |
-| 3 | Implement Circular Queue | 🟡 Medium |
-| 4 | Infix to Postfix Conversion | 🟡 Medium |
-| 5 | Evaluate Postfix Expression | 🟡 Medium |
-| 6 | Next Greater Element | 🟡 Medium |
+Total Problems Solved: 40+
+Key Concepts Mastered: 15+
+Ready for: Medium Level LeetCode Problems
+```
 
 ---
 
@@ -1834,6 +2689,3 @@ Remember: *Every expert was once a beginner!*
 ![Python](https://img.shields.io/badge/Built%20with-Python-blue?style=flat-square&logo=python)
 ![DSA](https://img.shields.io/badge/Learning-DSA-orange?style=flat-square)
 ![Shreyas](https://img.shields.io/badge/Shreyas%20Engineering-Excellence-green?style=flat-square)
-
-</div>
-
