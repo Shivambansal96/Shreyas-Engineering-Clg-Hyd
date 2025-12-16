@@ -5,7 +5,7 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active%20Learning-success?style=for-the-badge)
 ![Students](https://img.shields.io/badge/Shreyas%20Engineering-Students-blue?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Day%206-Completed-brightgreen?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Day%207-Completed-brightgreen?style=for-the-badge)
 
 ### 🚀 *Master Data Structures & Algorithms with Python!*
 
@@ -107,12 +107,24 @@ Day 6 - Stack Applications & Queues:
 ✅ Queue Implementation using Linked List
 
 Day 7 - Two Pointers & Sliding Window:
+████████████████████████████████ 100%
+
+✅ Queue & Deque Complete Implementation
+✅ Deque (Double-Ended Queue) - All Methods
+✅ Infix, Prefix, Postfix Expressions - All Methods
+✅ Postfix to Infix Conversion
+✅ Two Pointers - All 3 Types
+✅ Move Zeroes Problem
+✅ Two Sum Problem
+✅ Remove Duplicates Problem
+✅ Container With Most Water
+
+Day 8 - Sliding Window & Bit Manipulation:
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
 
-🟡 Two Pointer Technique
-🟡 Sliding Window Pattern
-🟡 Container With Most Water
-🟡 Longest Substring Without Repeating Characters
+🟡 Sliding Window Technique
+🟡 Longest Substring Without Repeating
+🟡 Minimum Window Substring
 ```
 
 ---
@@ -132,6 +144,9 @@ graph LR
     I --> J[📬 Queues]
     J --> K[👆 Two Pointers]
     K --> L[🪟 Sliding Window]
+    L --> M[🤏 Bit Manipulation]
+    M --> N[🌳 Trees]
+    N --> O[🕸️ Graphs]
     
     style A fill:#90EE90
     style B fill:#90EE90
@@ -143,8 +158,11 @@ graph LR
     style H fill:#90EE90
     style I fill:#90EE90
     style J fill:#90EE90
-    style K fill:#FFD700
-    style L fill:#FFD700
+    style K fill:#90EE90
+    style L fill:#90EE90
+    style M fill:#FFD700
+    style N fill:#FFD700
+    style O fill:#FFD700
 ```
 
 ---
@@ -1685,28 +1703,19 @@ Step 3: ')' → Pop nothing between ( and ), count = 0 → Return True ✅
 </details>
 
 <details open>
-<summary><h3>🔀 Infix to Postfix Conversion</h3></summary>
+<summary><h3>🔀 Infix, Prefix, and Postfix Expressions</h3></summary>
 
-> **Problem:** Convert infix expression (e.g., `a+b*c`) to postfix expression (e.g., `abc*+`)
->
-> **Why?** Postfix expressions are easier for computers to evaluate without parentheses.
+> **Expression Types:**
+> - **Infix:** Operator between operands (e.g., `a + b * c`)
+> - **Prefix:** Operator before operands (e.g., `+ a * b c`)
+> - **Postfix:** Operator after operands (e.g., `a b c * +`)
 
-#### 📊 Understanding Precedence & Associativity
+#### 💡 Why Convert?
+- Postfix expressions are easier for computers to evaluate without parentheses
+- No need for operator precedence rules
+- Linear time evaluation O(n)
 
-| Operator | Precedence | Associativity |
-|:---------|:----------:|:-------------:|
-| * / | 2 (Higher) | Left to Right |
-| + - | 1 (Lower) | Left to Right |
-
-#### 💡 Algorithm (Shunting Yard Algorithm):
-
-1. **For each character:**
-   - If operand: Add to output
-   - If operator: While stack top has higher/equal precedence, pop to output, then push current
-   - If '(': Push to stack
-   - If ')': Pop until '(', add popped operators to output
-
-2. **At end:** Pop all remaining operators to output
+#### 📊 Infix to Postfix Conversion (Shunting Yard Algorithm)
 
 ```python
 def infixToPostfix(infix):
@@ -1760,7 +1769,116 @@ print(infixToPostfix("a*b+c*d"))      # Output: ab*cd*+
 print(infixToPostfix("(a+b)*(c-d)"))  # Output: ab+cd-*
 ```
 
-#### 🎯 Dry Run Example: `"a+b*c"`
+#### 📊 Infix to Prefix Conversion
+
+```python
+def infixToPrefix(infix):
+    """
+    Convert infix to prefix
+    Algorithm: Reverse infix, swap brackets, convert to postfix, reverse result
+    """
+    # Step 1: Reverse the infix expression
+    infix_rev = infix[::-1]
+    
+    # Step 2: Swap brackets in reversed expression
+    infix_rev = infix_rev.replace('(', '#').replace(')', '(').replace('#', ')')
+    
+    # Step 3: Convert to postfix
+    postfix = infixToPostfix(infix_rev)
+    
+    # Step 4: Reverse the result
+    prefix = postfix[::-1]
+    
+    return prefix
+
+
+# Test Cases
+print(infixToPrefix("a+b*c"))        # *+abc or similar
+```
+
+#### 📊 Postfix to Infix Conversion
+
+```python
+def postfixToInfix(postfix):
+    """
+    Convert postfix expression to infix
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+    """
+    stack = []
+    operators = {'+', '-', '*', '/', '^'}
+    
+    for char in postfix:
+        if char.isalnum():
+            # It's an operand
+            stack.append(char)
+        elif char in operators:
+            # It's an operator
+            # Pop two operands
+            operand2 = stack.pop()
+            operand1 = stack.pop()
+            
+            # Create infix expression
+            infix_expr = f"({operand1}{char}{operand2})"
+            stack.append(infix_expr)
+    
+    return stack[0]
+
+
+# Test Cases
+print(postfixToInfix("ab+"))           # (a+b)
+print(postfixToInfix("abc*+"))         # (a+(b*c))
+print(postfixToInfix("ab+c*"))         # ((a+b)*c)
+print(postfixToInfix("ab+cd-*"))       # ((a+b)*(c-d))
+print(postfixToInfix("abc*+de-*"))     # ((a+(b*c))*(d-e))
+```
+
+#### 📊 Postfix Evaluation
+
+```python
+def evaluatePostfix(postfix):
+    """
+    Evaluate postfix expression
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+    """
+    stack = []
+    operators = {'+', '-', '*', '/', '^'}
+    
+    for char in postfix:
+        if char.isdigit():
+            # It's a number
+            stack.append(int(char))
+        elif char in operators:
+            # It's an operator
+            # Pop two operands
+            operand2 = stack.pop()
+            operand1 = stack.pop()
+            
+            # Perform operation
+            if char == '+':
+                result = operand1 + operand2
+            elif char == '-':
+                result = operand1 - operand2
+            elif char == '*':
+                result = operand1 * operand2
+            elif char == '/':
+                result = operand1 // operand2
+            elif char == '^':
+                result = operand1 ** operand2
+            
+            stack.append(result)
+    
+    return stack[0]
+
+
+# Test Cases
+print(evaluatePostfix("52+"))          # 7 (5+2)
+print(evaluatePostfix("53*2+"))        # 17 (5*3+2)
+print(evaluatePostfix("34+2*"))        # 14 ((3+4)*2)
+```
+
+#### 🎯 Dry Run Example: `"a+b*c"` to Postfix
 
 ```
 char='a' → Operand → output="a"
@@ -1864,6 +1982,10 @@ Result: [5, -1, 3, 4, 5, -1] ✅
 ```
 
 </details>
+
+---
+
+## 📅 Day 7: Queues, Deque & Two Pointers ✅ Completed
 
 ---
 
@@ -2090,6 +2212,149 @@ print(queue.isEmpty()) # False
 </details>
 
 <details open>
+<summary><h3>🔄 Deque (Double-Ended Queue)</h3></summary>
+
+> A **Deque** (Double-Ended Queue) allows insertion and deletion from **both ends**.
+
+#### 📊 Deque Operations
+
+| Operation | Description | Time Complexity |
+|:----------|:------------|:---------------:|
+| `insertFront(item)` | Add to front | O(1) |
+| `insertRear(item)` | Add to rear | O(1) |
+| `deleteFront()` | Remove from front | O(1) |
+| `deleteRear()` | Remove from rear | O(1) |
+| `getFront()` | Get front element | O(1) |
+| `getRear()` | Get rear element | O(1) |
+
+#### 🔧 Implementation using Linked List
+
+```python
+class DequeNode:
+    def __init__(self, data):
+        self.data = data
+        self.prev = None
+        self.next = None
+
+
+class Deque:
+    def __init__(self):
+        self.front = None
+        self.rear = None
+        self.length = 0
+    
+    def insertFront(self, item):
+        """Insert at front - O(1)"""
+        new_node = DequeNode(item)
+        
+        if self.front is None:
+            self.front = new_node
+            self.rear = new_node
+        else:
+            new_node.next = self.front
+            self.front.prev = new_node
+            self.front = new_node
+        
+        self.length += 1
+    
+    def insertRear(self, item):
+        """Insert at rear - O(1)"""
+        new_node = DequeNode(item)
+        
+        if self.rear is None:
+            self.front = new_node
+            self.rear = new_node
+        else:
+            new_node.prev = self.rear
+            self.rear.next = new_node
+            self.rear = new_node
+        
+        self.length += 1
+    
+    def deleteFront(self):
+        """Remove from front - O(1)"""
+        if self.isEmpty():
+            return "Deque is empty!"
+        
+        data = self.front.data
+        
+        if self.front == self.rear:
+            self.front = None
+            self.rear = None
+        else:
+            self.front = self.front.next
+            self.front.prev = None
+        
+        self.length -= 1
+        return data
+    
+    def deleteRear(self):
+        """Remove from rear - O(1)"""
+        if self.isEmpty():
+            return "Deque is empty!"
+        
+        data = self.rear.data
+        
+        if self.front == self.rear:
+            self.front = None
+            self.rear = None
+        else:
+            self.rear = self.rear.prev
+            self.rear.next = None
+        
+        self.length -= 1
+        return data
+    
+    def getFront(self):
+        """Get front element - O(1)"""
+        if self.isEmpty():
+            return "Deque is empty!"
+        return self.front.data
+    
+    def getRear(self):
+        """Get rear element - O(1)"""
+        if self.isEmpty():
+            return "Deque is empty!"
+        return self.rear.data
+    
+    def isEmpty(self):
+        """Check if deque is empty - O(1)"""
+        return self.length == 0
+    
+    def size(self):
+        """Return size - O(1)"""
+        return self.length
+    
+    def display(self):
+        """Display deque contents"""
+        if self.isEmpty():
+            print("Deque is empty")
+            return
+        
+        current = self.front
+        print("Front <-> ", end="")
+        while current:
+            print(f"{current.data}", end="")
+            if current.next:
+                print(" <-> ", end="")
+            current = current.next
+        print(" <-> Rear")
+
+
+# Usage Example
+deque = Deque()
+deque.insertRear(10)
+deque.insertRear(20)
+deque.insertFront(5)
+deque.display()          # Front <-> 5 <-> 10 <-> 20 <-> Rear
+print(deque.deleteFront()) # 5
+print(deque.deleteRear())  # 20
+deque.display()          # Front <-> 10 <-> Rear
+```
+
+</details>
+
+<details open>
 <summary><h3>🔄 Circular Queue</h3></summary>
 
 > A **Circular Queue** is a queue where the last node connects back to the first node, efficiently using array space.
@@ -2208,14 +2473,16 @@ cq.display()        # Queue: 20 30 40
 |:-:|:--------|:----------:|:--------|
 | 1 | Duplicate Parentheses Detection | 🟡 Medium | Stack Application |
 | 2 | Infix to Postfix Conversion | 🟡 Medium | Stack with Precedence |
-| 3 | Next Greater Element | 🟡 Medium | Stack + Array |
-| 4 | Implement Queue using Array | 🟢 Easy | Queue Basics |
-| 5 | Implement Queue using Linked List | 🟢 Easy | Queue with LL |
-| 6 | Implement Circular Queue | 🟡 Medium | Circular Queue |
+| 3 | Postfix to Infix Conversion | 🟡 Medium | Stack Application |
+| 4 | Next Greater Element | 🟡 Medium | Stack + Array |
+| 5 | Implement Queue using Array | 🟢 Easy | Queue Basics |
+| 6 | Implement Queue using Linked List | 🟢 Easy | Queue with LL |
+| 7 | Implement Deque | 🟡 Medium | Double-Ended Queue |
+| 8 | Implement Circular Queue | 🟡 Medium | Circular Queue |
 
 ---
 
-## 📅 Day 7: Two Pointers & Sliding Window 🔜 **Upcoming**
+## 📅 Day 7: Two Pointers Technique ✅ Completed
 
 ---
 
@@ -2254,10 +2521,19 @@ Array: [1, 2, 3, 4, 5, 6, 7, 8, 9]
        slow fast (moves 2x speed)
 ```
 
+**Pattern 3: One pointer leading**
+```
+Array: [1, 0, 2, 0, 3, 0, 4]
+        ↑           
+       read        (slower pointer)
+             ↑
+            write  (faster pointer)
+```
+
 </details>
 
 <details open>
-<summary><h3>🔢 Classic Problems</h3></summary>
+<summary><h3>🔢 Two Pointers Problems</h3></summary>
 
 #### 1️⃣ **Two Sum in Sorted Array**
 
@@ -2291,7 +2567,156 @@ print(twoSum([1, 2, 3], 10))            # None
 
 ---
 
-#### 2️⃣ **Valid Palindrome**
+#### 2️⃣ **Move Zeroes to End**
+
+```python
+def moveZeroes(arr):
+    """
+    Move all zeroes to the end while maintaining order
+    Time Complexity: O(n)
+    Space Complexity: O(1) - In-place
+    """
+    # write pointer keeps track of non-zero position
+    write = 0
+    
+    # read pointer traverses the array
+    for read in range(len(arr)):
+        if arr[read] != 0:
+            # Swap elements
+            arr[write], arr[read] = arr[read], arr[write]
+            write += 1
+    
+    return arr
+
+
+# Test Cases
+print(moveZeroes([0, 1, 0, 3, 12]))     # [1, 3, 12, 0, 0]
+print(moveZeroes([0]))                  # [0]
+print(moveZeroes([1, 2, 3]))            # [1, 2, 3]
+print(moveZeroes([0, 0, 1]))            # [1, 0, 0]
+```
+
+#### 🎯 Dry Run Example: `[0, 1, 0, 3, 12]`
+
+```
+Initial: write=0, arr=[0, 1, 0, 3, 12]
+
+read=0: arr[0]=0 → Skip
+read=1: arr[1]=1 → Swap arr[0] and arr[1] → arr=[1, 0, 0, 3, 12], write=1
+read=2: arr[2]=0 → Skip
+read=3: arr[3]=3 → Swap arr[1] and arr[3] → arr=[1, 3, 0, 0, 12], write=2
+read=4: arr[4]=12 → Swap arr[2] and arr[4] → arr=[1, 3, 12, 0, 0], write=3
+
+Result: [1, 3, 12, 0, 0] ✅
+```
+
+---
+
+#### 3️⃣ **Remove Duplicates from Sorted Array**
+
+```python
+def removeDuplicates(arr):
+    """
+    Remove duplicates from sorted array in-place
+    Return new length
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+    """
+    if len(arr) <= 1:
+        return len(arr)
+    
+    # write pointer for unique elements
+    write = 1
+    
+    # read pointer traverses array
+    for read in range(1, len(arr)):
+        if arr[read] != arr[read - 1]:
+            arr[write] = arr[read]
+            write += 1
+    
+    return write
+
+
+# Test Cases
+arr1 = [1, 1, 2]
+print(removeDuplicates(arr1), arr1[:removeDuplicates(arr1)])  # 2, [1, 2]
+
+arr2 = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
+print(removeDuplicates(arr2), arr2[:removeDuplicates(arr2)])  # 5, [0, 1, 2, 3, 4]
+```
+
+#### 🎯 Dry Run Example: `[1, 1, 2]`
+
+```
+Initial: write=1, arr=[1, 1, 2]
+
+read=1: arr[1]=1 == arr[0]=1 → Skip
+read=2: arr[2]=2 != arr[1]=1 → arr[1]=2, write=2 → arr=[1, 2, 2]
+
+Return length: 2, Array: [1, 2, ...]  ✅
+```
+
+---
+
+#### 4️⃣ **Container With Most Water**
+
+```python
+def maxArea(heights):
+    """
+    Find two lines that together with x-axis form a container with max area
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+    """
+    left, right = 0, len(heights) - 1
+    max_area = 0
+    
+    while left < right:
+        # Calculate area
+        width = right - left
+        height = min(heights[left], heights[right])
+        area = width * height
+        
+        # Update max area
+        max_area = max(max_area, area)
+        
+        # Move pointer pointing to shorter line
+        if heights[left] < heights[right]:
+            left += 1
+        else:
+            right -= 1
+    
+    return max_area
+
+
+# Test Cases
+print(maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]))  # 49 (between indices 1 and 8)
+print(maxArea([1, 1]))                         # 1
+print(maxArea([4, 3, 2, 1, 4]))               # 16
+```
+
+#### 🎯 Dry Run Example: `[1, 8, 6, 2, 5, 4, 8, 3, 7]`
+
+```
+left=0, right=8: height=min(1,7)=1, width=8, area=8, max=8
+                 1 < 7 → left=1
+
+left=1, right=8: height=min(8,7)=7, width=7, area=49, max=49
+                 8 > 7 → right=7
+
+left=1, right=7: height=min(8,3)=3, width=6, area=18, max=49
+                 8 > 3 → right=6
+
+left=1, right=6: height=min(8,8)=8, width=5, area=40, max=49
+                 8 == 8 → right=5
+
+Continue until left >= right
+
+Result: 49 ✅
+```
+
+---
+
+#### 5️⃣ **Valid Palindrome**
 
 ```python
 def isPalindrome(s):
@@ -2323,250 +2748,22 @@ def isPalindrome(s):
 print(isPalindrome("A man, a plan, a canal: Panama"))  # True
 print(isPalindrome("race a car"))                       # False
 print(isPalindrome("hello"))                            # False
-```
-
----
-
-#### 3️⃣ **Reverse String in Place**
-
-```python
-def reverseString(s):
-    """
-    Reverse string using two pointers
-    Time Complexity: O(n)
-    Space Complexity: O(1) - modifies in place
-    """
-    left, right = 0, len(s) - 1
-    
-    while left < right:
-        # Swap characters
-        s[left], s[right] = s[right], s[left]
-        left += 1
-        right -= 1
-    
-    return s
-
-
-# Test Cases (with list since strings are immutable)
-print(reverseString(list("hello")))     # ['o', 'l', 'l', 'e', 'h']
-print(reverseString(list("python")))    # ['n', 'o', 'h', 't', 'y', 'p']
+print(isPalindrome("0P"))                               # False
 ```
 
 </details>
 
 ---
 
-### 🪟 **Sliding Window Technique**
-
-<details open>
-<summary><h3>📖 What is Sliding Window?</h3></summary>
-
-> **Sliding Window** is a technique that maintains a contiguous subarray (window) that slides across the array to find optimal solution in one pass.
-
-#### 🎯 When to Use:
-- Finding subarrays with specific properties
-- Longest substring problems
-- Smallest subarray problems
-- Maximum sum subarray
-- Pattern matching in strings
-- Performance: O(n) instead of O(n²)
-
-#### 📊 Window Types:
-
-**Fixed Size Window**
-```
-[1, 2, 3, 4, 5, 6, 7, 8]
- ├─────┤  → Window size = 3
-       ├─────┤
-             ├─────┤
-```
-
-**Variable Size Window**
-```
-[1, 2, 3, 4, 5, 6]
- ├────────┤   → Expand right
- ├───┤       → Shrink left
-```
-
-</details>
-
-<details open>
-<summary><h3>🔢 Classic Problems</h3></summary>
-
-#### 1️⃣ **Maximum Sum Subarray of Fixed Size**
-
-```python
-def maxSumFixedWindow(arr, k):
-    """
-    Find maximum sum of subarray of size k
-    Time Complexity: O(n)
-    Space Complexity: O(1)
-    """
-    # Calculate sum of first window
-    window_sum = sum(arr[:k])
-    max_sum = window_sum
-    
-    # Slide the window
-    for i in range(k, len(arr)):
-        # Remove leftmost element and add new right element
-        window_sum = window_sum - arr[i - k] + arr[i]
-        max_sum = max(max_sum, window_sum)
-    
-    return max_sum
-
-
-# Test Cases
-print(maxSumFixedWindow([1, 4, 2, 10, 2, 3, 1, 0, 20], 4))  # 24 (from [10,2,3,1] or [3,1,0,20])
-print(maxSumFixedWindow([2, 1, 5, 1, 3, 2], 3))             # 9 (from [5,1,3])
-```
-
----
-
-#### 2️⃣ **Longest Substring Without Repeating Characters**
-
-```python
-def lengthOfLongestSubstring(s):
-    """
-    Find length of longest substring without repeating chars
-    Time Complexity: O(n)
-    Space Complexity: O(min(n, charset_size))
-    """
-    char_index = {}  # Store last seen index of each character
-    max_length = 0
-    left = 0
-    
-    for right in range(len(s)):
-        # If character is repeated and within window
-        if s[right] in char_index and char_index[s[right]] >= left:
-            # Move left pointer to skip the repeated character
-            left = char_index[s[right]] + 1
-        
-        # Update character's last seen index
-        char_index[s[right]] = right
-        
-        # Update max length
-        max_length = max(max_length, right - left + 1)
-    
-    return max_length
-
-
-# Test Cases
-print(lengthOfLongestSubstring("abcabcbb"))  # 3 ("abc")
-print(lengthOfLongestSubstring("bbbbb"))     # 1 ("b")
-print(lengthOfLongestSubstring("pwwkew"))    # 3 ("wke")
-print(lengthOfLongestSubstring("aab"))       # 2 ("ab")
-```
-
-#### 🎯 Dry Run Example: `"abcabcbb"`
-
-```
-right=0: 'a' → char_index={'a':0} → max_length=1
-right=1: 'b' → char_index={'a':0,'b':1} → max_length=2
-right=2: 'c' → char_index={'a':0,'b':1,'c':2} → max_length=3
-right=3: 'a' → 'a' at index 0 >= left(0) → left=1
-         char_index={'a':3,...} → length=3-1+1=3
-right=4: 'b' → 'b' at index 1 >= left(1) → left=2
-         char_index={'a':3,'b':4,...} → length=4-2+1=3
-right=5: 'c' → 'c' at index 2 >= left(2) → left=3
-         char_index={'a':3,'b':4,'c':5} → length=5-3+1=3
-right=6: 'b' → 'b' at index 4 >= left(3) → left=5
-         char_index={...} → length=6-5+1=2
-right=7: 'b' → 'b' at index 6 >= left(5) → left=7
-         length=7-7+1=1
-
-max_length = 3 ✅
-```
-
----
-
-#### 3️⃣ **Minimum Window Substring**
-
-```python
-def minWindowSubstring(s, t):
-    """
-    Find minimum window substring containing all chars in t
-    Time Complexity: O(n + m) where n=len(s), m=len(t)
-    Space Complexity: O(1) - fixed charset size
-    """
-    if not s or not t:
-        return ""
-    
-    # Count of characters in t
-    dict_t = {}
-    for char in t:
-        dict_t[char] = dict_t.get(char, 0) + 1
-    
-    required = len(dict_t)  # Number of unique characters to match
-    
-    # Window counts
-    window_counts = {}
-    formed = 0  # Number of unique characters matched with desired frequency
-    
-    left, right = 0, 0
-    ans = float("inf"), None, None
-    
-    while right < len(s):
-        # Add character from right
-        char = s[right]
-        window_counts[char] = window_counts.get(char, 0) + 1
-        
-        # If frequency of current char matches requirement
-        if char in dict_t and window_counts[char] == dict_t[char]:
-            formed += 1
-        
-        # Try to contract window from left
-        while left <= right and formed == required:
-            char = s[left]
-            
-            # Update answer if current window is smaller
-            if right - left + 1 < ans[0]:
-                ans = (right - left + 1, left, right)
-            
-            # Remove character from left
-            window_counts[char] -= 1
-            if char in dict_t and window_counts[char] < dict_t[char]:
-                formed -= 1
-            
-            left += 1
-        
-        right += 1
-    
-    # Return the smallest window or empty string
-    return "" if ans[0] == float("inf") else s[ans[1]:ans[2] + 1]
-
-
-# Test Cases
-print(minWindowSubstring("ADOBECODEBANC", "ABC"))  # "BANC"
-print(minWindowSubstring("a", "a"))                 # "a"
-print(minWindowSubstring("a", "aa"))                # ""
-```
-
-</details>
-
----
-
-### 📊 Comparison: Nested Loop vs Two Pointers vs Sliding Window
-
-| Problem | Nested Loop | Two Pointers | Sliding Window |
-|:--------|:----------:|:------------:|:---------------:|
-| Two Sum | O(n²) | O(n) ✅ | - |
-| Longest Substring | O(n³) | - | O(n) ✅ |
-| Max Sum Subarray | O(n²) | - | O(n) ✅ |
-| Palindrome Check | O(n²) | O(n) ✅ | - |
-
----
-
-### 📝 Problems for Day 7
+### 📝 Problems Covered - Day 7
 
 | # | Problem | Difficulty | Concept |
 |:-:|:--------|:----------:|:--------|
-| 1 | Two Sum (Sorted Array) | 🟢 Easy | Two Pointers |
-| 2 | Valid Palindrome | 🟢 Easy | Two Pointers |
-| 3 | Reverse String | 🟢 Easy | Two Pointers |
-| 4 | Container With Most Water | 🟡 Medium | Two Pointers |
-| 5 | Max Sum Fixed Window | 🟢 Easy | Sliding Window |
-| 6 | Longest Substring Without Repeating | 🟡 Medium | Sliding Window |
-| 7 | Minimum Window Substring | 🔴 Hard | Sliding Window |
+| 1 | Two Sum (Sorted Array) | 🟢 Easy | Two Pointers - Converging |
+| 2 | Move Zeroes | 🟢 Easy | Two Pointers - Write/Read |
+| 3 | Remove Duplicates | 🟢 Easy | Two Pointers - Write/Read |
+| 4 | Container With Most Water | 🟡 Medium | Two Pointers - Converging |
+| 5 | Valid Palindrome | 🟡 Medium | Two Pointers - Skip Invalid |
 
 ---
 
@@ -2574,11 +2771,10 @@ print(minWindowSubstring("a", "aa"))                # ""
 
 | Topic | Description | Priority | Status |
 |:------|:------------|:--------:|:------:|
+| 🪟 **Sliding Window** | Longest substring, Max window sum | 🟡 Medium | ⏳ Upcoming |
+| 💻 **Bit Manipulation** | AND, OR, XOR | 🟡 Medium | ⏳ Upcoming |
 | 🌳 **Trees** | Binary trees, BST, traversals, AVL | 🔴 High | ⏳ Upcoming |
 | 🕸️ **Graphs** | BFS, DFS, Dijkstra, Topological Sort | 🔴 High | ⏳ Upcoming |
-| 💻 **Hash Tables** | Hash maps, collision handling | 🟡 Medium | ⏳ Upcoming |
-| 📖 **Strings** | Pattern matching, KMP, Rabin-Karp | 🟡 Medium | ⏳ Upcoming |
-| 🎯 **Dynamic Programming** | Memoization, Tabulation, Classic DP | 🔴 High | ⏳ Upcoming |
 
 ---
 
@@ -2643,11 +2839,12 @@ print(minWindowSubstring("a", "aa"))                # ""
 ├── ✅ Days 1-2: Searching & Sorting (100%)
 ├── ✅ Days 3-4: Linked Lists (100%)
 ├── ✅ Days 5-6: Stacks & Queues (100%)
-└── 🔜 Day 7: Two Pointers & Sliding Window
+├── ✅ Day 7: Two Pointers (100%)
+└── 🔜 Day 8+: Trees, Graphs, DP
 
-Total Problems Solved: 40+
-Key Concepts Mastered: 15+
-Ready for: Medium Level LeetCode Problems
+Total Problems Solved: 50+
+Key Concepts Mastered: 20+
+Ready for: Medium to Hard LeetCode Problems
 ```
 
 ---
