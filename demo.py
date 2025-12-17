@@ -363,35 +363,72 @@
 
 # ------------------------------------- #
 
-def twoSum(n, arr, target):
-  left = 0
-  right = n - 1
+# def twoSum(n, arr, target):
+#   left = 0
+#   right = n - 1
   
-  while(left <= right):
-    ans = arr[left] + arr[right]
+#   while(left <= right):
+#     ans = arr[left] + arr[right]
     
-    if(ans == target):
-      return (left, right)
+#     if(ans == target):
+#       return (left, right)
       
-    elif(ans < target):
-      left += 1
+#     elif(ans < target):
+#       left += 1
       
-    else:
-      right -= 1
+#     else:
+#       right -= 1
       
       
-  return (-1,)
+#   return (-1,)
     
     
     
 
-# n = int(input())
-# arr = list(map(int, input().split()))
-# target = int(input())
-n = 5
-arr = [2, 7, 11, 15, 20]
-target = 90
-tup = twoSum(n, arr, target)
+# # n = int(input())
+# # arr = list(map(int, input().split()))
+# # target = int(input())
+# n = 5
+# arr = [2, 7, 11, 15, 20]
+# target = 90
+# tup = twoSum(n, arr, target)
 
-for i in tup:
-  print(i, end=" ")
+# for i in tup:
+#   print(i, end=" ")
+
+
+
+
+# def countSetBits(n):
+#   binaryCode = bin(n)
+  
+#   ones = binaryCode.count("1")
+#   return ones
+
+# # n = int(input())
+# n = 5
+# print(countSetBits(n))
+
+
+# n = 10
+# binaryCode = bin(n)[2:]
+# lenBinary = len(binaryCode)
+
+# newStr = ""
+# for i in range(8-lenBinary):
+#   newStr += "0"
+
+# binaryCode = newStr + binaryCode
+# print(binaryCode[::-1])
+    
+
+def toBinary(n: int) -> str:
+    if n == 0:
+        return "0"
+
+    binary = ""
+    while n > 0:
+        binary = str(n & 1) + binary
+        n >>= 1
+
+    return binary
