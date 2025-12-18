@@ -423,7 +423,6 @@ def factorial(n):
 <tr>
 <td width="50%">
 
-### 🔀 **Merge Sort**
 - Divide and Conquer approach
 - Time Complexity: O(n log n)
 - Space Complexity: O(n)
@@ -2782,50 +2781,56 @@ print(isPalindrome("0P"))                               # False
 
 ---
 
-📅 Day 8: Sliding Window & Bit Manipulation ✅ Completed
+## 📅 Day 8: Sliding Window & Bit Manipulation ✅ Completed
 
-🪟 Sliding Window Technique
+### 🪟 Sliding Window Technique
 <details open>
 <summary><h3>📖 What is Sliding Window?</h3></summary>
 
 A Sliding Window is a technique where you maintain a contiguous subarray (window) of fixed or variable size that "slides" through the array, typically used to solve problems involving subarrays or substrings.
 
-🎯 When to Use:
+#### 🎯 When to Use:
+- Finding max/min in subarrays
+- Longest/shortest substring with specific properties
+- Repeated characters
+- Anagram problems
+- Fixed-size window problems
 
-Finding max/min in subarrays
-Longest/shortest substring with specific properties
-Repeated characters
-Anagram problems
-Fixed-size window problems
+#### 💡 Two Types:
+1. **Fixed Size Window:**
+   - Array: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+   - Window size = 3
+   ```
+   [1, 2, 3]
+      [2, 3, 4]
+         [3, 4, 5]
+            ...
+   ```
 
-💡 Two Types:
-Fixed Size Window:
-Array: [1, 2, 3, 4, 5, 6, 7, 8, 9]
-Window size = 3
+2. **Variable Size Window:**
+   - String: "abcabcbb"
+   - Find longest substring without repeating
+   ```
+   [a]
+   [a, b]
+   [a, b, c]
+   [a, b, c, a] → Remove 'a' → [b, c, a]
+      ...
+   ```
 
-[1, 2, 3]
-   [2, 3, 4]
-      [3, 4, 5]
-         ...
-Variable Size Window:
-String: "abcabcbb"
-Find longest substring without repeating
-
-[a]
-[a, b]
-[a, b, c]
-[a, b, c, a] → Remove 'a' → [b, c, a]
-   ...
-⏱️ Time Complexity Benefits:
-
-Naive approach: O(n²) with nested loops
-Sliding window: O(n) with linear traversal
+#### ⏱️ Time Complexity Benefits:
+- **Naive approach:** O(n²) with nested loops
+- **Sliding window:** O(n) with linear traversal
 
 </details>
+
 <details open>
 <summary><h3>🔢 Sliding Window Problems</h3></summary>
-1️⃣ Longest Substring Without Repeating Characters
-pythondef lengthOfLongestSubstring(s):
+
+#### 1️⃣ Longest Substring Without Repeating Characters
+
+```python
+def lengthOfLongestSubstring(s):
     """
     Find length of longest substring without repeating characters
     Time Complexity: O(n)
@@ -2848,15 +2853,19 @@ pythondef lengthOfLongestSubstring(s):
         max_length = max(max_length, right - left + 1)
     
     return max_length
+```
 
-
-# Test Cases
+**Test Cases:**
+```python
 print(lengthOfLongestSubstring("abcabcbb"))    # 3 ("abc")
 print(lengthOfLongestSubstring("bbbbb"))       # 1 ("b")
 print(lengthOfLongestSubstring("pwwkew"))      # 3 ("wke")
 print(lengthOfLongestSubstring("au"))          # 2 ("au")
 print(lengthOfLongestSubstring(""))            # 0
-🎯 Dry Run Example: "abcabcbb"
+```
+
+#### 🎯 Dry Run Example: "abcabcbb"
+```
 char_index={}, max_length=0, left=0
 
 right=0: s[0]='a' → char_index={'a':0} → length=1, max=1
@@ -2874,9 +2883,12 @@ right=7: s[7]='b' → 'b' in dict & char_index['b']=6>=5 → left=7
          char_index={'a':3,'b':7,'c':5} → length=1, max=3
 
 Result: 3 ✅
+```
 
-2️⃣ Maximum Sum Subarray of Size K
-pythondef maxSumSubarray(arr, k):
+#### 2️⃣ Maximum Sum Subarray of Size K
+
+```python
+def maxSumSubarray(arr, k):
     """
     Find maximum sum of subarray of size k
     Time Complexity: O(n)
@@ -2896,13 +2908,17 @@ pythondef maxSumSubarray(arr, k):
         max_sum = max(max_sum, window_sum)
     
     return max_sum
+```
 
-
-# Test Cases
+**Test Cases:**
+```python
 print(maxSumSubarray([2, 1, 5, 1, 3, 2], 3))    # 9 (5+1+3)
 print(maxSumSubarray([1, 4, 2, 10, 2, 3, 1, 0, 20], 4))  # 24 (10+2+3+1)
 print(maxSumSubarray([100, 2, 3, 4], 2))        # 102 (100+2)
-🎯 Dry Run Example: [2, 1, 5, 1, 3, 2], k=3
+```
+
+#### 🎯 Dry Run Example: [2, 1, 5, 1, 3, 2], k=3
+```
 Initial window [2, 1, 5]: sum=8, max=8
 
 i=3: Remove arr[0]=2, Add arr[3]=1
@@ -2915,9 +2931,12 @@ i=5: Remove arr[2]=5, Add arr[5]=2
      sum = 9 - 5 + 2 = 6, max=9
 
 Result: 9 ✅
+```
 
-3️⃣ Maximum Average Subarray
-pythondef findMaxAverage(nums, k):
+#### 3️⃣ Maximum Average Subarray
+
+```python
+def findMaxAverage(nums, k):
     """
     Find maximum average of subarray of size k
     Time Complexity: O(n)
@@ -2934,43 +2953,51 @@ pythondef findMaxAverage(nums, k):
     
     # Return maximum average (divide by k)
     return max_sum / k
+```
 
-
-# Test Cases
+**Test Cases:**
+```python
 print(findMaxAverage([1, 12, -5, -6, 50, 3], 4))  # 12.75
 print(findMaxAverage([5], 1))                       # 5.0
 print(findMaxAverage([0, 4, 0, 9, 6, 10, 8, 9, 9, 10], 2))  # 9.5
+```
 </details>
 
-🤏 Bit Manipulation
+### 🤏 Bit Manipulation
 <details open>
 <summary><h3>📖 What is Bit Manipulation?</h3></summary>
 
 Bit Manipulation involves operations on individual bits to solve problems efficiently, using bitwise operators.
 
-🔣 Bitwise Operators:
-OperatorNameSymbolExampleResultANDBitwise AND&5 & 31ORBitwise OR|5 | 37XORBitwise XOR^5 ^ 36NOTBitwise NOT~~5-6Left ShiftLeft Shift<<5 << 110Right ShiftRight Shift>>5 >> 12
-💡 Truth Tables:
-AND (&):
-0 & 0 = 0
-0 & 1 = 0
-1 & 0 = 0
-1 & 1 = 1
-OR (|):
-0 | 0 = 0
-0 | 1 = 1
-1 | 0 = 1
-1 | 1 = 1
-XOR (^):
-0 ^ 0 = 0
-0 ^ 1 = 1
-1 ^ 0 = 1
-1 ^ 1 = 0
+#### 🔣 Bitwise Operators:
+
+| Operator | Name | Symbol | Example | Result |
+|:---:|:---|:---:|:---:|:---:|
+| AND | Bitwise AND | & | 5 & 3 | 1 |
+| OR | Bitwise OR | \| | 5 \| 3 | 7 |
+| XOR | Bitwise XOR | ^ | 5 ^ 3 | 6 |
+| NOT | Bitwise NOT | ~ | ~5 | -6 |
+| Left Shift | Left Shift | << | 5 << 1 | 10 |
+| Right Shift | Right Shift | >> | 5 >> 1 | 2 |
+
+#### 💡 Truth Tables:
+
+| A | B | A & B | A \| B | A ^ B |
+|:-:|:-:|:---:|:----:|:----:|
+| 0 | 0 | 0 | 0 | 0 |
+| 0 | 1 | 0 | 1 | 1 |
+| 1 | 0 | 0 | 1 | 1 |
+| 1 | 1 | 1 | 1 | 0 |
+
 </details>
+
 <details open>
 <summary><h3>🔢 Bit Manipulation Problems</h3></summary>
-1️⃣ Decimal to Binary Conversion
-pythondef decimalToBinary(n):
+
+#### 1️⃣ Decimal to Binary Conversion
+
+```python
+def decimalToBinary(n):
     """
     Convert decimal number to binary representation
     Time Complexity: O(log n)
@@ -2985,19 +3012,24 @@ pythondef decimalToBinary(n):
         n = n // 2  # Divide by 2
     
     return binary
+```
 
-
-# Alternative using built-in
+**Alternative using built-in:**
+```python
 def decimalToBinaryBuiltin(n):
     return bin(n)[2:]  # Remove '0b' prefix
+```
 
-
-# Test Cases
+**Test Cases:**
+```python
 print(decimalToBinary(10))      # "1010"
 print(decimalToBinary(5))       # "101"
 print(decimalToBinary(0))       # "0"
 print(decimalToBinary(255))     # "11111111"
-🎯 Dry Run Example: 10 to Binary
+```
+
+#### 🎯 Dry Run Example: 10 to Binary
+```
 n=10, binary=""
 
 n=10: 10 % 2 = 0 → binary="0", n=5
@@ -3006,9 +3038,12 @@ n=2:  2 % 2 = 0 → binary="010", n=1
 n=1:  1 % 2 = 1 → binary="1010", n=0
 
 Result: "1010" ✅
+```
 
-2️⃣ Binary to Decimal Conversion
-pythondef binaryToDecimal(binary_str):
+#### 2️⃣ Binary to Decimal Conversion
+
+```python
+def binaryToDecimal(binary_str):
     """
     Convert binary string to decimal number
     Time Complexity: O(n) where n is length of string
@@ -3024,41 +3059,38 @@ pythondef binaryToDecimal(binary_str):
         power += 1
     
     return decimal
+```
 
-
-# Alternative using built-in
+**Alternative using built-in:**
+```python
 def binaryToDecimalBuiltin(binary_str):
     return int(binary_str, 2)
+```
 
-
-# Test Cases
+**Test Cases:**
+```python
 print(binaryToDecimal("1010"))      # 10
 print(binaryToDecimal("101"))       # 5
 print(binaryToDecimal("0"))         # 0
 print(binaryToDecimal("11111111"))  # 255
-🎯 Dry Run Example: "1010" to Decimal
+```
+
+#### 🎯 Dry Run Example: "1010" to Decimal
+```
 decimal=0, power=0
 
 i=3: binary_str[3]='0' → skip, power=1
-i=2: binary_str[2]='1' → decimal=0+2^2=4, power=2
+i=2: binary_str[2]='1' → decimal=0+2^1=2, power=2
 i=1: binary_str[1]='0' → skip, power=3
-i=0: binary_str[0]='1' → decimal=4+2^3=4+8=12, power=4
+i=0: binary_str[0]='1' → decimal=2+2^3=2+8=10, power=4
 
-Wait, that's 12 not 10... Let me recalculate:
+Result: 10 ✅
+```
 
-Actually for "1010" (binary):
-Position: 3 2 1 0
-Bit:      1 0 1 0
+#### 3️⃣ Count Set Bits (Number of 1s)
 
-i=3: bit='0', power=0 → skip
-i=2: bit='1', power=1 → decimal += 2^1 = 2
-i=1: bit='0', power=2 → skip
-i=0: bit='1', power=3 → decimal += 2^3 = 8
-
-Result: 2 + 8 = 10 ✅
-
-3️⃣ Count Set Bits (Number of 1s)
-pythondef countSetBits(n):
+```python
+def countSetBits(n):
     """
     Count number of 1 bits in binary representation
     Time Complexity: O(log n)
@@ -3072,9 +3104,10 @@ pythondef countSetBits(n):
         n = n >> 1  # Right shift to remove last bit
     
     return count
+```
 
-
-# Alternative: Brian Kernighan's Algorithm (more efficient)
+**Alternative: Brian Kernighan's Algorithm (more efficient)**
+```python
 def countSetBitsBK(n):
     """
     Only loops for number of set bits
@@ -3085,19 +3118,18 @@ def countSetBitsBK(n):
         n = n & (n - 1)  # Remove last set bit
         count += 1
     return count
+```
 
-
-# Alternative using built-in
-def countSetBitsBuiltin(n):
-    return bin(n).count('1')
-
-
-# Test Cases
+**Test Cases:**
+```python
 print(countSetBits(5))         # 2 (101 has two 1s)
 print(countSetBits(7))         # 3 (111 has three 1s)
 print(countSetBits(0))         # 0
 print(countSetBits(255))       # 8 (11111111 has eight 1s)
-🎯 Dry Run Example: 5
+```
+
+#### 🎯 Dry Run Example: 5
+```
 n=5 (binary: 101), count=0
 
 n=5:   5 & 1 = 1 → count=1, n=5>>1=2
@@ -3105,9 +3137,12 @@ n=2:   2 & 1 = 0 → skip, n=2>>1=1
 n=1:   1 & 1 = 1 → count=2, n=1>>1=0
 
 Result: 2 ✅
+```
 
-4️⃣ Check Power of 2
-pythondef isPowerOfTwo(n):
+#### 4️⃣ Check Power of 2
+
+```python
+def isPowerOfTwo(n):
     """
     Check if number is power of 2
     Time Complexity: O(1)
@@ -3120,18 +3155,20 @@ pythondef isPowerOfTwo(n):
     e.g., 4 & 3 = 100 & 011 = 0
     """
     return n > 0 and (n & (n - 1)) == 0
+```
 
-
-# Test Cases
+**Test Cases:**
+```python
 print(isPowerOfTwo(1))    # True (2^0)
 print(isPowerOfTwo(2))    # True (2^1)
 print(isPowerOfTwo(3))    # False
 print(isPowerOfTwo(4))    # True (2^2)
-print(isPowerOfTwo(5))    # False
 print(isPowerOfTwo(16))   # True (2^4)
 print(isPowerOfTwo(0))    # False
-print(isPowerOfTwo(-1))   # False
-💡 Why n & (n-1) == 0 works?
+```
+
+#### 💡 Why n & (n-1) == 0 works?
+```
 For n = 8 (binary: 1000):
 n-1 = 7 (binary: 0111)
 n & (n-1) = 1000 & 0111 = 0000 = 0 ✅
@@ -3139,37 +3176,49 @@ n & (n-1) = 1000 & 0111 = 0000 = 0 ✅
 For n = 6 (binary: 0110):
 n-1 = 5 (binary: 0101)
 n & (n-1) = 0110 & 0101 = 0100 ≠ 0 ✗
-
-For n = 1 (binary: 0001):
-n-1 = 0 (binary: 0000)
-n & (n-1) = 0001 & 0000 = 0000 = 0 ✅
+```
 </details>
 
-🆚 Sliding Window vs Other Approaches
-FeatureNaiveSliding WindowTime ComplexityO(n²)O(n)Space ComplexityO(1)O(k)Code SimplicitySimpleModerateEfficiencySlowFast
+### 🆚 Sliding Window vs Other Approaches
 
-🆚 Bit Manipulation Benefits
-Use CaseBenefitPower of 2 checkO(1) instead of O(log n)Count set bitsO(number of set bits)Swapping without tempCan use XOREfficient operationsHardware level optimization
+| Feature | Naive | Sliding Window |
+|:---|:---:|:---:|
+| Time Complexity | O(n²) | O(n) |
+| Space Complexity | O(1) | O(k) |
+| Code Simplicity | Simple | Moderate |
+| Efficiency | Slow | Fast |
 
-📝 Problems Covered - Day 8
-#ProblemDifficultyConcept1Longest Substring Without Repeating    
-🟡 MediumSliding Window - Variable2Maximum Sum Subarray of Size K     
-🟢 EasySliding Window - Fixed3Maximum Average Subarray      
-🟢 EasySliding Window - Fixed4Decimal to Binary Conversion       
-🟢 EasyBit Manipulation5Binary to Decimal Conversion        
-🟢 EasyBit Manipulation6Count Set Bits      
-🟢 EasyBit Manipulation7Check Power of 2     
-🟢 EasyBit Manipulation
+### 🆚 Bit Manipulation Benefits
 
-🌳 Day 9: Trees (Coming Next!)
-Topics to Cover:
+| Use Case | Benefit |
+|:---|:---|
+| Power of 2 check | O(1) instead of O(log n) |
+| Count set bits | O(number of set bits) |
+| Swapping without temp | Can use XOR |
+| Efficient operations | Hardware level optimization |
 
-✅ Binary Trees Basics     
-✅ Tree Node Structure     
-✅ Tree Traversals (Inorder, Preorder, Postorder)    
-✅ Level Order Traversal (BFS)       
-✅ Height of Tree    
-✅ Balanced Binary Trees
+### 📝 Problems Covered - Day 8
+
+| # | Problem | Difficulty | Concept |
+|:-:|:--------|:----------:|:--------|
+| 1 | Longest Substring Without Repeating | 🟡 Medium | Sliding Window - Variable |
+| 2 | Maximum Sum Subarray of Size K | 🟢 Easy | Sliding Window - Fixed |
+| 3 | Maximum Average Subarray | 🟢 Easy | Sliding Window - Fixed |
+| 4 | Decimal to Binary Conversion | 🟢 Easy | Bit Manipulation |
+| 5 | Binary to Decimal Conversion | 🟢 Easy | Bit Manipulation |
+| 6 | Count Set Bits | 🟢 Easy | Bit Manipulation |
+| 7 | Check Power of 2 | 🟢 Easy | Bit Manipulation |
+
+## 🌳 Day 9: Trees (Coming Next!)
+
+### Topics to Cover:
+
+- ✅ Binary Trees Basics
+- ✅ Tree Node Structure
+- ✅ Tree Traversals (Inorder, Preorder, Postorder)
+- ✅ Level Order Traversal (BFS)
+- ✅ Height of Tree
+- ✅ Balanced Binary Trees
 
 ## 🚀 Future Learning Roadmap
 
