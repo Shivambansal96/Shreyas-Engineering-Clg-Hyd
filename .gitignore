@@ -1,2 +1,5 @@
 # Ignore the sample folder
 sample/
+orchids/
+
+.gitignore
