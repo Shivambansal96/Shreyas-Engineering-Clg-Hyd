@@ -3288,7 +3288,7 @@ class Node:
 
 | Topic | Description | Priority | Status |
 |:------|:------------|:--------:|:------:|
-| 🌳 **Trees** | Binary trees, BST, traversals, AVL | 🔴 High | ⏳ Upcoming |
+| 🌳 **Trees** | BST, traversals | 🔴 High | ⏳ Upcoming |
 | 🕸️ **Graphs** | BFS, DFS, Dijkstra, Topological Sort | 🔴 High | ⏳ Upcoming |
 
 ---
