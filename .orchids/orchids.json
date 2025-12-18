@@ -1,0 +1,7 @@
+{
+  "projectId": "123a958e-404a-41df-8bdf-cb43767940b5",
+  "createdAt": 1766056102110,
+  "startupCommands": [
+    "python Day-9/demo.py"
+  ]
+}
