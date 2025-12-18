@@ -3152,16 +3152,23 @@ FeatureNaiveSliding WindowTime ComplexityO(n²)O(n)Space ComplexityO(1)O(k)Code 
 Use CaseBenefitPower of 2 checkO(1) instead of O(log n)Count set bitsO(number of set bits)Swapping without tempCan use XOREfficient operationsHardware level optimization
 
 📝 Problems Covered - Day 8
-#ProblemDifficultyConcept1Longest Substring Without Repeating🟡 MediumSliding Window - Variable2Maximum Sum Subarray of Size K🟢 EasySliding Window - Fixed3Maximum Average Subarray🟢 EasySliding Window - Fixed4Decimal to Binary Conversion🟢 EasyBit Manipulation5Binary to Decimal Conversion🟢 EasyBit Manipulation6Count Set Bits🟢 EasyBit Manipulation7Check Power of 2🟢 EasyBit Manipulation
+#ProblemDifficultyConcept1Longest Substring Without Repeating    
+🟡 MediumSliding Window - Variable2Maximum Sum Subarray of Size K     
+🟢 EasySliding Window - Fixed3Maximum Average Subarray      
+🟢 EasySliding Window - Fixed4Decimal to Binary Conversion       
+🟢 EasyBit Manipulation5Binary to Decimal Conversion        
+🟢 EasyBit Manipulation6Count Set Bits      
+🟢 EasyBit Manipulation7Check Power of 2     
+🟢 EasyBit Manipulation
 
 🌳 Day 9: Trees (Coming Next!)
 Topics to Cover:
 
-✅ Binary Trees Basics
-✅ Tree Node Structure
-✅ Tree Traversals (Inorder, Preorder, Postorder)
-✅ Level Order Traversal (BFS)
-✅ Height of Tree
+✅ Binary Trees Basics     
+✅ Tree Node Structure     
+✅ Tree Traversals (Inorder, Preorder, Postorder)    
+✅ Level Order Traversal (BFS)       
+✅ Height of Tree    
 ✅ Balanced Binary Trees
 
 ## 🚀 Future Learning Roadmap
