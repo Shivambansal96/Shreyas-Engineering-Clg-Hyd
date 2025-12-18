@@ -5,7 +5,7 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active%20Learning-success?style=for-the-badge)
 ![Students](https://img.shields.io/badge/Shreyas%20Engineering-Students-blue?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Day%208-Completed-brightgreen?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Day%209-Completed-brightgreen?style=for-the-badge)
 
 ### 🚀 *Master Data Structures & Algorithms with Python!*
 
@@ -133,11 +133,20 @@ Day 8 - Sliding Window & Bit Manipulation:
 ✅ Check Power of 2
 
 Day 9 - Trees:
+████████████████████████████████ 100%
+
+✅ Bit Manipulation Leftovers
+✅ Binary Trees Basics
+✅ Hierarchy (Parent, Child, Siblings, etc.)
+✅ Tree Traversals (Inorder, Preorder, Postorder, Level-order)
+✅ Level Order Insertion using Deque
+
+Day 10 - Binary Search Trees:
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
 
-🟡 Binary Trees Basics
-🟡 Tree Traversals (Inorder, Preorder, Postorder)
-🟡 Level Order Traversal
+🟡 BST Basics & Properties
+🟡 Search & Insert in BST
+🟡 Deletion in BST
 ```
 
 ---
@@ -173,9 +182,10 @@ graph LR
     style J fill:#90EE90
     style K fill:#90EE90
     style L fill:#90EE90
-    style M fill:#FFD700
-    style N fill:#FFD700
-    style O fill:#FFD700
+      style M fill:#90EE90
+      style N fill:#90EE90
+      style O fill:#FFD700
+
 ```
 
 ---
@@ -423,6 +433,7 @@ def factorial(n):
 <tr>
 <td width="50%">
 
+### 🔀 **Merge Sort**
 - Divide and Conquer approach
 - Time Complexity: O(n log n)
 - Space Complexity: O(n)
@@ -3209,16 +3220,69 @@ n & (n-1) = 0110 & 0101 = 0100 ≠ 0 ✗
 | 6 | Count Set Bits | 🟢 Easy | Bit Manipulation |
 | 7 | Check Power of 2 | 🟢 Easy | Bit Manipulation |
 
-## 🌳 Day 9: Trees (Coming Next!)
+## 🌳 Day 9: Binary Trees ✅ Completed
+
+### 🤏 Bit Manipulation Leftovers
+
+| Problem | Concept | Difficulty |
+|:---|:---|:---:|
+| Find Unique Element | XOR Property (a ^ a = 0) | 🟢 Easy |
+| Decimal to Binary | Manual conversion without `bin()` | 🟢 Easy |
+
+### 🌲 Binary Tree Basics
+
+> **Tree:** A hierarchical data structure consisting of nodes connected by edges.
+
+#### 👨‍👩‍👧‍👦 Key Terminology:
+- **Root:** The topmost node.
+- **Parent/Child:** Node and its immediate successors.
+- **Siblings:** Nodes with the same parent.
+- **Ancestors:** All nodes on the path from root to that node.
+- **Height:** Max edges from node to leaf (Base 0).
+- **Depth:** Edges from root to node (Base 0).
+- **Level:** Distance from root (Base 0).
+
+#### 🏗️ Tree implementation:
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+```
+
+### 🔄 Tree Traversals
+
+| Traversal | Order | Concept |
+|:---|:---|:---|
+| **Preorder** | Root → Left → Right | Root first |
+| **Inorder** | Left → Root → Right | Sorted order for BST |
+| **Postorder** | Left → Right → Root | Root last |
+| **Level-order** | Level by Level | Breadth First Search (BFS) |
+
+### 📝 Problems Covered - Day 9
+
+| # | Problem | Difficulty | Concept |
+|:-:|:--------|:----------:|:--------|
+| 1 | Find unique element in array | 🟢 Easy | Bitwise XOR |
+| 2 | Decimal to Binary conversion | 🟢 Easy | Loop & Remainder |
+| 3 | Implement Binary Tree Structure | 🟢 Easy | Recursion & Classes |
+| 4 | Tree Traversals (All 4 types) | 🟡 Medium | DFS & BFS |
+| 5 | Insert node in level order | 🟡 Medium | Queue / Deque |
+
+---
+
+## 📅 Day 10: Binary Search Trees (BST) 🔜 Next
 
 ### Topics to Cover:
+- 🟡 BST Properties (Left < Root < Right)
+- 🟡 BST Search & Insertion
+- 🟡 BST Deletion
+- 🟡 Min/Max in BST
+- 🟡 Inorder Predecessor & Successor
 
-- ✅ Binary Trees Basics
-- ✅ Tree Node Structure
-- ✅ Tree Traversals (Inorder, Preorder, Postorder)
-- ✅ Level Order Traversal (BFS)
-- ✅ Height of Tree
-- ✅ Balanced Binary Trees
+---
 
 ## 🚀 Future Learning Roadmap
 
