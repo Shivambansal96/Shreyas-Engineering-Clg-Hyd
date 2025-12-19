@@ -7,6 +7,9 @@ class Node:
         self.right = None
 
 class Tree:
+    def __init__(self):
+        self.root = None
+
     def create(self, data):
         return Node(data)
     
@@ -14,23 +17,24 @@ class Tree:
         newNode = Node(data)
 
         if root is None:
-            return newNode
-        
-        q = deque([root])
+            self.root = newNode
+            return  
+
+        q = deque([self.root])
 
         while q:
             temp = q.popleft()
 
             if temp.left is None:
                 temp.left = newNode
-                return root
+                return
             
             else:
                 q.append(temp.left)
 
             if temp.right is None:
                 temp.right = newNode
-                return root
+                return
 
             else:
                 q.append(temp.right)

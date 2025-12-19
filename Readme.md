@@ -5,7 +5,7 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active%20Learning-success?style=for-the-badge)
 ![Students](https://img.shields.io/badge/Shreyas%20Engineering-Students-blue?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Day%209-Completed-brightgreen?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Day%2010-Completed-brightgreen?style=for-the-badge)
 
 ### 🚀 *Master Data Structures & Algorithms with Python!*
 
@@ -141,12 +141,16 @@ Day 9 - Trees:
 ✅ Tree Traversals (Inorder, Preorder, Postorder, Level-order)
 ✅ Level Order Insertion using Deque
 
-Day 10 - Binary Search Trees:
-░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0%
+Day 10 - Binary Trees & Binary Search Trees:
+████████████████████████████████ 100%
 
-🟡 BST Basics & Properties
-🟡 Search & Insert in BST
-🟡 Deletion in BST
+✅ Automatic Insertion using Level Order
+✅ Tree Traversals (PreOrder, PostOrder, InOrder, LevelOrder)
+✅ Same Tree Problem
+✅ BST Insert Method
+✅ BST Search Method
+✅ BST Delete Method
+✅ Min Value Node & Max Value Node
 ```
 
 ---
@@ -184,7 +188,7 @@ graph LR
     style L fill:#90EE90
       style M fill:#90EE90
       style N fill:#90EE90
-      style O fill:#FFD700
+      style O fill:#90EE90
 
 ```
 
@@ -3273,14 +3277,763 @@ class Node:
 
 ---
 
-## 📅 Day 10: Binary Search Trees (BST) 🔜 Next
+## 📅 Day 10: Binary Trees & Binary Search Trees ✅ Completed
+
+---
+
+### 🌲 **Binary Tree - Level Order Insertion**
+
+<details open>
+<summary><h3>📦 Automatic Insertion using Level Order</h3></summary>
+
+> **Level Order Insertion:** Insert nodes level by level, from left to right, using a queue to maintain the insertion order.
+
+#### 💡 Why Level Order Insertion?
+- Maintains complete binary tree structure
+- Ensures balanced insertion
+- Useful for creating trees from arrays
+- Preserves level-by-level order
+
+#### 🔧 Implementation
+
+```python
+from collections import deque
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+class BinaryTree:
+    def __init__(self):
+        self.root = None
+    
+    def insert(self, data):
+        """
+        Insert node using level order (BFS approach)
+        Time Complexity: O(n)
+        Space Complexity: O(n)
+        """
+        new_node = Node(data)
+        
+        if self.root is None:
+            self.root = new_node
+            return
+        
+        # Use queue to find first available position
+        q = deque([self.root])
+        
+        while q:
+            temp = q.popleft()
+            
+            # Check left child first
+            if temp.left is None:
+                temp.left = new_node
+                return
+            else:
+                q.append(temp.left)
+            
+            # Check right child
+            if temp.right is None:
+                temp.right = new_node
+                return
+            else:
+                q.append(temp.right)
+    
+    def levelOrderTraversal(self, root):
+        """
+        Print tree level by level
+        Time Complexity: O(n)
+        Space Complexity: O(n)
+        """
+        if root is None:
+            return
+        
+        q = deque([root])
+        
+        while q:
+            level_size = len(q)
+            
+            for i in range(level_size):
+                temp = q.popleft()
+                print(temp.data, end=" ")
+                
+                if temp.left:
+                    q.append(temp.left)
+                if temp.right:
+                    q.append(temp.right)
+            print()  # New line after each level
+
+
+# Usage Example
+bt = BinaryTree()
+bt.insert(5)
+bt.insert(6)
+bt.insert(7)
+bt.insert(8)
+bt.insert(9)
+bt.insert(10)
+bt.insert(11)
+
+bt.levelOrderTraversal(bt.root)
+# Output:
+# 5
+# 6 7
+# 8 9 10 11
+```
+
+#### 🎯 Visualization Example:
+
+```
+Inserting: [5, 6, 7, 8, 9, 10, 11]
+
+Step 1: Insert 5
+        5
+
+Step 2: Insert 6
+        5
+       /
+      6
+
+Step 3: Insert 7
+        5
+       / \
+      6   7
+
+Step 4: Insert 8
+        5
+       / \
+      6   7
+     /
+    8
+
+Step 5: Insert 9
+        5
+       / \
+      6   7
+     / \
+    8   9
+
+Final Tree:
+        5
+       / \
+      6   7
+     / \ / \
+    8  9 10 11
+```
+
+</details>
+
+---
+
+### 🔄 **Tree Traversals - Complete Guide**
+
+<details open>
+<summary><h3>📚 All Four Traversal Methods</h3></summary>
+
+#### 1️⃣ **PreOrder Traversal** (Root → Left → Right)
+
+```python
+def preOrder(root):
+    """
+    PreOrder: Root → Left → Right
+    Time Complexity: O(n)
+    Space Complexity: O(h) where h is height
+    """
+    if root is None:
+        return
+    
+    print(root.data, end=" -> ")
+    preOrder(root.left)
+    preOrder(root.right)
+
+# Example Tree:    5
+#                 / \
+#                3   7
+#               / \ / \
+#              2  4 6  8
+#
+# Output: 5 -> 3 -> 2 -> 4 -> 7 -> 6 -> 8
+```
+
+#### 2️⃣ **InOrder Traversal** (Left → Root → Right)
+
+```python
+def inOrder(root):
+    """
+    InOrder: Left → Root → Right
+    Time Complexity: O(n)
+    Space Complexity: O(h)
+    """
+    if root is None:
+        return
+    
+    inOrder(root.left)
+    print(root.data, end=" -> ")
+    inOrder(root.right)
+
+# Example Tree:    5
+#                 / \
+#                3   7
+#               / \ / \
+#              2  4 6  8
+#
+# Output: 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8
+# Note: For BST, InOrder gives sorted order!
+```
+
+#### 3️⃣ **PostOrder Traversal** (Left → Right → Root)
+
+```python
+def postOrder(root):
+    """
+    PostOrder: Left → Right → Root
+    Time Complexity: O(n)
+    Space Complexity: O(h)
+    """
+    if root is None:
+        return
+    
+    postOrder(root.left)
+    postOrder(root.right)
+    print(root.data, end=" -> ")
+
+# Example Tree:    5
+#                 / \
+#                3   7
+#               / \ / \
+#              2  4 6  8
+#
+# Output: 2 -> 4 -> 3 -> 6 -> 8 -> 7 -> 5
+```
+
+#### 4️⃣ **Level Order Traversal** (Level by Level)
+
+```python
+from collections import deque
+
+def levelOrder(root):
+    """
+    Level Order: Print level by level (BFS)
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+    """
+    if root is None:
+        return
+    
+    q = deque([root])
+    
+    while q:
+        level_size = len(q)
+        
+        for i in range(level_size):
+            temp = q.popleft()
+            print(temp.data, end=" ")
+            
+            if temp.left:
+                q.append(temp.left)
+            if temp.right:
+                q.append(temp.right)
+        print()  # New line after each level
+
+# Example Tree:    5
+#                 / \
+#                3   7
+#               / \ / \
+#              2  4 6  8
+#
+# Output:
+# 5
+# 3 7
+# 2 4 6 8
+```
+
+#### 📊 Traversal Comparison:
+
+| Traversal | Order | Use Case | BST Property |
+|:----------|:-----|:---------|:------------|
+| **PreOrder** | Root → Left → Right | Copy tree, prefix expressions | ❌ |
+| **InOrder** | Left → Root → Right | Sorted output, BST operations | ✅ Sorted |
+| **PostOrder** | Left → Right → Root | Delete tree, postfix expressions | ❌ |
+| **LevelOrder** | Level by Level | BFS, printing tree structure | ❌ |
+
+</details>
+
+---
+
+### ✅ **Same Tree Problem** (LeetCode #100)
+
+<details open>
+<summary><h3>🔍 Problem: Check if Two Trees are Identical</h3></summary>
+
+> **Problem:** Given the roots of two binary trees `p` and `q`, write a function to check if they are the same or not.
+>
+> Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+
+#### 💡 Approach:
+1. If both trees are empty → return True
+2. If one is empty and other is not → return False
+3. Check if root values are equal
+4. Recursively check left and right subtrees
+
+```python
+def isSameTree(p, q):
+    """
+    Check if two binary trees are identical
+    Time Complexity: O(min(m, n)) where m, n are nodes
+    Space Complexity: O(min(m, n))
+    """
+    # Both are None
+    if p is None and q is None:
+        return True
+    
+    # One is None, other is not
+    if p is None or q is None:
+        return False
+    
+    # Values don't match
+    if p.data != q.data:
+        return False
+    
+    # Recursively check left and right subtrees
+    return isSameTree(p.left, q.left) and isSameTree(p.right, q.right)
+
+
+# Test Cases
+# Tree 1:    1          Tree 2:    1
+#           / \                   / \
+#          2   3                 2   3
+#
+# isSameTree(tree1, tree2) → True ✅
+
+# Tree 1:    1          Tree 2:    1
+#           /                       /
+#          2                       2
+#
+# isSameTree(tree1, tree2) → False ❌ (different structure)
+```
+
+#### 🎯 Dry Run Example:
+
+```
+Tree 1:    1          Tree 2:    1
+         / \                   / \
+        2   3                 2   3
+
+Step 1: p=1, q=1 → Both not None, values match (1==1)
+Step 2: Check left: p.left=2, q.left=2 → Both not None, values match (2==2)
+Step 3: Check right: p.right=3, q.right=3 → Both not None, values match (3==3)
+Step 4: Both left and right subtrees are same → Return True ✅
+```
+
+</details>
+
+---
+
+### 🔍 **Binary Search Tree (BST) - Complete Guide**
+
+<details open>
+<summary><h3>📦 What is a Binary Search Tree?</h3></summary>
+
+> A **Binary Search Tree (BST)** is a binary tree where:
+> - **Left subtree** contains nodes with values **less than** root
+> - **Right subtree** contains nodes with values **greater than** root
+> - **Left and right subtrees** are also BSTs
+
+#### 🎯 BST Properties:
+- **Left < Root < Right** (for each node)
+- **No duplicate values** (typically)
+- **InOrder traversal** gives sorted sequence
+- **Search, Insert, Delete:** O(log n) average, O(n) worst case
+
+#### 📊 BST Visualization:
+
+```
+        10
+       /  \
+      5    15
+     / \   / \
+    3   7 12  20
+
+Properties:
+- All left nodes < root
+- All right nodes > root
+- InOrder: 3, 5, 7, 10, 12, 15, 20 (sorted!)
+```
+
+</details>
+
+<details open>
+<summary><h3>⚙️ BST Operations</h3></summary>
+
+#### 1️⃣ **BST Insert**
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+class BST:
+    def insert(self, root, data):
+        """
+        Insert node in BST maintaining BST property
+        Time Complexity: O(log n) average, O(n) worst
+        Space Complexity: O(log n) average, O(n) worst
+        """
+        if root is None:
+            return Node(data)
+        
+        # If data is smaller, go to left subtree
+        if data < root.data:
+            root.left = self.insert(root.left, data)
+        
+        # If data is larger, go to right subtree
+        elif data > root.data:
+            root.right = self.insert(root.right, data)
+        
+        # If data == root.data, do nothing (no duplicates)
+        
+        return root
+
+
+# Usage Example
+bst = BST()
+root = None
+root = bst.insert(root, 10)
+root = bst.insert(root, 5)
+root = bst.insert(root, 15)
+root = bst.insert(root, 3)
+root = bst.insert(root, 7)
+
+# Result:
+#        10
+#       /  \
+#      5    15
+#     / \
+#    3   7
+```
+
+#### 🎯 Dry Run: Insert 7 into BST
+
+```
+Current Tree:
+        10
+       /
+      5
+     /
+    3
+
+Insert 7:
+Step 1: root=10, 7 < 10 → Go left
+Step 2: root=5, 7 > 5 → Go right
+Step 3: root=None → Create new node(7)
+Step 4: Return node(7) → Attach to 5.right
+
+Result:
+        10
+       /
+      5
+     / \
+    3   7
+```
+
+---
+
+#### 2️⃣ **BST Search**
+
+```python
+def search(self, root, key):
+    """
+    Search for a key in BST
+    Time Complexity: O(log n) average, O(n) worst
+    Space Complexity: O(log n) average, O(n) worst
+    """
+    # Base case: key not found
+    if root is None:
+        return False
+    
+    # Key found
+    if root.data == key:
+        return True
+    
+    # Key is smaller, search left subtree
+    if key < root.data:
+        return self.search(root.left, key)
+    
+    # Key is larger, search right subtree
+    return self.search(root.right, key)
+
+
+# Alternative: Return node instead of boolean
+def searchNode(self, root, key):
+    if root is None or root.data == key:
+        return root
+    
+    if key < root.data:
+        return self.searchNode(root.left, key)
+    
+    return self.searchNode(root.right, key)
+```
+
+#### 🎯 Dry Run: Search 7 in BST
+
+```
+Tree:
+        10
+       /  \
+      5    15
+     / \
+    3   7
+
+Search 7:
+Step 1: root=10, 7 < 10 → Search left
+Step 2: root=5, 7 > 5 → Search right
+Step 3: root=7, 7 == 7 → Found! ✅
+```
+
+---
+
+#### 3️⃣ **Min Value Node**
+
+```python
+def minValueNode(self, root):
+    """
+    Find node with minimum value in BST
+    Time Complexity: O(h) where h is height
+    Space Complexity: O(1) iterative, O(h) recursive
+    """
+    if root is None:
+        return None
+    
+    # In BST, minimum is always in leftmost node
+    current = root
+    while current.left is not None:
+        current = current.left
+    
+    return current.data  # or return current for node
+
+
+# Recursive version
+def minValueNodeRecursive(self, root):
+    if root is None:
+        return None
+    
+    if root.left is None:
+        return root.data
+    
+    return self.minValueNodeRecursive(root.left)
+```
+
+#### 🎯 Visualization:
+
+```
+Tree:
+        10
+       /  \
+      5    15
+     / \   / \
+    3   7 12  20
+   /
+  1
+
+To find min: Keep going left until None
+10 → 5 → 3 → 1 → None
+Min = 1 ✅
+```
+
+---
+
+#### 4️⃣ **Max Value Node**
+
+```python
+def maxValueNode(self, root):
+    """
+    Find node with maximum value in BST
+    Time Complexity: O(h) where h is height
+    Space Complexity: O(1) iterative, O(h) recursive
+    """
+    if root is None:
+        return None
+    
+    # In BST, maximum is always in rightmost node
+    current = root
+    while current.right is not None:
+        current = current.right
+    
+    return current.data  # or return current for node
+
+
+# Recursive version
+def maxValueNodeRecursive(self, root):
+    if root is None:
+        return None
+    
+    if root.right is None:
+        return root.data
+    
+    return self.maxValueNodeRecursive(root.right)
+```
+
+#### 🎯 Visualization:
+
+```
+Tree:
+        10
+       /  \
+      5    15
+     / \   / \
+    3   7 12  20
+              \
+               25
+
+To find max: Keep going right until None
+10 → 15 → 20 → 25 → None
+Max = 25 ✅
+```
+
+---
+
+#### 5️⃣ **BST Delete** (Most Complex Operation)
+
+```python
+def delete(self, root, key):
+    """
+    Delete a node from BST
+    Time Complexity: O(log n) average, O(n) worst
+    Space Complexity: O(log n) average, O(n) worst
+    
+    Three cases:
+    1. Node has no children (leaf) → Simply delete
+    2. Node has one child → Replace with child
+    3. Node has two children → Replace with inorder successor
+    """
+    if root is None:
+        return root
+    
+    # Find the node to delete
+    if key < root.data:
+        root.left = self.delete(root.left, key)
+    elif key > root.data:
+        root.right = self.delete(root.right, key)
+    else:
+        # Node to delete found
+        
+        # Case 1: No child (leaf node)
+        if root.left is None and root.right is None:
+            return None
+        
+        # Case 2: One child
+        elif root.left is None:
+            return root.right
+        elif root.right is None:
+            return root.left
+        
+        # Case 3: Two children
+        else:
+            # Find inorder successor (smallest in right subtree)
+            successor = self.minValueNode(root.right)
+            root.data = successor  # Copy successor's data
+            root.right = self.delete(root.right, successor)  # Delete successor
+    
+    return root
+
+
+# Helper method for min value
+def minValueNode(self, root):
+    current = root
+    while current.left is not None:
+        current = current.left
+    return current.data
+```
+
+#### 🎯 Dry Run: Delete Node with Two Children
+
+```
+Tree:
+        10
+       /  \
+      5    15
+     / \   / \
+    3   7 12  20
+
+Delete 10:
+Step 1: Found node 10
+Step 2: Has two children → Find inorder successor
+Step 3: Inorder successor = min(15) = 12
+Step 4: Replace 10 with 12
+Step 5: Delete 12 from right subtree
+
+Result:
+        12
+       /  \
+      5    15
+     / \     \
+    3   7    20
+```
+
+#### 📊 Delete Cases Visualization:
+
+**Case 1: Leaf Node**
+```
+Delete 7:
+        10             10
+       /  \    →      /  \
+      5    15        5    15
+     / \           /
+    3   7         3
+```
+
+**Case 2: One Child**
+```
+Delete 15:
+        10             10
+       /  \    →      /  \
+      5    15        5    20
+           \
+           20
+```
+
+**Case 3: Two Children**
+```
+Delete 10:
+        10             12
+       /  \    →      /  \
+      5    15        5    15
+     / \   / \      / \     \
+    3   7 12 20    3   7    20
+```
+
+</details>
+
+---
+
+### 📝 Problems Covered - Day 10
+
+| # | Problem | Difficulty | Concept |
+|:-:|:--------|:----------:|:--------|
+| 1 | Automatic Insertion using Level Order | 🟡 Medium | Queue, BFS |
+| 2 | PreOrder Traversal | 🟢 Easy | DFS, Recursion |
+| 3 | InOrder Traversal | 🟢 Easy | DFS, Recursion |
+| 4 | PostOrder Traversal | 🟢 Easy | DFS, Recursion |
+| 5 | LevelOrder Traversal | 🟢 Easy | BFS, Queue |
+| 6 | Same Tree Problem | 🟢 Easy | Tree Comparison, Recursion |
+| 7 | BST Insert Method | 🟢 Easy | BST Property, Recursion |
+| 8 | BST Search Method | 🟢 Easy | BST Property, Recursion |
+| 9 | Min Value Node in BST | 🟢 Easy | BST Property, Traversal |
+| 10 | Max Value Node in BST | 🟢 Easy | BST Property, Traversal |
+
+---
+
+## 📅 Day 11: Graphs 🔜 Next
 
 ### Topics to Cover:
-- 🟡 BST Properties (Left < Root < Right)
-- 🟡 BST Search & Insertion
-- 🟡 BST Deletion
-- 🟡 Min/Max in BST
-- 🟡 Inorder Predecessor & Successor
+- 🟡 Graph Representation (Adjacency List, Matrix)
+- 🟡 Graph Traversals (BFS, DFS)
+- 🟡 Graph Algorithms
+- 🟡 Shortest Path Problems
 
 ---
 
@@ -3288,7 +4041,6 @@ class Node:
 
 | Topic | Description | Priority | Status |
 |:------|:------------|:--------:|:------:|
-| 🌳 **Trees** | BST, traversals | 🔴 High | ⏳ Upcoming |
 | 🕸️ **Graphs** | BFS, DFS, Dijkstra, Topological Sort | 🔴 High | ⏳ Upcoming |
 
 ---
@@ -3355,10 +4107,13 @@ class Node:
 ├── ✅ Days 3-4: Linked Lists (100%)
 ├── ✅ Days 5-6: Stacks & Queues (100%)
 ├── ✅ Day 7: Two Pointers (100%)
-└── 🔜 Day 8+: Trees, Graphs, DP
+├── ✅ Day 8: Sliding Window & Bit Manipulation (100%)
+├── ✅ Day 9: Binary Trees (100%)
+├── ✅ Day 10: Binary Trees & BST (100%)
+└── 🔜 Day 11+: Graphs, Advanced Algorithms
 
-Total Problems Solved: 50+
-Key Concepts Mastered: 20+
+Total Problems Solved: 60+
+Key Concepts Mastered: 25+
 Ready for: Medium to Hard LeetCode Problems
 ```
 
