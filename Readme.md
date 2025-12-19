@@ -151,6 +151,17 @@ Day 10 - Binary Trees & Binary Search Trees:
 ✅ BST Search Method
 ✅ BST Delete Method
 ✅ Min Value Node & Max Value Node
+ 
+Day 11 - Graphs:
+████████████---------------- 0%
+
+- Graph Basics (vertices, edges, directed/undirected)
+- Graph Representations (Adjacency List, Adjacency Matrix)
+- Depth-First Search (DFS)
+- Breadth-First Search (BFS)
+- Topological Sort
+- Shortest Paths: Dijkstra's Algorithm
+- Practice Problems
 ```
 
 ---
