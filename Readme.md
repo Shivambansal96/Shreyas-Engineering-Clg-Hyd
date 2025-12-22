@@ -4038,13 +4038,724 @@ Delete 10:
 
 ---
 
-## 📅 Day 11: Graphs 🔜 Next
+# 📅 Day 11: Graphs ✅ Completed
 
-### Topics to Cover:
-- 🟡 Graph Representation (Adjacency List, Matrix)
-- 🟡 Graph Traversals (BFS, DFS)
-- 🟡 Graph Algorithms
-- 🟡 Shortest Path Problems
+---
+
+## 🕸️ **Graphs - Complete Guide**
+
+<details open>
+<summary><h3>📖 What is a Graph?</h3></summary>
+
+> A **Graph** is a non-linear data structure consisting of **vertices (nodes)** connected by **edges** to represent relationships between entities.
+
+#### 🎯 Graph Terminology:
+
+| Term | Definition | Example |
+|:-----|:-----------|:--------|
+| **Vertex/Node** | Fundamental unit of a graph | Person in a social network |
+| **Edge** | Connection between two vertices | Friendship between two people |
+| **Degree** | Number of edges connected to a vertex | Friends count |
+| **Path** | Sequence of vertices connected by edges | Route from A to B |
+| **Cycle** | Path that starts and ends at same vertex | A → B → C → A |
+| **Connected Graph** | All vertices reachable from any vertex | One component |
+| **Disconnected Graph** | Some vertices unreachable from others | Multiple components |
+
+#### 📊 Graph Types:
+
+**1. Directed Graph (Digraph)**
+```
+A ──► B ──► C
+      ▲     │
+      └─────┘
+
+Edges have direction: A→B (can go A to B, not B to A)
+```
+
+**2. Undirected Graph**
+```
+A ─── B ─── C
+ \   / \   /
+  \ /   \ /
+   D ─── E
+
+Edges have no direction: A-B (can go both ways)
+```
+
+**3. Weighted Graph**
+```
+   5
+A ─── B
+ \   /
+  3 2
+   \ /
+    C
+
+Edges have weights (distances, costs, etc.)
+```
+
+**4. Special Graphs**
+```
+Cyclic Graph:           Acyclic Graph:        Complete Graph:
+A ──► B                 A ──► B               A ─── B
+│     │                 │     │                ╲   ╱
+│     ▼                 │     ▼                 ╲ ╱
+└──── C                 └──► C                  ╱ ╲
+(has cycle)             (no cycles)            C───D
+```
+
+</details>
+
+<details open>
+<summary><h3>💾 Graph Representations</h3></summary>
+
+#### 1️⃣ **Adjacency List** (More Space Efficient)
+
+```python
+# Using Dictionary
+adjacency_list = {
+    'A': ['B', 'D'],
+    'B': ['A', 'C', 'E'],
+    'C': ['B', 'F'],
+    'D': ['A', 'E'],
+    'E': ['B', 'D', 'F'],
+    'F': ['C', 'E']
+}
+
+# Visualization:
+#     A ─── B ─── C
+#     │     │     │
+#     D ─── E ─── F
+
+# Space Complexity: O(V + E) where V = vertices, E = edges
+# Time for edge lookup: O(degree of vertex)
+```
+
+**Advantages:**
+- ✅ Space efficient (especially for sparse graphs)
+- ✅ Easy to iterate through neighbors
+- ✅ Better for graphs with few edges
+
+**Disadvantages:**
+- ❌ Checking if edge exists: O(degree)
+
+---
+
+#### 2️⃣ **Adjacency Matrix** (Faster Lookups)
+
+```python
+# Using 2D Array
+# Vertices: A=0, B=1, C=2, D=3, E=4, F=5
+
+adjacency_matrix = [
+    [0, 1, 0, 1, 0, 0],  # A
+    [1, 0, 1, 0, 1, 0],  # B
+    [0, 1, 0, 0, 0, 1],  # C
+    [1, 0, 0, 0, 1, 0],  # D
+    [0, 1, 0, 1, 0, 1],  # E
+    [0, 0, 1, 0, 1, 0]   # F
+]
+
+# 1 = edge exists, 0 = no edge
+
+# Space Complexity: O(V²) regardless of edges
+# Time for edge lookup: O(1)
+```
+
+**Advantages:**
+- ✅ O(1) edge lookup
+- ✅ Easy for dense graphs
+- ✅ Simple to understand
+
+**Disadvantages:**
+- ❌ Space inefficient for sparse graphs
+- ❌ O(V²) memory always
+
+---
+
+#### 📊 Representation Comparison:
+
+| Feature | Adjacency List | Adjacency Matrix |
+|:--------|:---------------:|:----------------:|
+| Space | O(V + E) | O(V²) |
+| Edge Lookup | O(degree) | O(1) |
+| Iterate Neighbors | O(degree) | O(V) |
+| Best For | Sparse Graphs | Dense Graphs |
+| Implementation | Dictionary/List | 2D Array |
+
+</details>
+
+---
+
+## 🔄 **Graph Traversals**
+
+<details open>
+<summary><h3>1️⃣ Breadth-First Search (BFS)</h3></summary>
+
+> **BFS** explores the graph level-by-level, visiting all neighbors of a vertex before moving to the next level. Uses a **Queue** data structure.
+
+#### 📊 BFS Characteristics:
+
+| Property | Value |
+|:---------|:------|
+| **Data Structure** | Queue (FIFO) |
+| **Time Complexity** | O(V + E) |
+| **Space Complexity** | O(V) |
+| **Optimal For** | Shortest path in unweighted graphs |
+| **Traversal Order** | Level-by-level |
+
+#### 🔧 BFS Implementation
+
+```python
+from collections import deque
+
+def bfs(graph, start):
+    """
+    Breadth-First Search traversal
+    Time Complexity: O(V + E)
+    Space Complexity: O(V)
+    
+    Args:
+        graph: Adjacency list representation
+        start: Starting vertex
+    """
+    visited = set()  # To track visited vertices
+    queue = deque([start])  # Initialize queue with start vertex
+    visited.add(start)
+    
+    traversal_order = []
+    
+    while queue:
+        vertex = queue.popleft()  # Dequeue from front
+        traversal_order.append(vertex)
+        
+        # Visit all unvisited neighbors
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)  # Enqueue to back
+    
+    return traversal_order
+
+
+# Test Case
+graph = {
+    'A': ['B', 'D'],
+    'B': ['A', 'C', 'E'],
+    'C': ['B', 'F'],
+    'D': ['A', 'E'],
+    'E': ['B', 'D', 'F'],
+    'F': ['C', 'E']
+}
+
+print(bfs(graph, 'A'))  # Output: ['A', 'B', 'D', 'C', 'E', 'F']
+```
+
+#### 🎯 Dry Run: BFS from 'A'
+
+```
+Graph:
+    A ─── B ─── C
+    │     │     │
+    D ─── E ─── F
+
+BFS from A:
+
+Initial: Queue=[A], Visited={A}, Order=[]
+
+Step 1: Dequeue A → Order=[A]
+        Neighbors: B, D (unvisited)
+        Queue=[B, D], Visited={A, B, D}
+
+Step 2: Dequeue B → Order=[A, B]
+        Neighbors: A(visited), C, E
+        Queue=[D, C, E], Visited={A, B, D, C, E}
+
+Step 3: Dequeue D → Order=[A, B, D]
+        Neighbors: A(visited), E(visited)
+        Queue=[C, E], Visited={A, B, D, C, E}
+
+Step 4: Dequeue C → Order=[A, B, D, C]
+        Neighbors: B(visited), F
+        Queue=[E, F], Visited={A, B, D, C, E, F}
+
+Step 5: Dequeue E → Order=[A, B, D, C, E]
+        Neighbors: B(visited), D(visited), F(visited)
+        Queue=[F], Visited={A, B, D, C, E, F}
+
+Step 6: Dequeue F → Order=[A, B, D, C, E, F]
+        Neighbors: C(visited), E(visited)
+        Queue=[], Visited={A, B, D, C, E, F}
+
+Final Order: [A, B, D, C, E, F] ✅
+```
+
+#### 📊 BFS Level-Order Visualization:
+
+```
+Level 0:        A
+              /   \
+Level 1:      B     D
+            / │ \   │
+Level 2:  C  E  F   (E already at level 2 from D's perspective)
+         │  / \ │
+        F E   (connections back)
+
+BFS visits: A → B, D → C, E → F
+Order: [A, B, D, C, E, F]
+```
+
+#### 💡 BFS Use Cases:
+
+| Use Case | Example |
+|:---------|:--------|
+| **Shortest Path** | Finding shortest route in unweighted graph |
+| **Level-Order Traversal** | Traverse tree level by level |
+| **Connected Components** | Find all connected components |
+| **Bipartite Check** | Check if graph is bipartite |
+| **Social Networks** | Find friends within k degrees |
+
+</details>
+
+<details open>
+<summary><h3>2️⃣ Depth-First Search (DFS)</h3></summary>
+
+> **DFS** explores the graph deeply before backtracking, visiting nodes along a path to the end. Uses a **Stack** (recursion or explicit stack).
+
+#### 📊 DFS Characteristics:
+
+| Property | Value |
+|:---------|:------|
+| **Data Structure** | Stack (LIFO) / Recursion |
+| **Time Complexity** | O(V + E) |
+| **Space Complexity** | O(V) |
+| **Optimal For** | Topological sort, cycle detection |
+| **Traversal Order** | Depth-first (go as deep as possible) |
+
+#### 🔧 DFS Implementation - Recursive
+
+```python
+def dfs_recursive(graph, vertex, visited, traversal_order):
+    """
+    Depth-First Search - Recursive approach
+    Time Complexity: O(V + E)
+    Space Complexity: O(V) for recursion stack
+    """
+    visited.add(vertex)
+    traversal_order.append(vertex)
+    
+    # Visit all unvisited neighbors
+    for neighbor in graph[vertex]:
+        if neighbor not in visited:
+            dfs_recursive(graph, neighbor, visited, traversal_order)
+
+
+def dfs_start(graph, start):
+    """Wrapper function to start DFS"""
+    visited = set()
+    traversal_order = []
+    dfs_recursive(graph, start, visited, traversal_order)
+    return traversal_order
+
+
+# Test Case
+graph = {
+    'A': ['B', 'D'],
+    'B': ['A', 'C', 'E'],
+    'C': ['B', 'F'],
+    'D': ['A', 'E'],
+    'E': ['B', 'D', 'F'],
+    'F': ['C', 'E']
+}
+
+print(dfs_start(graph, 'A'))  # Output: ['A', 'B', 'C', 'F', 'E', 'D']
+```
+
+#### 🔧 DFS Implementation - Iterative
+
+```python
+def dfs_iterative(graph, start):
+    """
+    Depth-First Search - Iterative approach using explicit stack
+    Time Complexity: O(V + E)
+    Space Complexity: O(V)
+    """
+    visited = set()
+    stack = [start]  # Use list as stack
+    traversal_order = []
+    
+    while stack:
+        vertex = stack.pop()  # Pop from top (LIFO)
+        
+        if vertex not in visited:
+            visited.add(vertex)
+            traversal_order.append(vertex)
+            
+            # Push all unvisited neighbors (reverse order for same traversal as recursive)
+            for neighbor in reversed(graph[vertex]):
+                if neighbor not in visited:
+                    stack.append(neighbor)
+    
+    return traversal_order
+
+
+# Test Case
+print(dfs_iterative(graph, 'A'))  # Output: ['A', 'B', 'C', 'F', 'E', 'D']
+```
+
+#### 🎯 Dry Run: DFS from 'A' (Recursive)
+
+```
+Graph:
+    A ─── B ─── C
+    │     │     │
+    D ─── E ─── F
+
+DFS from A (following: A→B→C→F→E→D):
+
+Call Stack:
+1. dfs(A) → visited={A}, order=[A]
+   2. dfs(B) → visited={A,B}, order=[A,B]
+      3. dfs(C) → visited={A,B,C}, order=[A,B,C]
+         4. dfs(F) → visited={A,B,C,F}, order=[A,B,C,F]
+            No unvisited neighbors → Backtrack
+         B's neighbors: A(✓), C(✓), E
+      5. dfs(E) → visited={A,B,C,F,E}, order=[A,B,C,F,E]
+            Neighbors: B(✓), D, F(✓)
+         6. dfs(D) → visited={A,B,C,F,E,D}, order=[A,B,C,F,E,D]
+            No unvisited neighbors → Backtrack
+
+Final Order: [A, B, C, F, E, D] ✅
+```
+
+#### 📊 DFS Call Stack Visualization:
+
+```
+dfs(A)
+  dfs(B)
+    dfs(C)
+      dfs(F) ← Goes deep
+    dfs(E)
+      dfs(D) ← Backtracks and explores
+
+Path taken: A → B → C → F → (back to B) → E → D → (back to E/B/A)
+```
+
+#### 💡 DFS Use Cases:
+
+| Use Case | Example |
+|:---------|:--------|
+| **Topological Sort** | Ordering tasks with dependencies |
+| **Cycle Detection** | Detecting cycles in graphs |
+| **Path Finding** | Finding path between two vertices |
+| **Strongly Connected Components** | Finding SCCs in directed graph |
+| **Backtracking Problems** | Maze solving, puzzle solving |
+
+</details>
+
+---
+
+## 📊 **BFS vs DFS Comparison**
+
+<details open>
+<summary><h3>🔍 Detailed Comparison</h3></summary>
+
+| Feature | BFS | DFS |
+|:--------|:---:|:---:|
+| **Data Structure** | Queue | Stack (Recursion) |
+| **Time Complexity** | O(V + E) | O(V + E) |
+| **Space Complexity** | O(V) | O(V) |
+| **Memory Usage** | More (wider) | Less (linear) |
+| **Shortest Path** | ✅ Yes (unweighted) | ❌ No |
+| **Cycle Detection** | ✅ Yes | ✅ Yes |
+| **Topological Sort** | ❌ No | ✅ Yes |
+| **Implementation** | Queue (explicit) | Stack/Recursion |
+| **Best For** | Level-order, shortest path | Deep exploration |
+| **Graph Traversal** | Level-by-level | Path-by-path |
+
+#### 📊 Traversal Order Comparison:
+
+```
+Same Graph:
+    A ─── B ─── C
+    │     │     │
+    D ─── E ─── F
+
+BFS from A:  [A, B, D, C, E, F]  (Level 0, 1, 2...)
+DFS from A:  [A, B, C, F, E, D]  (Goes deep, backtracks)
+```
+
+#### 💡 When to Use Which:
+
+**Use BFS When:**
+- ✅ You need shortest path in unweighted graph
+- ✅ You want level-order traversal
+- ✅ You need to find connected components
+- ✅ You want to explore all nodes at distance k
+
+**Use DFS When:**
+- ✅ You need topological sorting
+- ✅ You want to detect cycles
+- ✅ You have limited memory (less stack overhead)
+- ✅ You need to find all paths
+- ✅ You're doing backtracking problems
+
+</details>
+
+---
+
+## 🔢 **Graph Problems**
+
+<details open>
+<summary><h3>1️⃣ Connected Components Count</h3></summary>
+
+> **Problem:** Find the number of connected components in an undirected graph.
+>
+> A connected component is a maximal set of vertices where every vertex is reachable from every other vertex.
+
+#### 💡 Approach:
+1. Keep track of visited vertices
+2. For each unvisited vertex, start BFS/DFS
+3. Each BFS/DFS finds one connected component
+4. Count the number of components
+
+```python
+def countConnectedComponents(graph):
+    """
+    Count number of connected components
+    Time Complexity: O(V + E)
+    Space Complexity: O(V)
+    """
+    visited = set()
+    component_count = 0
+    
+    # Try starting from each vertex
+    for vertex in graph:
+        if vertex not in visited:
+            # Start BFS from this unvisited vertex
+            bfs_component(graph, vertex, visited)
+            component_count += 1
+    
+    return component_count
+
+
+def bfs_component(graph, start, visited):
+    """Helper function for BFS on one component"""
+    queue = deque([start])
+    visited.add(start)
+    
+    while queue:
+        vertex = queue.popleft()
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+
+
+# Test Case
+graph = {
+    'A': ['B'],
+    'B': ['A'],
+    'C': ['D'],
+    'D': ['C'],
+    'E': []
+}
+
+print(countConnectedComponents(graph))  # Output: 3 (A-B, C-D, E)
+```
+
+#### 🎯 Dry Run Example:
+
+```
+Graph:
+A ─ B      C ─ D      E
+(Component 1)  (Component 2)  (Component 3)
+
+Iteration 1: Start from A (unvisited)
+            BFS: A → B
+            component_count = 1
+            visited = {A, B}
+
+Iteration 2: Start from B (visited) → skip
+
+Iteration 3: Start from C (unvisited)
+            BFS: C → D
+            component_count = 2
+            visited = {A, B, C, D}
+
+Iteration 4: Start from D (visited) → skip
+
+Iteration 5: Start from E (unvisited)
+            BFS: E
+            component_count = 3
+            visited = {A, B, C, D, E}
+
+Result: 3 components ✅
+```
+
+</details>
+
+<details open>
+<summary><h3>2️⃣ Path Between Two Vertices</h3></summary>
+
+> **Problem:** Check if there's a path between two vertices in a graph.
+
+#### 💡 Approach:
+Use BFS or DFS to find if we can reach the destination from source.
+
+```python
+def hasPath(graph, source, destination):
+    """
+    Check if path exists from source to destination
+    Time Complexity: O(V + E)
+    Space Complexity: O(V)
+    """
+    if source == destination:
+        return True
+    
+    visited = set()
+    queue = deque([source])
+    visited.add(source)
+    
+    while queue:
+        vertex = queue.popleft()
+        
+        for neighbor in graph[vertex]:
+            if neighbor == destination:
+                return True
+            
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+    
+    return False
+
+
+# Alternative: DFS approach
+def hasPathDFS(graph, source, destination, visited=None):
+    """Path finding using DFS (Recursive)"""
+    if visited is None:
+        visited = set()
+    
+    if source == destination:
+        return True
+    
+    visited.add(source)
+    
+    for neighbor in graph[source]:
+        if neighbor not in visited:
+            if hasPathDFS(graph, neighbor, destination, visited):
+                return True
+    
+    return False
+
+
+# Test Case
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D'],
+    'C': ['E'],
+    'D': ['F'],
+    'E': [],
+    'F': []
+}
+
+print(hasPath(graph, 'A', 'F'))      # Output: True
+print(hasPath(graph, 'A', 'E'))      # Output: True
+print(hasPath(graph, 'B', 'C'))      # Output: False
+```
+
+</details>
+
+<details open>
+<summary><h3>3️⃣ All Paths Between Two Vertices</h3></summary>
+
+> **Problem:** Find all possible paths from source to destination.
+
+#### 💡 Approach:
+Use DFS with backtracking to explore all possible paths.
+
+```python
+def allPathsDFS(graph, source, destination):
+    """
+    Find all paths from source to destination
+    Time Complexity: O(V^V) in worst case
+    Space Complexity: O(V) for recursion
+    """
+    paths = []
+    path = [source]
+    
+    def dfs(vertex):
+        if vertex == destination:
+            paths.append(path[:])  # Add copy of path
+            return
+        
+        for neighbor in graph[vertex]:
+            if neighbor not in path:  # Avoid cycles
+                path.append(neighbor)
+                dfs(neighbor)
+                path.pop()  # Backtrack
+    
+    dfs(source)
+    return paths
+
+
+# Test Case
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D'],
+    'C': ['D'],
+    'D': ['E'],
+    'E': []
+}
+
+print(allPathsDFS(graph, 'A', 'E'))
+# Output: [['A', 'B', 'D', 'E'], ['A', 'C', 'D', 'E']]
+```
+
+</details>
+
+---
+
+### 📝 Problems Covered - Day 11
+
+| # | Problem | Difficulty | Concept |
+|:-:|:--------|:----------:|:--------|
+| 1 | Graph Representation (Adjacency List) | 🟢 Easy | Graph Basics |
+| 2 | Graph Representation (Adjacency Matrix) | 🟢 Easy | Graph Basics |
+| 3 | BFS Traversal | 🟢 Easy | Queue-based Traversal |
+| 4 | DFS Traversal (Recursive) | 🟢 Easy | Recursion-based Traversal |
+| 5 | DFS Traversal (Iterative) | 🟢 Easy | Stack-based Traversal |
+
+---
+
+### 💾 Key Takeaways
+
+**BFS (Breadth-First Search):**
+- Uses Queue (FIFO)
+- Best for shortest path in unweighted graphs
+- Level-order traversal
+- Time: O(V + E), Space: O(V)
+
+**DFS (Depth-First Search):**
+- Uses Stack or Recursion (LIFO)
+- Best for topological sort and cycle detection
+- Deep-first traversal
+- Time: O(V + E), Space: O(V)
+
+**Graph Representations:**
+- Adjacency List: O(V + E) space, O(degree) edge lookup
+- Adjacency Matrix: O(V²) space, O(1) edge lookup
+
+---
+
+## 📅 Day 12: Graphs 🔜 **Topics Coming Next**
+
+| Topic | Description | Difficulty |
+|:------|:------------|:----------:|
+| **Cycle Detection** | Detect cycles in directed/undirected graphs | 🟡 Medium |
+| **Dijkstra's Algorithm** | Shortest path in weighted graphs | 🟡 Medium |
+| **Topological Sort** | Linear ordering of DAG | 🟡 Medium |
 
 ---
 
@@ -4052,7 +4763,7 @@ Delete 10:
 
 | Topic | Description | Priority | Status |
 |:------|:------------|:--------:|:------:|
-| 🕸️ **Graphs** | BFS, DFS, Dijkstra, Topological Sort | 🔴 High | ⏳ Upcoming |
+| 🕸️ **Graphs** | Dijkstra, Topological Sort | 🔴 High | ⏳ Upcoming |
 
 ---
 
