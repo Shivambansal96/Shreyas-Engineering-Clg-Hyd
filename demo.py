@@ -334,3 +334,106 @@
 # #             q.append(neighbour)
 # #             # visited[neighbour] = True
 # #             visited.add(neighbour)
+
+
+
+
+
+# # # # # Detect Cycle in Directed Graph using DFS # # # #
+# from collections import defaultdict
+
+# D = defaultdict(list)
+
+# n = 5
+# arr = [[0, 1], [0,2], [1, 3], [2, 4], [2, 3], [3, 4], [1, 2], [2, 1]]
+
+# for u, v in arr:
+#     D[u].append(v)
+
+# # ------------- Data stored in the Dictionary ---------------- #
+
+# Unvisited = 0
+# Visiting = 1
+# Visited = 2
+
+# # States should cover all possible node indices #
+# # max_node = max(max(u, v) for u, v in arr)
+
+# max_node = 0
+# for u, v in arr:
+#     max_node = max(max_node, u, v)
+
+# states = [Unvisited] * (max_node+1)
+
+# def cyclicDetection(node):
+#     currentState = states[node]
+#     if currentState == Visited: return True
+#     elif currentState == Visiting: return False
+
+#     states[node] = Visiting
+
+#     for neighbour in D[node]:
+#         if not cyclicDetection(neighbour):
+#             return False
+
+#     states[node] = Visited
+#     return True
+
+# for i in range(max_node+1):
+#     if not cyclicDetection(i):
+#         print("Cycle Detected")
+#         break
+# else:
+#     print("No Cycle Detected")
+
+
+
+# # # # # # Detect Cycle in Directed Graph using DFS # # # #
+
+# from collections import defaultdict
+
+# # n = 5
+# arr = [[0, 1], [0,2], [1, 3], [2, 4], [2, 3], [3, 4], [1, 2], [2, 1]]
+# D = defaultdict(list)
+
+# for u, v in arr:
+#     D[u].append(v)
+
+# max_node = 0
+# for u, v in arr:
+#     max_node = max(max_node, u, v)
+
+# n = max_node + 1
+
+# Unvisited = 0
+# Visiting = 1
+# Visited = 2
+
+# states = [Unvisited] * n
+
+# def AcyclicDetection(node):
+#     currentState = states[node]
+
+#     if currentState == Visited:
+#         return True
+#     elif(currentState == Visiting):
+#         return False
+    
+#     states[node] = Visiting
+
+#     for neighbour in D[node]:
+#         if not AcyclicDetection(neighbour):
+#             return False
+        
+#     states[node] = Visited
+#     return True
+
+# for i in range(n):
+#     if not AcyclicDetection(i):
+#         print("Cycle Detected!!!")
+#         break
+
+# else:
+#     print("No Cycles Detected!!!")
+
+

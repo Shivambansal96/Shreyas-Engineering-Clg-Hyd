@@ -153,15 +153,24 @@ Day 10 - Binary Trees & Binary Search Trees:
 ✅ Min Value Node & Max Value Node
  
 Day 11 - Graphs:
-████████████---------------- 0%
+████████████████████████████████ 100%
 
 - Graph Basics (vertices, edges, directed/undirected)
 - Graph Representations (Adjacency List, Adjacency Matrix)
 - Depth-First Search (DFS)
 - Breadth-First Search (BFS)
-- Topological Sort
-- Shortest Paths: Dijkstra's Algorithm
 - Practice Problems
+
+Day 12 - Advanced Graph Algorithms:
+████████████████████████████████ 100%
+
+✅ BFS & DFS Revision
+✅ Counting Total Nodes in Graph
+✅ Finding Maximum Nodes in Connected Component
+✅ Cycle Detection in Undirected Graphs
+✅ Cycle Detection in Directed Graphs
+✅ Topological Sorting (Kahn's Algorithm)
+✅ Topological Sorting (DFS Approach)
 ```
 
 ---
@@ -184,6 +193,8 @@ graph LR
     L --> M[🤏 Bit Manipulation]
     M --> N[🌳 Trees]
     N --> O[🕸️ Graphs]
+    O --> P[🕸️ Graphs]
+    P --> Q[🔄 Graph Algorithms]
     
     style A fill:#90EE90
     style B fill:#90EE90
@@ -197,9 +208,11 @@ graph LR
     style J fill:#90EE90
     style K fill:#90EE90
     style L fill:#90EE90
-      style M fill:#90EE90
-      style N fill:#90EE90
-      style O fill:#90EE90
+    style M fill:#90EE90
+    style N fill:#90EE90
+    style O fill:#90EE90
+    style P fill:#90EE90
+    style Q fill:#90EE90
 
 ```
 
@@ -4748,22 +4761,1041 @@ print(allPathsDFS(graph, 'A', 'E'))
 - Adjacency Matrix: O(V²) space, O(1) edge lookup
 
 ---
+## 📅 Day 12: Advanced Graph Algorithms ✅ Completed
 
-## 📅 Day 12: Graphs 🔜 **Topics Coming Next**
+---
 
-| Topic | Description | Difficulty |
-|:------|:------------|:----------:|
-| **Cycle Detection** | Detect cycles in directed/undirected graphs | 🟡 Medium |
-| **Dijkstra's Algorithm** | Shortest path in weighted graphs | 🟡 Medium |
-| **Topological Sort** | Linear ordering of DAG | 🟡 Medium |
+### 🔄 **Graph Algorithm Deep Dive**
+
+<details open>
+<summary><h3>🔢 Counting Nodes in Graph</h3></summary>
+
+> **Problem:** Count total number of nodes in a graph or find maximum nodes in a connected component.
+
+#### 💡 Approach 1: Count Total Nodes in Graph
+
+```python
+def countTotalNodes(graph):
+    """
+    Count total number of nodes in a graph
+    Time Complexity: O(V + E)
+    Space Complexity: O(V)
+    """
+    visited = set()
+    total_nodes = 0
+    
+    # Count all unique vertices in graph
+    for vertex in graph:
+        if vertex not in visited:
+            bfs_count(graph, vertex, visited)
+            total_nodes += 1
+    
+    return total_nodes
+
+
+def bfs_count(graph, start, visited):
+    """Helper function for BFS"""
+    from collections import deque
+    queue = deque([start])
+    visited.add(start)
+    
+    while queue:
+        vertex = queue.popleft()
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+
+
+# Alternative: Direct count
+def countNodesSimple(graph):
+    """Simple node count"""
+    return len(graph)
+
+
+# Test Case
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D'],
+    'C': ['A'],
+    'D': ['B']
+}
+print(countTotalNodes(graph))  # Output: 4
+```
+
+#### 💡 Approach 2: Count Nodes in Connected Component
+
+```python
+def countNodesInComponent(graph, start):
+    """
+    Count nodes in a single connected component
+    Time Complexity: O(V + E)
+    Space Complexity: O(V)
+    """
+    visited = set()
+    node_count = 0
+    
+    def dfs(vertex):
+        nonlocal node_count
+        visited.add(vertex)
+        node_count += 1
+        
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                dfs(neighbor)
+    
+    dfs(start)
+    return node_count
+
+
+# Test Case
+graph = {
+    'A': ['B'],
+    'B': ['A', 'C'],
+    'C': ['B'],
+    'D': ['E'],
+    'E': ['D']
+}
+print(countNodesInComponent(graph, 'A'))  # Output: 3 (A, B, C)
+print(countNodesInComponent(graph, 'D'))  # Output: 2 (D, E)
+```
+
+#### 🎯 Dry Run Example:
+
+```
+Graph:
+A ─ B ─ C     D ─ E
+  (Component 1)   (Component 2)
+
+countNodesInComponent(graph, 'A'):
+- Visit A (count=1)
+- Visit B (count=2)
+- Visit C (count=3)
+- Return 3 ✅
+```
+
+</details>
+
+<details open>
+<summary><h3>🔢 Finding Maximum Nodes in Connected Component</h3></summary>
+
+> **Problem:** Find the size of the largest connected component in a graph.
+
+#### 💡 Approach:
+
+```python
+def maxNodesInComponent(graph):
+    """
+    Find maximum number of nodes in any connected component
+    Time Complexity: O(V + E)
+    Space Complexity: O(V)
+    """
+    visited = set()
+    max_nodes = 0
+    
+    for vertex in graph:
+        if vertex not in visited:
+            component_size = bfs_component_size(graph, vertex, visited)
+            max_nodes = max(max_nodes, component_size)
+    
+    return max_nodes
+
+
+def bfs_component_size(graph, start, visited):
+    """Count nodes in component using BFS"""
+    from collections import deque
+    queue = deque([start])
+    visited.add(start)
+    size = 1
+    
+    while queue:
+        vertex = queue.popleft()
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+                size += 1
+    
+    return size
+
+
+# Alternative: Using DFS
+def maxNodesInComponentDFS(graph):
+    """Find max component size using DFS"""
+    visited = set()
+    max_nodes = 0
+    
+    def dfs(vertex):
+        visited.add(vertex)
+        size = 1
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                size += dfs(neighbor)
+        return size
+    
+    for vertex in graph:
+        if vertex not in visited:
+            component_size = dfs(vertex)
+            max_nodes = max(max_nodes, component_size)
+    
+    return max_nodes
+
+
+# Test Case
+graph = {
+    'A': ['B'],
+    'B': ['A', 'C'],
+    'C': ['B'],
+    'D': ['E', 'F'],
+    'E': ['D'],
+    'F': ['D']
+}
+print(maxNodesInComponent(graph))  # Output: 3 (D, E, F is larger)
+```
+
+#### 🎯 Dry Run Example:
+
+```
+Graph:
+A ─ B ─ C     D ─ E
+              │
+              F
+(Size: 3)     (Size: 3)
+
+Iteration 1: Start from A
+            Component size = 3 (A, B, C)
+            max_nodes = 3
+
+Iteration 4: Start from D
+            Component size = 3 (D, E, F)
+            max_nodes = max(3, 3) = 3
+
+Result: 3 ✅
+```
+
+</details>
+
+<details open>
+<summary><h3>🔄 Cycle Detection - Undirected Graph</h3></summary>
+
+> **Problem:** Detect if there's a cycle in an undirected graph.
+>
+> A cycle exists if we can visit a vertex through multiple paths from the same source.
+
+#### 💡 Key Insight:
+In an undirected graph, if we visit a neighbor that's already visited AND it's not the parent of current node, then there's a cycle.
+
+#### 🔧 Implementation - DFS Approach
+
+```python
+def hasCycleUndirected(graph):
+    """
+    Detect cycle in undirected graph using DFS
+    Time Complexity: O(V + E)
+    Space Complexity: O(V)
+    """
+    visited = set()
+    
+    def dfs(vertex, parent):
+        visited.add(vertex)
+        
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                # Continue DFS
+                if dfs(neighbor, vertex):
+                    return True
+            elif neighbor != parent:
+                # Found a visited node that's not parent → Cycle found
+                return True
+        
+        return False
+    
+    # Check from each unvisited vertex (for disconnected graphs)
+    for vertex in graph:
+        if vertex not in visited:
+            if dfs(vertex, None):
+                return True
+    
+    return False
+
+
+# Alternative: Using BFS
+
+def hasCycleUndirectedBFS(graph):
+    """Detect cycle using BFS"""
+    from collections import deque
+    
+    visited = set()
+    
+    def bfs(start):
+        queue = deque([(start, None)])  # (vertex, parent)
+        visited.add(start)
+        
+        while queue:
+            vertex, parent = queue.popleft()
+            
+            for neighbor in graph[vertex]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append((neighbor, vertex))
+                elif neighbor != parent:
+                    # Cycle found
+                    return True
+        
+        return False
+    
+    for vertex in graph:
+        if vertex not in visited:
+            if bfs(vertex):
+                return True
+    
+    return False
+
+
+# Test Cases
+graph_with_cycle = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D'],
+    'C': ['A', 'D'],
+    'D': ['B', 'C']
+}
+
+graph_without_cycle = {
+    'A': ['B', 'C'],
+    'B': ['A'],
+    'C': ['A']
+}
+
+print(hasCycleUndirected(graph_with_cycle))      # Output: True
+print(hasCycleUndirected(graph_without_cycle))   # Output: False
+```
+
+#### 🎯 Dry Run Example: Detect Cycle
+
+```
+Graph with Cycle:
+    A ─── B
+    │     │
+    C ─── D
+
+DFS from A:
+1. Visit A, parent=None
+2. Visit B (neighbor of A), parent=A
+3. Visit D (neighbor of B), parent=B
+4. Visit C (neighbor of D), parent=D
+5. Check C's neighbors: A
+   - A is visited AND A != parent(D)
+   - CYCLE FOUND! ✅
+
+Graph:
+A ─── B ─── C
+
+DFS from A:
+1. Visit A, parent=None
+2. Visit B, parent=A
+3. Visit C, parent=B
+4. No more neighbors → NO CYCLE ✅
+```
+
+#### 📊 Visualization:
+
+```
+Cycle Detection Logic:
+
+Tree (No Cycle):      Graph with Cycle:
+    A                     A
+   / \                   / \
+  B   C                 B───C
+      
+When visiting C from A:    When visiting C from D:
+- C is not visited        - C is already visited
+- Continue DFS             - C is not parent of D
+                           - CYCLE! ❌
+```
+
+</details>
+
+<details open>
+<summary><h3>🔄 Cycle Detection - Directed Graph</h3></summary>
+
+> **Problem:** Detect if there's a cycle in a directed graph.
+>
+> In directed graphs, we use color-based approach (White, Gray, Black) or recursion stack.
+
+#### 💡 Approach: Using DFS with Colors
+
+- **White (0):** Unvisited
+- **Gray (1):** Currently visiting (in recursion stack)
+- **Black (2):** Completely visited
+
+A cycle exists if we encounter a **Gray** node during DFS.
+
+#### 🔧 Implementation
+
+```python
+def hasCycleDirected(graph):
+    """
+    Detect cycle in directed graph using DFS with colors
+    Time Complexity: O(V + E)
+    Space Complexity: O(V)
+    """
+    # 0 = white (unvisited), 1 = gray (visiting), 2 = black (visited)
+    color = {vertex: 0 for vertex in graph}
+    
+    def dfs(vertex):
+        if color[vertex] == 1:
+            # Found a back edge → Cycle found
+            return True
+        
+        if color[vertex] == 2:
+            # Already completely visited
+            return False
+        
+        # Mark as visiting (gray)
+        color[vertex] = 1
+        
+        # Visit neighbors
+        for neighbor in graph.get(vertex, []):
+            if dfs(neighbor):
+                return True
+        
+        # Mark as visited (black)
+        color[vertex] = 2
+        return False
+    
+    # Check from each vertex
+    for vertex in graph:
+        if color[vertex] == 0:
+            if dfs(vertex):
+                return True
+    
+    return False
+
+
+# Alternative: Using Recursion Stack
+
+def hasCycleDirectedStack(graph):
+    """Detect cycle using recursion stack tracking"""
+    visited = set()
+    rec_stack = set()  # Recursion stack
+    
+    def dfs(vertex):
+        visited.add(vertex)
+        rec_stack.add(vertex)
+        
+        for neighbor in graph.get(vertex, []):
+            if neighbor not in visited:
+                if dfs(neighbor):
+                    return True
+            elif neighbor in rec_stack:
+                # Back edge found → Cycle
+                return True
+        
+        rec_stack.remove(vertex)
+        return False
+    
+    for vertex in graph:
+        if vertex not in visited:
+            if dfs(vertex):
+                return True
+    
+    return False
+
+
+# Test Cases
+graph_with_cycle = {
+    'A': ['B'],
+    'B': ['C'],
+    'C': ['A']  # Back edge to A
+}
+
+graph_without_cycle = {
+    'A': ['B', 'C'],
+    'B': ['C'],
+    'C': []
+}
+
+print(hasCycleDirected(graph_with_cycle))      # Output: True
+print(hasCycleDirected(graph_without_cycle))   # Output: False
+```
+
+#### 🎯 Dry Run Example: Directed Cycle
+
+```
+Graph with Cycle:
+A ──► B ──► C
+▲          │
+└──────────┘
+
+DFS from A:
+1. color[A] = 1 (gray) → Visit A
+2. Neighbor B: color[B] = 0 → Visit B
+3. color[B] = 1 (gray)
+4. Neighbor C: color[C] = 0 → Visit C
+5. color[C] = 1 (gray)
+6. Neighbor A: color[A] = 1 (GRAY)
+7. CYCLE DETECTED! ✅
+
+Color States During Cycle Detection:
+A: 1 (gray) → 2 (black after done)
+   ▲
+   │ (back edge from C)
+   │
+C: 1 (gray) → needs to visit
+   │
+   ▼
+B: 1 (gray) → 2 (black after done)
+```
+
+#### 📊 Color Coding Visualization:
+
+```
+Directed Graph DFS Traversal:
+
+     A  ──► B  ──► C
+     ▲                │
+     └────────────────┘
+
+Timeline:
+1. A: White → Gray (start visiting)
+2. A → B: B: White → Gray
+3. B → C: C: White → Gray
+4. C → A: A is Gray (in recursion stack)
+   → BACK EDGE FOUND! → CYCLE ✅
+```
+
+</details>
+
+<details open>
+<summary><h3>🔢 Topological Sorting - Kahn's Algorithm (BFS)</h3></summary>
+
+> **Topological Sort:** Linear ordering of vertices in a Directed Acyclic Graph (DAG) such that for every directed edge (u, v), vertex u comes before vertex v.
+
+#### 🎯 When to Use:
+- Task scheduling with dependencies
+- Build system compilation
+- Course prerequisites
+- Recipe instructions
+
+#### 💡 Kahn's Algorithm (BFS Approach):
+
+```python
+def topologicalSortKahn(graph):
+    """
+    Topological sort using Kahn's Algorithm (BFS)
+    Time Complexity: O(V + E)
+    Space Complexity: O(V)
+    
+    Uses in-degree calculation:
+    1. Calculate in-degree for each vertex
+    2. Add all vertices with in-degree 0 to queue
+    3. Process queue, reducing in-degrees
+    4. Add newly 0 in-degree vertices to queue
+    """
+    from collections import deque, defaultdict
+    
+    # Calculate in-degree for all vertices
+    in_degree = defaultdict(int)
+    all_vertices = set(graph.keys())
+    
+    # Initialize in-degree
+    for vertex in all_vertices:
+        if vertex not in in_degree:
+            in_degree[vertex] = 0
+    
+    # Calculate in-degrees
+    for vertex in graph:
+        for neighbor in graph[vertex]:
+            in_degree[neighbor] += 1
+            all_vertices.add(neighbor)
+    
+    # Queue contains vertices with in-degree 0
+    queue = deque([v for v in all_vertices if in_degree[v] == 0])
+    
+    topo_order = []
+    
+    while queue:
+        vertex = queue.popleft()
+        topo_order.append(vertex)
+        
+        # Reduce in-degree for neighbors
+        for neighbor in graph.get(vertex, []):
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+    
+    # Check if all vertices are included (no cycle)
+    if len(topo_order) != len(all_vertices):
+        return None  # Cycle detected
+    
+    return topo_order
+
+
+# Test Case
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D'],
+    'C': ['D'],
+    'D': ['E'],
+    'E': []
+}
+
+print(topologicalSortKahn(graph))  # Output: ['A', 'B', 'C', 'D', 'E']
+```
+
+#### 🎯 Dry Run Example:
+
+```
+Graph (DAG):
+    A
+   / \
+  B   C
+   \ /
+    D
+    │
+    E
+
+In-degree:
+A: 0, B: 1, C: 1, D: 2, E: 1
+
+Step 1: Queue = [A]
+        topo = []
+
+Step 2: Dequeue A → topo = [A]
+        Neighbors: B, C
+        in_degree[B] = 0 → Queue
+        in_degree[C] = 0 → Queue
+        Queue = [B, C]
+
+Step 3: Dequeue B → topo = [A, B]
+        Neighbors: D
+        in_degree[D] = 1 (not 0)
+        Queue = [C]
+
+Step 4: Dequeue C → topo = [A, B, C]
+        Neighbors: D
+        in_degree[D] = 0 → Queue
+        Queue = [D]
+
+Step 5: Dequeue D → topo = [A, B, C, D]
+        Neighbors: E
+        in_degree[E] = 0 → Queue
+        Queue = [E]
+
+Step 6: Dequeue E → topo = [A, B, C, D, E]
+        Queue = []
+
+Result: [A, B, C, D, E] ✅
+```
+
+#### 📊 Visual Example:
+
+```
+Course Prerequisites:
+- A (no prerequisite)
+- B requires A
+- C requires A
+- D requires B and C
+- E requires D
+
+Topological Order: A → B → C → D → E
+
+Meaning: Complete A, then B and C (any order), then D, then E
+```
+
+</details>
+
+<details open>
+<summary><h3>🔢 Topological Sorting - DFS Approach</h3></summary>
+
+> **DFS Approach:** Use recursion to visit vertices and add them to stack in reverse finish time order.
+
+#### 💡 Algorithm Steps:
+
+1. Perform DFS from all unvisited vertices
+2. After visiting all neighbors, push vertex to stack
+3. Reverse the stack to get topological order
+
+#### 🔧 Implementation
+
+```python
+def topologicalSortDFS(graph):
+    """
+    Topological sort using DFS
+    Time Complexity: O(V + E)
+    Space Complexity: O(V)
+    """
+    visited = set()
+    stack = []
+    
+    def dfs(vertex):
+        visited.add(vertex)
+        
+        # Visit all neighbors first
+        for neighbor in graph.get(vertex, []):
+            if neighbor not in visited:
+                dfs(neighbor)
+        
+        # Add to stack after visiting all neighbors
+        stack.append(vertex)
+    
+    # Get all vertices
+    all_vertices = set(graph.keys())
+    for vertex in graph.values():
+        all_vertices.update(vertex)
+    
+    # Perform DFS from all unvisited vertices
+    for vertex in all_vertices:
+        if vertex not in visited:
+            dfs(vertex)
+    
+    # Reverse stack to get topological order
+    return stack[::-1]
+
+
+# Test Case
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D'],
+    'C': ['D'],
+    'D': ['E'],
+    'E': []
+}
+
+print(topologicalSortDFS(graph))  # Output: ['A', 'B', 'C', 'D', 'E'] or similar valid order
+```
+
+#### 🎯 Dry Run Example:
+
+```
+Graph:
+    A
+   / \
+  B   C
+   \ /
+    D
+    │
+    E
+
+DFS traversal and stack building:
+
+DFS(A):
+  DFS(B):
+    DFS(D):
+      DFS(E):
+        No neighbors → stack = [E]
+      All neighbors visited → stack = [E, D]
+    All neighbors visited → stack = [E, D, B]
+  DFS(C):
+    D already visited
+    All neighbors visited → stack = [E, D, B, C]
+  All neighbors visited → stack = [E, D, B, C, A]
+
+Reverse stack: [A, C, B, D, E] ✅
+(Valid topological order)
+```
+
+#### 📊 DFS vs Kahn's Algorithm:
+
+| Aspect | DFS Approach | Kahn's Algorithm |
+|:-------|:----------:|:---------------:|
+| **Data Structure** | Stack, Recursion | Queue |
+| **Algorithm Type** | Post-order DFS | BFS with in-degree |
+| **Cycle Detection** | Implicit | Can detect if all vertices not included |
+| **Time Complexity** | O(V + E) | O(V + E) |
+| **Space Complexity** | O(V) | O(V) |
+| **Implementation** | Simpler | Slightly complex |
+| **Best For** | General topological sort | Cycle detection needed |
+
+</details>
+
+---
+
+### 📝 Problems Covered - Day 12
+
+| # | Problem | Difficulty | Concept |
+|:-:|:--------|:----------:|:--------|
+| 1 | Count Total Nodes in Graph | 🟢 Easy | Graph Traversal |
+| 2 | Count Nodes in Connected Component | 🟢 Easy | BFS/DFS |
+| 3 | Find Maximum Nodes in Component | 🟢 Easy | Component Analysis |
+| 4 | Cycle Detection (Undirected) | 🟡 Medium | DFS with Parent Tracking |
+| 5 | Cycle Detection (Directed) | 🟡 Medium | DFS with Color Coding |
+| 6 | Topological Sorting (Kahn's) | 🟡 Medium | BFS with In-degree |
+| 7 | Topological Sorting (DFS) | 🟡 Medium | Post-order DFS |
+
+---
+
+### 💾 Day 12 Summary
+
+**Key Concepts Learned:**
+- ✅ Node counting in connected components
+- ✅ Cycle detection in both directed and undirected graphs
+- ✅ Topological sorting using two approaches
+- ✅ Graph algorithm optimization techniques
+
+**Time Complexity Mastery:**
+- All algorithms: O(V + E)
+- Space Complexity: O(V)
+
+**Real-World Applications:**
+- Task scheduling (Topological Sort)
+- Cycle detection in deadlock detection
+- Component analysis in social networks
+- Dependency resolution in package managers
 
 ---
 
 ## 🚀 Future Learning Roadmap
 
-| Topic | Description | Priority | Status |
-|:------|:------------|:--------:|:------:|
-| 🕸️ **Graphs** | Dijkstra, Topological Sort | 🔴 High | ⏳ Upcoming |
+### 📚 Complete Self-Study Path for Remaining Topics
+
+| Topic | Description | Priority | Status | Key Concepts |
+|:------|:------------|:--------:|:------:|:-------------|
+| 🛤️ **Dijkstra's Algorithm** | Single-source shortest path (non-negative weights) | 🔴 High | ⏳ Upcoming | Min-Heap, Greedy, Distance array |
+| 📍 **Bellman-Ford Algorithm** | Shortest path (handles negative weights) | 🟠 Medium | ⏳ Upcoming | Relaxation, Negative cycle detection |
+| 🔀 **Floyd-Warshall Algorithm** | All-pairs shortest paths | 🟠 Medium | ⏳ Upcoming | Dynamic Programming, Distance matrix |
+| 🌳 **Minimum Spanning Tree (MST)** | Kruskal's & Prim's algorithms | 🔴 High | ⏳ Upcoming | Greedy, Union-Find, Priority Queue |
+| 🔗 **Union-Find (DSU)** | Disjoint Set Union data structure | 🔴 High | ⏳ Upcoming | Path Compression, Union by Rank |
+| 🔴 **Strongly Connected Components** | SCC detection in directed graphs | 🟡 Medium | ⏳ Upcoming | Kosaraju's, Tarjan's Algorithm |
+| 🎯 **Bipartite Graph Check** | Check if graph is 2-colorable | 🟡 Medium | ⏳ Upcoming | BFS coloring, 2-coloring |
+| 🏆 **Maximum Flow** | Ford-Fulkerson, Edmonds-Karp | 🟠 Medium | ⏳ Upcoming | Flow networks, Capacity constraints |
+
+---
+
+### 📚 Advanced Data Structures
+
+| Topic | Description | Priority | Status | Key Concepts |
+|:------|:------------|:--------:|:------:|:-------------|
+| 🔢 **Segment Trees** | Range queries and updates | 🔴 High | ⏳ Upcoming | Build, Query, Update, Lazy propagation |
+| 🪵 **Fenwick Tree (BIT)** | Binary Indexed Tree for prefix sums | 🔴 High | ⏳ Upcoming | Prefix sum, Update, Inversion count |
+| 📊 **Trie (Prefix Tree)** | Efficient string storage & search | 🟡 Medium | ⏳ Upcoming | Insert, Search, Autocomplete |
+| 🎭 **Suffix Array & LCP** | String pattern matching | 🟠 Medium | ⏳ Upcoming | Sorting, LCP construction |
+| 🌀 **Disjoint Set Union** | Connected components tracking | 🔴 High | ⏳ Upcoming | Union, Find, Path compression |
+
+---
+
+### 🧮 Dynamic Programming Problems
+
+| Topic | Description | Priority | Status | Pattern |
+|:------|:------------|:--------:|:------:|:---------|
+| 💰 **0/1 Knapsack** | Maximize value with weight limit | 🔴 High | ⏳ Upcoming | Bottom-up DP |
+| 🔢 **Fibonacci & Variations** | Classic DP problems | 🟢 Easy | ⏳ Upcoming | Memoization, Tabulation |
+| 🧩 **Longest Common Subsequence** | String matching DP | 🟡 Medium | ⏳ Upcoming | 2D DP, Backtracking |
+| ✏️ **Edit Distance** | Minimum operations to convert string | 🟡 Medium | ⏳ Upcoming | Levenshtein distance |
+| 🪜 **Matrix Chain Multiplication** | Optimal parenthesization | 🟠 Medium | ⏳ Upcoming | Interval DP |
+| 🏃 **House Robber Series** | Maximize non-adjacent selection | 🟡 Medium | ⏳ Upcoming | Linear DP |
+| 🎮 **Coin Change Problems** | Minimize coins or count ways | 🟡 Medium | ⏳ Upcoming | Unbounded DP |
+| 🧗 **Climbing Stairs** | Ways to reach destination | 🟢 Easy | ⏳ Upcoming | Path counting |
+
+---
+
+### 🔍 Advanced Searching & Sorting
+
+| Topic | Description | Priority | Status | Concepts |
+|:------|:------------|:--------:|:------:|:---------|
+| 🔎 **Ternary Search** | Optimization on unimodal functions | 🟠 Medium | ⏳ Upcoming | Optimization, Monotonic |
+| 🌳 **AVL Trees** | Self-balancing BST | 🟠 Medium | ⏳ Upcoming | Rotation, Balance factor |
+| 🔴🟤 **Red-Black Trees** | Self-balancing BST (easier) | 🟠 Medium | ⏳ Upcoming | Color properties, Rotation |
+| 📍 **Heap & Priority Queue** | Min/Max heap operations | 🔴 High | ⏳ Upcoming | Heapify, Extract-Min |
+| 🎯 **Merge Sort Applications** | Count inversions, external sorting | 🟡 Medium | ⏳ Upcoming | Divide & Conquer |
+
+---
+
+### 🎯 Greedy Algorithms
+
+| Topic | Description | Priority | Status | Pattern |
+|:------|:------------|:--------:|:------:|:---------|
+| 💼 **Activity Selection** | Maximum non-overlapping intervals | 🟡 Medium | ⏳ Upcoming | Sorting, Greedy choice |
+| 🎒 **Fractional Knapsack** | Maximize value with items | 🟢 Easy | ⏳ Upcoming | Density-based selection |
+| 🏭 **Job Sequencing** | Maximize profit with deadlines | 🟡 Medium | ⏳ Upcoming | Sorting, Greedy scheduling |
+| 💵 **Huffman Coding** | Optimal prefix-free codes | 🟠 Medium | ⏳ Upcoming | Binary tree, Frequency |
+| 🗺️ **Dijkstra's Algorithm** | Shortest path (greedy) | 🔴 High | ⏳ Upcoming | Min-Heap, Relaxation |
+| 🌳 **Prim's & Kruskal's MST** | Minimum spanning tree | 🔴 High | ⏳ Upcoming | Greedy, Union-Find |
+
+---
+
+### 🔐 Number Theory & Mathematics
+
+| Topic | Description | Priority | Status | Concepts |
+|:------|:------------|:--------:|:------:|:---------|
+| 🔢 **Prime Numbers** | Sieve, Primality testing | 🟡 Medium | ⏳ Upcoming | Sieve of Eratosthenes |
+| 🔀 **GCD & LCM** | Greatest common divisor | 🟡 Medium | ⏳ Upcoming | Euclidean algorithm |
+| 🔗 **Modular Arithmetic** | Modulo operations | 🟠 Medium | ⏳ Upcoming | Mod properties, Fermat's |
+| 💎 **Combinatorics** | nCr, nPr calculations | 🟡 Medium | ⏳ Upcoming | Pascal's triangle, Factorial |
+| 🎲 **Fast Exponentiation** | Efficient power calculation | 🟠 Medium | ⏳ Upcoming | Binary exponentiation |
+| 🔑 **Modular Inverse** | Multiplicative inverse | 🟠 Medium | ⏳ Upcoming | Extended Euclidean |
+
+---
+
+### 🎨 String Algorithms
+
+| Topic | Description | Priority | Status | Concepts |
+|:------|:------------|:--------:|:------:|:---------|
+| 🔎 **KMP Algorithm** | Pattern matching O(n+m) | 🟡 Medium | ⏳ Upcoming | Failure function, Linear time |
+| 🎯 **Boyer-Moore Algorithm** | Fast pattern matching | 🟠 Medium | ⏳ Upcoming | Bad character, Good suffix |
+| 🌊 **Rabin-Karp Algorithm** | Rolling hash pattern matching | 🟠 Medium | ⏳ Upcoming | Hashing, Collision handling |
+| 🔤 **Trie-based Algorithms** | Prefix tree applications | 🟡 Medium | ⏳ Upcoming | Word search, Autocomplete |
+| 📚 **Suffix Array & LCP** | Efficient string queries | 🟠 Medium | ⏳ Upcoming | Sorting, LCP array |
+| 🔄 **Z-Algorithm** | Pattern matching O(n+m) | 🟠 Medium | ⏳ Upcoming | Z-array construction |
+
+---
+
+### 🧪 Advanced Problem Types
+
+| Topic | Description | Priority | Status | Difficulty |
+|:------|:------------|:--------:|:------:|:----------:|
+| 🎯 **Backtracking Problems** | N-Queens, Sudoku, Permutations | 🔴 High | ⏳ Upcoming | 🟡 Medium |
+| 🔀 **Divide & Conquer** | Merge sort variations, Binary search | 🔴 High | ⏳ Upcoming | 🟡 Medium |
+| 🎨 **Bitmask DP** | Problems with small constraints | 🟠 Medium | ⏳ Upcoming | 🟡 Medium |
+| 🔗 **Graph Coloring** | Chromatic number, K-coloring | 🟠 Medium | ⏳ Upcoming | 🟡 Medium |
+| 🏛️ **Game Theory** | Nim, Minimax, Game states | 🟠 Medium | ⏳ Upcoming | 🟠 Hard |
+| 🔢 **Recursive Problems** | Tree recursion, Memoization | 🟡 Medium | ⏳ Upcoming | 🟡 Medium |
+
+---
+
+### 🎖️ Learning Path Priority Guide
+
+```
+Phase 1 - MUST LEARN (Weeks 1-2):
+├── Dijkstra's Algorithm
+├── Minimum Spanning Tree (MST)
+├── Union-Find (DSU)
+├── Basic DP (Fibonacci, Knapsack)
+└── Greedy Algorithms
+
+Phase 2 - IMPORTANT (Weeks 3-4):
+├── Advanced DP (LCS, Edit Distance)
+├── Segment Trees & Fenwick Trees
+├── DFS/BFS Applications
+├── String Algorithms (KMP, Rabin-Karp)
+└── Backtracking
+
+Phase 3 - VALUABLE (Weeks 5-6):
+├── AVL/Red-Black Trees
+├── More DP variations
+├── Advanced Greedy
+├── Game Theory basics
+└── Number Theory
+
+Phase 4 - ADVANCED (Weeks 7+):
+├── Network Flow
+├── Suffix Arrays
+├── SCC algorithms
+└── Competitive programming tricks
+```
+
+---
+
+### 💡 Self-Study Tips for Each Topic
+
+#### 🛤️ When Learning Dijkstra's:
+- **Step 1:** Understand priority queue/min-heap
+- **Step 2:** Manually trace small example (5-6 nodes)
+- **Step 3:** Implement with visited + distance array
+- **Step 4:** Practice problems: Network delay, Path with minimum effort
+- **Time to Master:** 3-4 days with 4-5 problems
+
+#### 🌳 When Learning MST:
+- **Step 1:** Kruskal's with sorting + Union-Find
+- **Step 2:** Prim's with priority queue
+- **Step 3:** Compare both approaches
+- **Step 4:** Practice: Connecting cities, Minimum cost to connect
+- **Time to Master:** 3-4 days
+
+#### 💰 When Learning DP:
+- **Step 1:** Start with simple problems (Fibonacci)
+- **Step 2:** Identify states and transitions
+- **Step 3:** Solve using memoization first
+- **Step 4:** Convert to tabulation
+- **Step 5:** Optimize space if possible
+- **Time to Master:** 1-2 weeks (depends on complexity)
+
+#### 🎯 When Learning Greedy:
+- **Step 1:** Identify greedy choice property
+- **Step 2:** Prove greedy choice is optimal
+- **Step 3:** Implement greedy solution
+- **Step 4:** Test with counterexamples
+- **Time to Master:** 4-5 days
+
+---
+
+### 📊 Recommended Problem Sources
+
+| Platform | Topics | Best For | Difficulty Range |
+|:---------|:-------|:---------|:----------------:|
+| **LeetCode** | All | Interview prep | Easy → Hard |
+| **GeeksforGeeks** | Theory + Code | Learning | Easy → Medium |
+| **HackerRank** | All | Practice | Easy → Hard |
+| **CodeChef** | Competitive | Contests | Medium → Hard |
+| **Codeforces** | All | Contests | Medium → Hard |
+| **InterviewBit** | Interview | Coding interviews | Medium → Hard |
+
+---
+
+### 🎓 Success Metrics
+
+Track your progress with these milestones:
+
+```
+✅ Day 12 Complete:
+   - Understand graphs completely
+   - Can detect cycles & do topological sort
+   - Can find paths in graphs
+
+📌 Days 13-15 Target:
+   - Learn Dijkstra & MST
+   - Implement both from scratch
+   - Solve 5-10 problems each
+
+📌 Days 16-20 Target:
+   - Master basic DP
+   - Understand greedy algorithms
+   - Solve 15-20 DP problems
+
+📌 Weeks 4-5 Target:
+   - Advanced data structures
+   - String algorithms
+   - Game theory basics
+
+📌 Week 6+ Target:
+   - Competitive programming level
+   - Interview-ready for top companies
+   - Can solve hard problems
+```
+
+---
+
+### 🏆 Next Steps
+
+1. **Review Days 1-12** ← You are here! ✅
+2. **Choose your path:**
+   - 🎯 **Interview Focus:** Dijkstra → DP → Backtracking
+   - 🏅 **Competitive Focus:** All algorithms + Optimization tricks
+   - 🔬 **Deep Learning:** Master each topic completely
+
+3. **Set a schedule:**
+   - Spend 2 days per algorithm
+   - Solve 5-10 problems per topic
+   - Review & optimize weekly
+
+4. **Track progress:**
+   - Mark completed problems
+   - Note difficult concepts
+   - Create your own notes
+
+5. **Join communities:**
+   - Competitive programming forums
+   - Interview preparation groups
+   - Online coding communities
+
+---
+
+**Resources:**
+- 📚 [LeetCode](https://leetcode.com/) - Practice problems
+- 🎥 [GeeksforGeeks](https://www.geeksforgeeks.org/) - Video tutorials
+- 📖 [CLRS](https://en.wikipedia.org/wiki/Introduction_to_Algorithms) - Algorithm Bible
+- 🔗 [VisuAlgo](https://visualgo.net/) - Algorithm visualizations
+- 💻 [Codeforces](https://codeforces.com/) - Competitive programming
 
 ---
 
