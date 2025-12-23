@@ -5,7 +5,8 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active%20Learning-success?style=for-the-badge)
 ![Students](https://img.shields.io/badge/Shreyas%20Engineering-Students-blue?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Day%2010-Completed-brightgreen?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Day%2012-Completed-brightgreen?style=for-the-badge)
+![Training](https://img.shields.io/badge/Training-Completed-success?style=for-the-badge)
 
 ### 🚀 *Master Data Structures & Algorithms with Python!*
 
